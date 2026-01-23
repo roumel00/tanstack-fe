@@ -1,2 +1,2 @@
-export { Organisation } from './organisation'
-export { TeamMember } from './teamMember'
+export type { Organisation } from './organisation'
+export type { TeamMember } from './teamMember'
