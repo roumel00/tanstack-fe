@@ -35,7 +35,7 @@ export function AppSidebar() {
               className={cn(
                 'flex items-center rounded-md px-3 py-2 text-sm font-medium transition-colors',
                 isActive
-                  ? 'bg-neutral-100 dark:bg-neutral-800 text-neutral-900 dark:text-neutral-100'
+                  ? 'bg-neutral-100 dark:bg-neutral-800 text-primary'
                   : 'text-neutral-600 dark:text-neutral-400 hover:bg-neutral-50 dark:hover:bg-neutral-800/50 hover:text-neutral-900 dark:hover:text-neutral-100'
               )}
             >

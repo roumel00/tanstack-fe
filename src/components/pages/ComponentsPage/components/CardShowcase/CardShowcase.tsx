@@ -7,6 +7,16 @@ import {
   CardFooter,
 } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog'
 
 export function CardShowcase() {
   return (
@@ -20,7 +30,30 @@ export function CardShowcase() {
           <p>Card content area with some text.</p>
         </CardContent>
         <CardFooter>
-          <Button>Action</Button>
+          <Dialog>
+            <DialogTrigger asChild>
+              <Button>Action</Button>
+            </DialogTrigger>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Dialog Title</DialogTitle>
+                <DialogDescription>
+                  This is a dialog that was opened by clicking the card button.
+                </DialogDescription>
+              </DialogHeader>
+              <div className="py-4">
+                <p>Dialog content goes here.</p>
+              </div>
+              <DialogFooter>
+                <DialogClose asChild>
+                  <Button variant="ghost">Cancel</Button>
+                </DialogClose>
+                <DialogClose asChild>
+                  <Button>Confirm</Button>
+                </DialogClose>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
         </CardFooter>
       </Card>
     </div>
