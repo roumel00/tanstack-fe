@@ -19,6 +19,7 @@ import { Route as AuthSignupRouteImport } from './routes/_auth/signup'
 import { Route as AuthLoginRouteImport } from './routes/_auth/login'
 import { Route as AuthForgotPasswordRouteImport } from './routes/_auth/forgot-password'
 import { Route as ProtectedAppDashboardRouteImport } from './routes/_protected/_app/dashboard'
+import { Route as ProtectedAppComponentsRouteImport } from './routes/_protected/_app/components'
 
 const ProtectedRoute = ProtectedRouteImport.update({
   id: '/_protected',
@@ -67,6 +68,11 @@ const ProtectedAppDashboardRoute = ProtectedAppDashboardRouteImport.update({
   path: '/dashboard',
   getParentRoute: () => ProtectedAppRoute,
 } as any)
+const ProtectedAppComponentsRoute = ProtectedAppComponentsRouteImport.update({
+  id: '/components',
+  path: '/components',
+  getParentRoute: () => ProtectedAppRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -75,6 +81,7 @@ export interface FileRoutesByFullPath {
   '/signup': typeof AuthSignupRoute
   '/select-org': typeof ProtectedSelectOrgRoute
   '/verify-email': typeof ProtectedVerifyEmailRoute
+  '/components': typeof ProtectedAppComponentsRoute
   '/dashboard': typeof ProtectedAppDashboardRoute
 }
 export interface FileRoutesByTo {
@@ -84,6 +91,7 @@ export interface FileRoutesByTo {
   '/signup': typeof AuthSignupRoute
   '/select-org': typeof ProtectedSelectOrgRoute
   '/verify-email': typeof ProtectedVerifyEmailRoute
+  '/components': typeof ProtectedAppComponentsRoute
   '/dashboard': typeof ProtectedAppDashboardRoute
 }
 export interface FileRoutesById {
@@ -97,6 +105,7 @@ export interface FileRoutesById {
   '/_protected/_app': typeof ProtectedAppRouteWithChildren
   '/_protected/select-org': typeof ProtectedSelectOrgRoute
   '/_protected/verify-email': typeof ProtectedVerifyEmailRoute
+  '/_protected/_app/components': typeof ProtectedAppComponentsRoute
   '/_protected/_app/dashboard': typeof ProtectedAppDashboardRoute
 }
 export interface FileRouteTypes {
@@ -108,6 +117,7 @@ export interface FileRouteTypes {
     | '/signup'
     | '/select-org'
     | '/verify-email'
+    | '/components'
     | '/dashboard'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -117,6 +127,7 @@ export interface FileRouteTypes {
     | '/signup'
     | '/select-org'
     | '/verify-email'
+    | '/components'
     | '/dashboard'
   id:
     | '__root__'
@@ -129,6 +140,7 @@ export interface FileRouteTypes {
     | '/_protected/_app'
     | '/_protected/select-org'
     | '/_protected/verify-email'
+    | '/_protected/_app/components'
     | '/_protected/_app/dashboard'
   fileRoutesById: FileRoutesById
 }
@@ -210,6 +222,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProtectedAppDashboardRouteImport
       parentRoute: typeof ProtectedAppRoute
     }
+    '/_protected/_app/components': {
+      id: '/_protected/_app/components'
+      path: '/components'
+      fullPath: '/components'
+      preLoaderRoute: typeof ProtectedAppComponentsRouteImport
+      parentRoute: typeof ProtectedAppRoute
+    }
   }
 }
 
@@ -228,10 +247,12 @@ const AuthRouteChildren: AuthRouteChildren = {
 const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)
 
 interface ProtectedAppRouteChildren {
+  ProtectedAppComponentsRoute: typeof ProtectedAppComponentsRoute
   ProtectedAppDashboardRoute: typeof ProtectedAppDashboardRoute
 }
 
 const ProtectedAppRouteChildren: ProtectedAppRouteChildren = {
+  ProtectedAppComponentsRoute: ProtectedAppComponentsRoute,
   ProtectedAppDashboardRoute: ProtectedAppDashboardRoute,
 }
 

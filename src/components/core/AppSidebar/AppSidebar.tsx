@@ -8,6 +8,11 @@ const navigation = [
     href: '/dashboard',
     icon: null, // Can add icons later if needed
   },
+  {
+    name: 'Components',
+    href: '/components',
+    icon: null, // Can add icons later if needed
+  },
 ]
 
 export function AppSidebar() {
