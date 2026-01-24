@@ -1,6 +1,5 @@
 import { useAuth } from '@/context/auth-context'
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar'
-import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -29,7 +28,7 @@ export function UserDropdown({ user }: UserDropdownProps) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" className="group flex items-center gap-3 px-2 py-1 -mx-2 -my-1 h-auto hover:bg-transparent dark:hover:bg-transparent cursor-pointer focus-visible:ring-0">
+        <div className="group flex items-center gap-3 px-2 py-1 -mx-2 -my-1 h-auto hover:bg-transparent dark:hover:bg-transparent cursor-pointer focus-visible:ring-0">
           <Avatar className="h-8 w-8 rounded-md shadow-md group-hover:shadow-lg transition-shadow duration-300">
             <AvatarImage src={user.image || undefined} alt={user.name || 'User'} />
             <AvatarFallback className="rounded-md">{user.name?.charAt(0).toUpperCase()}</AvatarFallback>
@@ -39,7 +38,7 @@ export function UserDropdown({ user }: UserDropdownProps) {
               {user.firstName}
             </div>
           </div>
-        </Button>
+        </div>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
         <DropdownMenuItem

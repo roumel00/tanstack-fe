@@ -5,6 +5,8 @@ import {
   InputShowcase,
   InputOTPShowcase,
   FormShowcase,
+  ComboboxShowcase,
+  DropzoneShowcase,
 } from './components'
 
 export function ComponentsPage() {
@@ -33,6 +35,14 @@ export function ComponentsPage() {
       <div>
         <h2 className="text-lg font-semibold mb-4">Form</h2>
         <FormShowcase />
+      </div>
+      <div>
+        <h2 className="text-lg font-semibold mb-4">Combobox</h2>
+        <ComboboxShowcase />
+      </div>
+      <div>
+        <h2 className="text-lg font-semibold mb-4">Dropzone</h2>
+        <DropzoneShowcase />
       </div>
     </div>
   )

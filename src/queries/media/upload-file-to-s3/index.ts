@@ -1,2 +1,2 @@
-export * from './uploadFileToS3'
+export * from './uploadFilesToS3'
 export * from './types'
