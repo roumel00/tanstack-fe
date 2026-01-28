@@ -1,4 +1,4 @@
-import { useCurrentOrg } from '@/queries'
+import { useGetCurrentOrg } from '@/queries'
 import { useSession } from '@/lib/auth-client'
 
 export function Dashboard() {
@@ -6,7 +6,7 @@ export function Dashboard() {
   const { data: session } = useSession()
   
   // Get current organisation from query
-  const { data: currentOrg, isLoading } = useCurrentOrg()
+  const { data: currentOrg, isLoading } = useGetCurrentOrg()
 
   if (isLoading) {
     return <div>Loading...</div>

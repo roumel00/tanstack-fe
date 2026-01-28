@@ -1,6 +1,6 @@
 import { Link, useLocation } from '@tanstack/react-router'
 import { cn } from '@/lib/utils'
-import { useCurrentOrg } from '@/queries'
+import { useGetCurrentOrg } from '@/queries'
 
 const navigation = [
   {
@@ -17,7 +17,7 @@ const navigation = [
 
 export function AppSidebar() {
   const location = useLocation()
-  const { data: currentOrg } = useCurrentOrg()
+  const { data: currentOrg } = useGetCurrentOrg()
 
   return (
     <div className="flex h-screen w-64 flex-col border-r border-neutral-100 dark:border-neutral-800 bg-white dark:bg-neutral-900">

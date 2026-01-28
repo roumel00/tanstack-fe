@@ -27,9 +27,3 @@ export function useSwitchOrg() {
     },
   })
 }
-
-// Backwards compatibility aliases
-export const switchOrganisation = switchOrg
-export const useSwitchOrganisation = useSwitchOrg
-export type SwitchOrganisationRequest = SwitchOrgRequest
-export type SwitchOrganisationResponse = SwitchOrgResponse

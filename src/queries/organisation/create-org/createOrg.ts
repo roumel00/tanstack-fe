@@ -28,9 +28,3 @@ export function useCreateOrg() {
     },
   })
 }
-
-// Backwards compatibility alias
-export const useCreateOrganisation = useCreateOrg
-export const createOrganisation = createOrg
-export type CreateOrganisationRequest = CreateOrgRequest
-export type CreateOrganisationResponse = CreateOrgResponse

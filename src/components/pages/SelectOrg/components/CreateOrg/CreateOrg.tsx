@@ -1,5 +1,5 @@
 import { useForm } from 'react-hook-form'
-import { useCreateOrganisation } from '@/queries'
+import { useCreateOrg } from '@/queries'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import {
@@ -69,7 +69,7 @@ export function CreateOrg({ onOrgCreated }: CreateOrgProps) {
     },
   })
 
-  const { mutate: createOrg, isPending, error } = useCreateOrganisation()
+  const { mutate: createOrg, isPending, error } = useCreateOrg()
 
   const onSubmit = async (data: CreateOrgFormData) => {
     // Prepare the request payload, omitting empty optional fields

@@ -1,13 +1,13 @@
 import { useState } from 'react'
 import { useNavigate } from '@tanstack/react-router'
-import { useUserOrganisations, useSwitchOrganisation } from '@/queries'
+import { useGetOrgs, useSwitchOrg } from '@/queries'
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { CreateOrg } from './components'
 
 export function SelectOrg() {
-  const { data: organisations, isLoading, error } = useUserOrganisations()
-  const { mutate: switchOrg, isPending } = useSwitchOrganisation()
+  const { data: organisations, isLoading, error } = useGetOrgs()
+  const { mutate: switchOrg, isPending } = useSwitchOrg()
   const navigate = useNavigate()
   const [showCreateOrg, setShowCreateOrg] = useState(false)
 

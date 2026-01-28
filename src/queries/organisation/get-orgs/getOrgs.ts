@@ -20,7 +20,3 @@ export function useGetOrgs() {
     queryFn: getOrgs,
   })
 }
-
-// Backwards compatibility aliases
-export const fetchUserOrganisations = getOrgs
-export const useUserOrganisations = useGetOrgs

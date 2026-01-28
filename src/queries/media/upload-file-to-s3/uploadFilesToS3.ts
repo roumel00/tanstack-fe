@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { useMutation } from '@tanstack/react-query'
 import { getImageUploadTokens, ImageUploadToken } from '../get-image-upload-tokens'
-import { UploadFilesToS3Result, UploadFileToS3Result } from './types'
+import { UploadFilesToS3Result } from './types'
 
 /**
  * Uploads files directly to S3 using presigned URLs

@@ -22,6 +22,3 @@ export function useGetCurrentOrg() {
   })
 }
 
-// Backwards compatibility aliases
-export const fetchCurrentOrg = getCurrentOrg
-export const useCurrentOrg = useGetCurrentOrg
