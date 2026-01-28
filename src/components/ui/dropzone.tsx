@@ -25,82 +25,73 @@ export function Dropzone({
   ...dropzoneOptions
 }: DropzoneProps) {
   const [files, setFiles] = React.useState<File[]>([])
-  const [previewUrl, setPreviewUrl] = React.useState<string | null>(null)
-
   const [previewUrls, setPreviewUrls] = React.useState<Map<File, string>>(new Map())
+
+  // Ref to track URLs for cleanup on unmount only
+  const previewUrlsRef = React.useRef<Map<File, string>>(new Map())
+
+  // Mode derived from maxFiles: single file replaces, multiple files append
+  const mode = maxFiles === 1 ? "replace" : "append"
 
   const onDropInternal = React.useCallback(
     (acceptedFiles: File[]) => {
       let filesToProcess: File[]
       let excessFiles = 0
-      
-      if (maxFiles > 1) {
-        // Append mode: add new files to existing ones (up to maxFiles total)
-        const currentFileCount = files.length
-        const availableSlots = maxFiles - currentFileCount
-        
+
+      if (mode === "append") {
+        const availableSlots = maxFiles - files.length
+
         if (availableSlots <= 0) {
           toast.error(`Maximum of ${maxFiles} file${maxFiles > 1 ? 's' : ''} allowed. Please remove some files first.`)
           return
         }
-        
+
         const filesToAdd = acceptedFiles.slice(0, availableSlots)
         excessFiles = acceptedFiles.length - availableSlots
-        
+
         if (excessFiles > 0) {
           toast.error(
             `Only ${availableSlots} more file${availableSlots > 1 ? 's' : ''} can be added (${maxFiles} total). ${excessFiles} file${excessFiles > 1 ? 's were' : ' was'} ignored.`
           )
         }
-        
+
         filesToProcess = [...files, ...filesToAdd]
       } else {
-        // Replace mode: replace all files (maxFiles === 1)
+        // Replace mode
         filesToProcess = acceptedFiles.slice(0, maxFiles)
         excessFiles = acceptedFiles.length - maxFiles
-        
+
         if (excessFiles > 0) {
           toast.error(
             `Only the first ${maxFiles} file${maxFiles > 1 ? 's' : ''} will be processed. ${excessFiles} file${excessFiles > 1 ? 's were' : ' was'} ignored.`
           )
         }
-        
+
         // Cleanup old preview URLs when replacing
-        setPreviewUrls((prevUrls) => {
-          prevUrls.forEach((url) => {
-            URL.revokeObjectURL(url)
-          })
-          return new Map()
-        })
+        previewUrls.forEach((url) => URL.revokeObjectURL(url))
       }
-      
+
       // Create preview URLs for new image files
-      const newPreviewUrls = maxFiles > 1 
-        ? new Map(previewUrls) // Keep existing preview URLs in append mode
-        : new Map<File, string>() // Start fresh in replace mode
-      
-      const newFiles = maxFiles > 1 
-        ? filesToProcess.slice(files.length) // Only new files in append mode
-        : filesToProcess // All files in replace mode
-      
+      const newPreviewUrls = mode === "append"
+        ? new Map(previewUrls)
+        : new Map<File, string>()
+
+      const newFiles = mode === "append"
+        ? filesToProcess.slice(files.length)
+        : filesToProcess
+
       newFiles.forEach((file) => {
         if (file.type.startsWith('image/')) {
           const url = URL.createObjectURL(file)
           newPreviewUrls.set(file, url)
         }
       })
-      
+
       setFiles(filesToProcess)
       setPreviewUrls(newPreviewUrls)
+      previewUrlsRef.current = newPreviewUrls
       onDrop?.(filesToProcess)
       onFilesChange?.(filesToProcess)
-      
-      // For single image, also set previewUrl for backward compatibility
-      if (filesToProcess.length === 1 && filesToProcess[0].type.startsWith('image/')) {
-        setPreviewUrl(newPreviewUrls.get(filesToProcess[0]) || null)
-      } else {
-        setPreviewUrl(null)
-      }
     },
     [onDrop, onFilesChange, maxFiles, files, previewUrls]
   )
@@ -115,52 +106,39 @@ export function Dropzone({
   const removeFile = (index: number) => {
     const fileToRemove = files[index]
     if (!fileToRemove) return
-    
+
     // Cleanup preview URL for removed file
     const previewUrlToRemove = previewUrls.get(fileToRemove)
     if (previewUrlToRemove) {
       URL.revokeObjectURL(previewUrlToRemove)
     }
-    
+
     const newFiles = files.filter((_, i) => i !== index)
-    
+
     // Update preview URLs map - keep existing URLs for remaining files
     const newPreviewUrls = new Map<File, string>()
     newFiles.forEach((file) => {
-      // Reuse existing preview URL if available, otherwise create new one
       if (previewUrls.has(file)) {
         newPreviewUrls.set(file, previewUrls.get(file)!)
-      } else if (file.type.startsWith('image/')) {
-        const url = URL.createObjectURL(file)
-        newPreviewUrls.set(file, url)
       }
     })
-    
+
     setFiles(newFiles)
     setPreviewUrls(newPreviewUrls)
+    previewUrlsRef.current = newPreviewUrls
     onFilesChange?.(newFiles)
-    
-    // Update single preview URL for backward compatibility
-    if (newFiles.length === 1 && newFiles[0].type.startsWith('image/')) {
-      setPreviewUrl(newPreviewUrls.get(newFiles[0]) || null)
-    } else {
-      setPreviewUrl(null)
-    }
   }
 
-  // Cleanup preview URLs on unmount
+  // Cleanup preview URLs on unmount only
   React.useEffect(() => {
     return () => {
-      previewUrls.forEach((url) => {
-        URL.revokeObjectURL(url)
-      })
-      if (previewUrl) {
-        URL.revokeObjectURL(previewUrl)
-      }
+      previewUrlsRef.current.forEach((url) => URL.revokeObjectURL(url))
     }
-  }, [previewUrls, previewUrl])
+  }, [])
 
-  const hasSingleImagePreview = maxFiles === 1 && files.length === 1 && files[0].type.startsWith('image/') && previewUrl
+  const singleFile = files.length === 1 ? files[0] : null
+  const singleImagePreviewUrl = singleFile?.type.startsWith('image/') ? previewUrls.get(singleFile) : null
+  const hasSingleImagePreview = mode === "replace" && singleImagePreviewUrl !== undefined && singleImagePreviewUrl !== null
 
   return (
     <div className={cn("w-full", className)}>
@@ -176,12 +154,12 @@ export function Dropzone({
         )}
       >
         <input {...getInputProps()} />
-        {hasSingleImagePreview ? (
+        {hasSingleImagePreview && singleFile ? (
           <div className="relative w-full h-full">
             <div className="relative w-full h-full group">
               <img
-                src={previewUrl}
-                alt={files[0].name}
+                src={singleImagePreviewUrl}
+                alt={singleFile.name}
                 className="w-full h-full object-cover"
               />
               <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors flex items-center justify-center pointer-events-none">

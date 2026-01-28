@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useCreateOrg } from '@/queries'
 import { Button } from '@/components/ui/button'
@@ -20,7 +21,6 @@ import {
 
 type CreateOrgFormData = {
   name: string
-  timezone: string
   email?: string
   phone?: string
   address: {
@@ -33,29 +33,20 @@ type CreateOrgFormData = {
   website?: string
 }
 
-// Common timezones for the select dropdown
-const TIMEZONES = [
-  { value: 'UTC', label: 'UTC' },
-  { value: 'America/New_York', label: 'America/New_York (EST/EDT)' },
-  { value: 'America/Chicago', label: 'America/Chicago (CST/CDT)' },
-  { value: 'America/Denver', label: 'America/Denver (MST/MDT)' },
-  { value: 'America/Los_Angeles', label: 'America/Los_Angeles (PST/PDT)' },
-  { value: 'Europe/London', label: 'Europe/London (GMT/BST)' },
-  { value: 'Europe/Paris', label: 'Europe/Paris (CET/CEST)' },
-  { value: 'Asia/Tokyo', label: 'Asia/Tokyo (JST)' },
-  { value: 'Asia/Shanghai', label: 'Asia/Shanghai (CST)' },
-  { value: 'Australia/Sydney', label: 'Australia/Sydney (AEDT/AEST)' },
-]
-
 type CreateOrgProps = {
   onOrgCreated: (orgId: string) => void
 }
 
 export function CreateOrg({ onOrgCreated }: CreateOrgProps) {
+  const [browserTimezone, setBrowserTimezone] = useState<string>('UTC')
+
+  useEffect(() => {
+    setBrowserTimezone(Intl.DateTimeFormat().resolvedOptions().timeZone)
+  }, [])
+
   const form = useForm<CreateOrgFormData>({
     defaultValues: {
       name: '',
-      timezone: 'UTC',
       email: '',
       phone: '',
       address: {
@@ -71,11 +62,11 @@ export function CreateOrg({ onOrgCreated }: CreateOrgProps) {
 
   const { mutate: createOrg, isPending, error } = useCreateOrg()
 
-  const onSubmit = async (data: CreateOrgFormData) => {
+  const onSubmit = (data: CreateOrgFormData) => {
     // Prepare the request payload, omitting empty optional fields
     const payload: Parameters<typeof createOrg>[0] = {
       name: data.name,
-      timezone: data.timezone,
+      timezone: browserTimezone,
     }
 
     if (data.email) payload.email = data.email
@@ -117,45 +108,20 @@ export function CreateOrg({ onOrgCreated }: CreateOrgProps) {
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
               {/* Required Fields */}
-              <div className="space-y-4">
-                <FormField
-                  control={form.control}
-                  name="name"
-                  rules={{ required: 'Organisation name is required' }}
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Organisation Name *</FormLabel>
-                      <FormControl>
-                        <Input placeholder="Acme Inc." {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="timezone"
-                  rules={{ required: 'Timezone is required' }}
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Timezone *</FormLabel>
-                      <FormControl>
-                        <select
-                          {...field}
-                          className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm"
-                        >
-                          {TIMEZONES.map((tz) => (
-                            <option key={tz.value} value={tz.value}>
-                              {tz.label}
-                            </option>
-                          ))}
-                        </select>
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
+              <FormField
+                control={form.control}
+                name="name"
+                rules={{ required: 'Organisation name is required' }}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Organisation Name *</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Acme Inc." {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
               {/* Optional Contact Information */}
               <div className="space-y-4">
@@ -286,14 +252,6 @@ export function CreateOrg({ onOrgCreated }: CreateOrgProps) {
                       </FormItem>
                     )}
                   />
-                </div>
-              </div>
-
-              {/* Logo Upload (Non-functional) */}
-              <div className="space-y-4">
-                <h3 className="text-lg font-semibold">Logo (Coming Soon)</h3>
-                <div className="border-2 border-dashed rounded-lg p-8 text-center text-muted-foreground">
-                  <p>Logo upload functionality will be available soon</p>
                 </div>
               </div>
 
