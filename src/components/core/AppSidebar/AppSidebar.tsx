@@ -1,4 +1,5 @@
 import { Link, useLocation } from '@tanstack/react-router'
+import { LayoutDashboard, Settings } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { useGetCurrentOrg } from '@/queries'
 
@@ -6,12 +7,12 @@ const navigation = [
   {
     name: 'Dashboard',
     href: '/dashboard',
-    icon: null, // Can add icons later if needed
+    icon: LayoutDashboard,
   },
   {
     name: 'Components',
     href: '/components',
-    icon: null, // Can add icons later if needed
+    icon: null,
   },
 ]
 
@@ -39,11 +40,27 @@ export function AppSidebar() {
                   : 'text-neutral-600 dark:text-neutral-400 hover:bg-neutral-50 dark:hover:bg-neutral-800/50 hover:text-neutral-900 dark:hover:text-neutral-100'
               )}
             >
+              {item.icon && <item.icon className="mr-2 h-4 w-4" />}
               {item.name}
             </Link>
           )
         })}
       </nav>
+
+      <div className="px-3 pb-3">
+        <Link
+          to={'/settings' as string}
+          className={cn(
+            'flex items-center rounded-md px-3 py-2 text-sm font-medium transition-colors',
+            location.pathname === '/settings'
+              ? 'bg-neutral-100 dark:bg-neutral-800 text-primary'
+              : 'text-neutral-600 dark:text-neutral-400 hover:bg-neutral-50 dark:hover:bg-neutral-800/50 hover:text-neutral-900 dark:hover:text-neutral-100'
+          )}
+        >
+          <Settings className="mr-2 h-4 w-4" />
+          Settings
+        </Link>
+      </div>
 
       {currentOrg?.currentOrg && (
         <div className="border-t border-neutral-100 dark:border-neutral-800 p-4">
