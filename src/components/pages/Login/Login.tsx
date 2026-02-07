@@ -1,7 +1,7 @@
 import { useNavigate, Link } from '@tanstack/react-router'
 import { useForm } from 'react-hook-form'
 import { useMutation } from '@tanstack/react-query'
-import { signIn as betterAuthSignIn } from '@/lib/auth-client'
+import { signIn as betterAuthSignIn, type User } from '@/lib/auth-client'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import {
@@ -40,8 +40,10 @@ export function Login() {
       if (!result.data) throw new Error('Sign in failed')
       return result.data
     },
-    onSuccess: () => {
-      navigate({ to: '/select-org' })
+    onSuccess: (data) => {
+      const user = data.user as User
+      const hasOrg = !!user?.lastAccessedOrg
+      navigate({ to: hasOrg ? '/dashboard' : '/select-org' })
     },
   })
 
