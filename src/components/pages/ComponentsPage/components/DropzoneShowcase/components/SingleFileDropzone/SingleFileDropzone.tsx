@@ -36,7 +36,7 @@ export function SingleFileDropzone() {
   const handleUpload = () => {
     if (selectedFile && tokenData) {
       uploadFiles(
-        { files: [selectedFile], fileType: 'logo', tokensData: [tokenData] },
+        { files: [selectedFile], tokens: [tokenData] },
         {
           onSuccess: () => {
             setSelectedFile(null)

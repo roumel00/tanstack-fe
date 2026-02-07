@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { useCreateOrg } from '@/queries'
+import { useCreateOrg, useUploadFilesToS3, useGetLogoUploadToken } from '@/queries'
+import type { GetLogoUploadTokenResponse } from '@/queries'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
+import { Dropzone } from '@/components/ui/dropzone'
 import {
   Form,
   FormControl,
@@ -39,10 +41,15 @@ type CreateOrgProps = {
 
 export function CreateOrg({ onOrgCreated }: CreateOrgProps) {
   const [browserTimezone, setBrowserTimezone] = useState<string>('UTC')
+  const [logoFile, setLogoFile] = useState<File | null>(null)
+  const [logoToken, setLogoToken] = useState<GetLogoUploadTokenResponse | null>(null)
 
   useEffect(() => {
     setBrowserTimezone(Intl.DateTimeFormat().resolvedOptions().timeZone)
   }, [])
+
+  const { mutate: getLogoToken } = useGetLogoUploadToken()
+  const { mutateAsync: uploadFiles, isPending: isUploading } = useUploadFilesToS3()
 
   const form = useForm<CreateOrgFormData>({
     defaultValues: {
@@ -62,7 +69,7 @@ export function CreateOrg({ onOrgCreated }: CreateOrgProps) {
 
   const { mutate: createOrg, isPending, error } = useCreateOrg()
 
-  const onSubmit = (data: CreateOrgFormData) => {
+  const onSubmit = async (data: CreateOrgFormData) => {
     // Prepare the request payload, omitting empty optional fields
     const payload: Parameters<typeof createOrg>[0] = {
       name: data.name,
@@ -72,6 +79,12 @@ export function CreateOrg({ onOrgCreated }: CreateOrgProps) {
     if (data.email) payload.email = data.email
     if (data.phone) payload.phone = data.phone
     if (data.website) payload.website = data.website
+
+    // Upload logo if selected
+    if (logoFile && logoToken) {
+      const { results } = await uploadFiles({ files: [logoFile], tokens: [logoToken] })
+      payload.logo = results[0].urlPath
+    }
 
     // Only include address if at least one field is filled
     const hasAddressFields = Object.values(data.address || {}).some(
@@ -108,20 +121,40 @@ export function CreateOrg({ onOrgCreated }: CreateOrgProps) {
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
               {/* Required Fields */}
-              <FormField
-                control={form.control}
-                name="name"
-                rules={{ required: 'Organisation name is required' }}
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Organisation Name *</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Acme Inc." {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+              <div className="space-y-4">
+                <FormField
+                  control={form.control}
+                  name="name"
+                  rules={{ required: 'Organisation name is required' }}
+                  render={({ field }) => (
+                    <FormItem className="flex-1">
+                      <FormLabel>Organisation Name *</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Acme Inc." {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <Dropzone
+                  maxFiles={1}
+                  accept={{ 'image/*': ['.png', '.jpg', '.jpeg', '.webp'] }}
+                  onFilesChange={(files) => {
+                    const file = files[0] ?? null
+                    setLogoFile(file)
+
+                    if (!file) {
+                      setLogoToken(null)
+                      return
+                    }
+
+                    getLogoToken(
+                      { mimetype: file.type },
+                      { onSuccess: (token) => setLogoToken(token) }
+                    )
+                  }}
+                />
+              </div>
 
               {/* Optional Contact Information */}
               <div className="space-y-4">
@@ -261,8 +294,8 @@ export function CreateOrg({ onOrgCreated }: CreateOrgProps) {
                 </div>
               )}
 
-              <Button type="submit" className="w-full" disabled={isPending}>
-                {isPending ? 'Creating organisation...' : 'Create Organisation'}
+              <Button type="submit" className="w-full" disabled={isPending || isUploading}>
+                {isUploading ? 'Uploading logo...' : isPending ? 'Creating organisation...' : 'Create Organisation'}
               </Button>
             </form>
           </Form>

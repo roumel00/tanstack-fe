@@ -71,7 +71,7 @@ export function MultiFileDropzone() {
   const handleUpload = () => {
     if (selectedFiles.length > 0 && tokensData && tokensData.length === selectedFiles.length) {
       uploadFiles(
-        { files: selectedFiles, fileType: 'logo', tokensData },
+        { files: selectedFiles, tokens: tokensData },
         {
           onSuccess: () => {
             setSelectedFiles([])
