@@ -1,4 +1,5 @@
 import { useAuth } from '@/context/auth-context'
+import { useClearOrg } from '@/queries/organisation'
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar'
 import {
   DropdownMenu,
@@ -6,7 +7,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { useNavigate } from '@tanstack/react-router'
+import { useNavigate, useRouter } from '@tanstack/react-router'
 import { Building2, LogOut } from 'lucide-react'
 
 type User = {
@@ -24,6 +25,14 @@ interface UserDropdownProps {
 export function UserDropdown({ user }: UserDropdownProps) {
   const { logout } = useAuth()
   const navigate = useNavigate()
+  const router = useRouter()
+  const clearOrg = useClearOrg()
+
+  const handleChangeOrg = async () => {
+    await clearOrg.mutateAsync()
+    await router.invalidate()
+    navigate({ to: '/select-org' })
+  }
 
   return (
     <DropdownMenu>
@@ -42,7 +51,7 @@ export function UserDropdown({ user }: UserDropdownProps) {
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
         <DropdownMenuItem
-          onClick={() => navigate({ to: '/select-org' })}
+          onClick={handleChangeOrg}
           className="cursor-pointer"
         >
           <Building2 />
