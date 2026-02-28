@@ -136,3 +136,36 @@ code {
     @apply bg-background text-foreground;
   }
 }
+
+/* Sticky column scroll shadows */
+[data-sticky="left"]::after,
+[data-sticky="right"]::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 6px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 150ms ease;
+}
+
+[data-sticky="left"]::after {
+  right: 0;
+  transform: translateX(100%);
+  background: linear-gradient(to right, rgba(0, 0, 0, 0.08), transparent);
+}
+
+[data-sticky="right"]::before {
+  left: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(to left, rgba(0, 0, 0, 0.08), transparent);
+}
+
+[data-slot="table-container"][data-scrolled-left] [data-sticky="left"]::after {
+  opacity: 1;
+}
+
+[data-slot="table-container"][data-scrolled-right] [data-sticky="right"]::before {
+  opacity: 1;
+}

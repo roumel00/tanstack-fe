@@ -1,5 +1,5 @@
 import { Link, useLocation } from '@tanstack/react-router'
-import { LayoutDashboard, Settings } from 'lucide-react'
+import { Gauge, Settings } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { useGetCurrentOrg } from '@/queries'
 
@@ -7,7 +7,7 @@ const navigation = [
   {
     name: 'Dashboard',
     href: '/dashboard',
-    icon: LayoutDashboard,
+    icon: Gauge,
   },
   {
     name: 'Components',
@@ -40,7 +40,7 @@ export function AppSidebar() {
                   : 'text-neutral-600 dark:text-neutral-400 hover:bg-neutral-50 dark:hover:bg-neutral-800/50 hover:text-neutral-900 dark:hover:text-neutral-100'
               )}
             >
-              {item.icon && <item.icon className="mr-2 h-4 w-4" />}
+              {item.icon && <item.icon size={16} className="mr-2" />}
               {item.name}
             </Link>
           )
@@ -57,7 +57,7 @@ export function AppSidebar() {
               : 'text-neutral-600 dark:text-neutral-400 hover:bg-neutral-50 dark:hover:bg-neutral-800/50 hover:text-neutral-900 dark:hover:text-neutral-100'
           )}
         >
-          <Settings className="mr-2 h-4 w-4" />
+          <Settings size={16} className="mr-2" />
           Settings
         </Link>
       </div>

@@ -1,4 +1,4 @@
-import { Organisation, TeamMember } from '../../../lib/models'
+import { Organisation, TeamMember } from '@/lib/models'
 
 export type CurrentOrg = {
   currentOrg: {

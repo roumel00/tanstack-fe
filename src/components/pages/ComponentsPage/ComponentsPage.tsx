@@ -7,6 +7,7 @@ import {
   FormShowcase,
   ComboboxShowcase,
   DropzoneShowcase,
+  TableShowcase,
 } from './components'
 
 export function ComponentsPage() {
@@ -43,6 +44,10 @@ export function ComponentsPage() {
       <div>
         <h2 className="text-lg font-semibold mb-4">Dropzone</h2>
         <DropzoneShowcase />
+      </div>
+      <div>
+        <h2 className="text-lg font-semibold mb-4">Table with Sticky Columns</h2>
+        <TableShowcase />
       </div>
     </div>
   )

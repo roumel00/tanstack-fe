@@ -7,7 +7,7 @@ import { GetOrgsResponse } from './types'
  * GET /organisations/team
  */
 export async function getOrgs(): Promise<GetOrgsResponse> {
-  return get<GetOrgsResponse>('/organisations/team')
+  return get<GetOrgsResponse>('/organisations')
 }
 
 /**

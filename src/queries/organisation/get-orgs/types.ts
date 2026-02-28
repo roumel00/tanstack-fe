@@ -3,7 +3,7 @@ export type UserOrganisation = {
   name: string
   timezone: string
   owner: string
-  role: 'owner' | 'admin' | 'member'
+  role: 'owner' | 'admin' | 'member' | 'invitee'
 }
 
 export type GetOrgsRequest = {
