@@ -1,6 +1,7 @@
-import { useState } from 'react'
+import { useNavigate } from '@tanstack/react-router'
 import { PageHeader, type PageHeaderTab } from '@/components/common/PageHeader'
 import { WorkspaceSettings, TeamSettings } from './components'
+import { Route } from '@/routes/_protected/_app/settings'
 
 const tabs: PageHeaderTab[] = [
   {
@@ -18,22 +19,27 @@ const tabs: PageHeaderTab[] = [
 ]
 
 export function Settings() {
-  const [activeTab, setActiveTab] = useState('workspace-settings')
+  const { tab } = Route.useSearch()
+  const navigate = useNavigate({ from: '/settings' })
+
+  const handleTabChange = (value: string) => {
+    navigate({ search: { tab: value } })
+  }
 
   return (
     <div className="p-8">
       <PageHeader
         title="Settings"
         tabs={tabs}
-        activeTab={activeTab}
-        onTabChange={setActiveTab}
+        activeTab={tab}
+        onTabChange={handleTabChange}
       />
 
       <div className="mt-6">
-        {activeTab === 'workspace-settings' &&
+        {tab === 'workspace-settings' &&
           <WorkspaceSettings />
         }
-        {activeTab === 'team-settings' &&
+        {tab === 'team-settings' &&
           <TeamSettings />
         }
       </div>
