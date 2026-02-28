@@ -10,7 +10,7 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table"
-import { ArrowUpDown, Crown, Mail, MoreHorizontal, Plus, Shield, User } from "lucide-react"
+import { ArrowUpDown, Crown, Mail, MoreHorizontal, Plus, RefreshCw, Shield, User, UserMinus, MailX } from "lucide-react"
 import {
   Table,
   TableBody,
@@ -31,6 +31,7 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { GetTeamMembersResponse } from "@/queries/organisation/get-team-members"
 import { getInitials } from "@/lib/utils/organisation"
+import { InviteMemberModal } from "./components"
 
 type TeamMemberRow = GetTeamMembersResponse[number]
 
@@ -128,15 +129,18 @@ function getColumns(
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               {memberRole === "invitee" ? (
-                <DropdownMenuItem onClick={() => console.log("Cancel invite")}>
+                <DropdownMenuItem className="text-destructive focus:text-destructive" onClick={() => console.log("Cancel invite")}>
+                  <MailX className="h-4 w-4 text-destructive" />
                   Cancel invite
                 </DropdownMenuItem>
               ) : (
                 <>
                   <DropdownMenuItem onClick={() => console.log("Change role")}>
+                    <RefreshCw className="h-4 w-4" />
                     Change role
                   </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => console.log("Remove from team")}>
+                  <DropdownMenuItem className="text-destructive focus:text-destructive" onClick={() => console.log("Remove from team")}>
+                    <UserMinus className="h-4 w-4 text-destructive" />
                     Remove from team
                   </DropdownMenuItem>
                 </>
@@ -157,6 +161,7 @@ interface TeamDataTableProps {
 export function TeamDataTable({ data, currentRole }: TeamDataTableProps) {
   const [sorting, setSorting] = useState<SortingState>([])
   const [globalFilter, setGlobalFilter] = useState("")
+  const [inviteOpen, setInviteOpen] = useState(false)
 
   const columns = useMemo(() => getColumns(currentRole), [currentRole])
 
@@ -185,7 +190,7 @@ export function TeamDataTable({ data, currentRole }: TeamDataTableProps) {
           onChange={(event) => setGlobalFilter(event.target.value)}
           className="max-w-sm"
         />
-        <Button size="sm" onClick={() => console.log("Add member")}>
+        <Button size="sm" onClick={() => setInviteOpen(true)}>
           <Plus className="h-4 w-4" />
           Add member
         </Button>
@@ -280,6 +285,7 @@ export function TeamDataTable({ data, currentRole }: TeamDataTableProps) {
           Next
         </Button>
       </div>
+      <InviteMemberModal open={inviteOpen} onOpenChange={setInviteOpen} />
     </div>
   )
 }
