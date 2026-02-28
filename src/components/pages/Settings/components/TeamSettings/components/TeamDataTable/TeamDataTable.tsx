@@ -2,12 +2,9 @@ import { useMemo, useState } from "react"
 import { cn } from "@/lib/utils"
 import {
   ColumnDef,
-  FilterFn,
   SortingState,
   flexRender,
   getCoreRowModel,
-  getFilteredRowModel,
-  getPaginationRowModel,
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table"
@@ -30,18 +27,13 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { GetTeamMembersResponse } from "@/queries/organisation/get-team-members"
+import { TeamMemberDto } from "@/queries/organisation/get-team-members"
+import { useGetTeamMembers } from "@/queries/organisation/get-team-members"
 import { getInitials } from "@/lib/utils/organisation"
 import { InviteMemberModal, UninviteMemberModal, RemoveMemberModal, ChangeRoleModal } from "./components"
+import { useDebounce } from "@/hooks/useDebounce"
 
-type TeamMemberRow = GetTeamMembersResponse[number]
-
-const nameOrEmailFilter: FilterFn<TeamMemberRow> = (row, _columnId, filterValue) => {
-  const search = (filterValue as string).toLowerCase()
-  const name = row.getValue<string | null>("name")
-  const email = row.getValue<string | null>("email")
-  return (name?.toLowerCase().includes(search) ?? false) || (email?.toLowerCase().includes(search) ?? false)
-}
+type TeamMemberRow = TeamMemberDto
 
 interface ColumnActions {
   onCancelInvite: (member: TeamMemberRow) => void
@@ -191,17 +183,27 @@ function getColumns(
 }
 
 interface TeamDataTableProps {
-  data: TeamMemberRow[]
   currentRole: "owner" | "admin" | "member" | "invitee" | undefined
 }
 
-export function TeamDataTable({ data, currentRole }: TeamDataTableProps) {
+export function TeamDataTable({ currentRole }: TeamDataTableProps) {
   const [sorting, setSorting] = useState<SortingState>([])
-  const [searchFilter, setSearchFilter] = useState("")
+  const [searchInput, setSearchInput] = useState("")
+  const [page, setPage] = useState(1)
   const [inviteOpen, setInviteOpen] = useState(false)
   const [uninviteMember, setUninviteMember] = useState<TeamMemberRow | null>(null)
   const [removeMember, setRemoveMember] = useState<TeamMemberRow | null>(null)
   const [changeRoleMember, setChangeRoleMember] = useState<TeamMemberRow | null>(null)
+
+  const debouncedSearch = useDebounce(searchInput, 300)
+
+  const { data } = useGetTeamMembers({
+    page,
+    search: debouncedSearch || undefined,
+  })
+
+  const members = data?.members ?? []
+  const totalPages = data?.totalPages ?? 1
 
   const actions: ColumnActions = useMemo(() => ({
     onCancelInvite: setUninviteMember,
@@ -212,31 +214,33 @@ export function TeamDataTable({ data, currentRole }: TeamDataTableProps) {
   const columns = useMemo(() => getColumns(currentRole, actions), [currentRole, actions])
 
   const table = useReactTable({
-    data,
+    data: members,
     columns,
     onSortingChange: setSorting,
-    onGlobalFilterChange: setSearchFilter,
     getCoreRowModel: getCoreRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
-    getFilteredRowModel: getFilteredRowModel(),
-    globalFilterFn: nameOrEmailFilter,
+    manualPagination: true,
+    manualFiltering: true,
     state: {
       sorting,
-      globalFilter: searchFilter,
     },
   })
+
+  const handleSearchChange = (value: string) => {
+    setSearchInput(value)
+    setPage(1)
+  }
 
   return (
     <div>
       <div className="w-full flex justify-between items-center py-4">
         <Input
           placeholder="Search by name or email..."
-          value={searchFilter}
-          onChange={(event) => setSearchFilter(event.target.value)}
+          value={searchInput}
+          onChange={(event) => handleSearchChange(event.target.value)}
           className="max-w-sm"
         />
-        <Button size="sm" onClick={() => setInviteOpen(true)}>
+        <Button onClick={() => setInviteOpen(true)}>
           <Plus className="h-4 w-4" />
           Add member
         </Button>
@@ -317,16 +321,19 @@ export function TeamDataTable({ data, currentRole }: TeamDataTableProps) {
         <Button
           variant="outline"
           size="sm"
-          onClick={() => table.previousPage()}
-          disabled={!table.getCanPreviousPage()}
+          onClick={() => setPage((p) => Math.max(1, p - 1))}
+          disabled={page <= 1}
         >
           Previous
         </Button>
+        <span className="text-sm text-muted-foreground">
+          Page {page} of {totalPages}
+        </span>
         <Button
           variant="outline"
           size="sm"
-          onClick={() => table.nextPage()}
-          disabled={!table.getCanNextPage()}
+          onClick={() => setPage((p) => p + 1)}
+          disabled={page >= totalPages}
         >
           Next
         </Button>

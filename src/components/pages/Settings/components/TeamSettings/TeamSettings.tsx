@@ -1,18 +1,16 @@
 import { Card, CardContent } from '@/components/ui/card'
 import { Avatar, AvatarFallback, AvatarGroup, AvatarGroupCount } from '@/components/ui/avatar'
-import { useGetTeamMembers } from '@/queries/organisation/get-team-members'
 import { useGetCurrentOrg } from '@/queries/organisation/get-current-org'
+import { useGetTeamOverview } from '@/queries/organisation/get-team-overview'
 import { TeamDataTable } from './components'
 import { getInitials } from '@/lib/utils/organisation'
 
-function MemberAvatars({ members }: { members: { name: string | null; email: string }[] }) {
-  const maxVisible = 2
-  const visible = members.slice(0, maxVisible)
-  const remaining = members.length - maxVisible
+function MemberAvatars({ members, total }: { members: { name: string | null; email: string }[]; total: number }) {
+  const remaining = total - members.length
 
   return (
     <AvatarGroup>
-      {visible.map((member) => {
+      {members.map((member) => {
         if (!member.name) return null
         return (
           <Avatar size="lg" key={member.email}>
@@ -26,14 +24,14 @@ function MemberAvatars({ members }: { members: { name: string | null; email: str
 }
 
 export function TeamSettings() {
-  const { data: teamMembers = [] } = useGetTeamMembers()
   const { data: currentOrgData } = useGetCurrentOrg()
+  const { data: overview } = useGetTeamOverview()
 
   const currentRole = currentOrgData?.currentOrg?.teamMember.role
-
-  const owner = teamMembers.find((m) => m.role === 'owner')
-  const admins = teamMembers.filter((m) => m.role === 'admin')
-  const members = teamMembers.filter((m) => m.role === 'member')
+  const owner = overview?.owner
+  const counts = overview?.counts ?? { admins: 0, members: 0, invitees: 0 }
+  const recentAdmins = overview?.recentAdmins ?? []
+  const recentMembers = overview?.recentMembers ?? []
 
   return (
     <div className="space-y-6">
@@ -55,25 +53,25 @@ export function TeamSettings() {
         <Card className="justify-center">
           <CardContent className="flex items-center justify-between">
             <div className="flex items-baseline gap-2">
-              <p className="text-4xl font-semibold pr-1">{admins.length}</p>
-              <p className="text-sm text-muted-foreground">Admin{admins.length !== 1 ? 's' : ''}</p>
+              <p className="text-4xl font-semibold pr-1">{counts.admins}</p>
+              <p className="text-sm text-muted-foreground">Admin{counts.admins !== 1 ? 's' : ''}</p>
             </div>
-            <MemberAvatars members={admins} />
+            <MemberAvatars members={recentAdmins} total={counts.admins} />
           </CardContent>
         </Card>
 
         <Card className="justify-center">
           <CardContent className="flex items-center justify-between">
             <div className="flex items-baseline gap-2">
-              <p className="text-4xl font-semibold pr-1">{members.length}</p>
-              <p className="text-sm text-muted-foreground">Member{members.length !== 1 ? 's' : ''}</p>
+              <p className="text-4xl font-semibold pr-1">{counts.members}</p>
+              <p className="text-sm text-muted-foreground">Member{counts.members !== 1 ? 's' : ''}</p>
             </div>
-            <MemberAvatars members={members} />
+            <MemberAvatars members={recentMembers} total={counts.members} />
           </CardContent>
         </Card>
       </div>
 
-      <TeamDataTable data={teamMembers} currentRole={currentRole} />
+      <TeamDataTable currentRole={currentRole} />
     </div>
   )
 }

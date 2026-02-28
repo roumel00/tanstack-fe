@@ -8,9 +8,9 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog'
-import { GetTeamMembersResponse } from '@/queries/organisation/get-team-members'
+import { TeamMemberDto } from '@/queries/organisation/get-team-members'
 
-type TeamMemberRow = GetTeamMembersResponse[number]
+type TeamMemberRow = TeamMemberDto
 
 interface UninviteMemberModalProps {
   member: TeamMemberRow | null

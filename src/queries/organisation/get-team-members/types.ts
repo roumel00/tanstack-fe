@@ -1,8 +1,9 @@
 export type GetTeamMembersRequest = {
-  // No request parameters
+  page?: number
+  search?: string
 }
 
-export type GetTeamMembersResponse = {
+export type TeamMemberDto = {
   id: string
   orgId: string
   email: string
@@ -11,4 +12,11 @@ export type GetTeamMembersResponse = {
   image: string | null
   role: 'owner' | 'admin' | 'member' | 'invitee'
   createdAt: Date
-}[]
+}
+
+export type GetTeamMembersResponse = {
+  members: TeamMemberDto[]
+  total: number
+  page: number
+  totalPages: number
+}

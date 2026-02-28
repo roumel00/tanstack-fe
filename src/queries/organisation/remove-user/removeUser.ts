@@ -13,6 +13,7 @@ export function useRemoveUser() {
     mutationFn: removeUser,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['organisation', 'teamMembers'] })
+      queryClient.invalidateQueries({ queryKey: ['organisation', 'teamOverview'] })
     },
   })
 }

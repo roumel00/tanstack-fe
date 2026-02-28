@@ -9,11 +9,11 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog'
-import { GetTeamMembersResponse } from '@/queries/organisation/get-team-members'
+import { TeamMemberDto } from '@/queries/organisation/get-team-members'
 import { cn } from '@/lib/utils'
 import { Shield, User } from 'lucide-react'
 
-type TeamMemberRow = GetTeamMembersResponse[number]
+type TeamMemberRow = TeamMemberDto
 
 interface ChangeRoleModalProps {
   member: TeamMemberRow | null
