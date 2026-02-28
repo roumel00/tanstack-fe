@@ -2,6 +2,7 @@ import { useMemo, useState } from "react"
 import { cn } from "@/lib/utils"
 import {
   ColumnDef,
+  FilterFn,
   SortingState,
   flexRender,
   getCoreRowModel,
@@ -35,6 +36,13 @@ import { InviteMemberModal, UninviteMemberModal, RemoveMemberModal, ChangeRoleMo
 
 type TeamMemberRow = GetTeamMembersResponse[number]
 
+const nameOrEmailFilter: FilterFn<TeamMemberRow> = (row, _columnId, filterValue) => {
+  const search = (filterValue as string).toLowerCase()
+  const name = row.getValue<string | null>("name")
+  const email = row.getValue<string | null>("email")
+  return (name?.toLowerCase().includes(search) ?? false) || (email?.toLowerCase().includes(search) ?? false)
+}
+
 interface ColumnActions {
   onCancelInvite: (member: TeamMemberRow) => void
   onChangeRole: (member: TeamMemberRow) => void
@@ -48,7 +56,15 @@ function getColumns(
   return [
     {
       accessorKey: "name",
-      header: "Name",
+      header: ({ column }) => (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Name
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      ),
       cell: ({ row }) => {
         const { name, image, email } = row.original
         return (
@@ -76,7 +92,15 @@ function getColumns(
     },
     {
       accessorKey: "role",
-      header: "Role",
+      header: ({ column }) => (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Role
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      ),
       cell: ({ row }) => {
         const role = row.getValue<string>("role")
         const config = {
@@ -173,7 +197,7 @@ interface TeamDataTableProps {
 
 export function TeamDataTable({ data, currentRole }: TeamDataTableProps) {
   const [sorting, setSorting] = useState<SortingState>([])
-  const [globalFilter, setGlobalFilter] = useState("")
+  const [searchFilter, setSearchFilter] = useState("")
   const [inviteOpen, setInviteOpen] = useState(false)
   const [uninviteMember, setUninviteMember] = useState<TeamMemberRow | null>(null)
   const [removeMember, setRemoveMember] = useState<TeamMemberRow | null>(null)
@@ -191,15 +215,15 @@ export function TeamDataTable({ data, currentRole }: TeamDataTableProps) {
     data,
     columns,
     onSortingChange: setSorting,
-    onGlobalFilterChange: setGlobalFilter,
+    onGlobalFilterChange: setSearchFilter,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
-    globalFilterFn: "includesString",
+    globalFilterFn: nameOrEmailFilter,
     state: {
       sorting,
-      globalFilter,
+      globalFilter: searchFilter,
     },
   })
 
@@ -208,8 +232,8 @@ export function TeamDataTable({ data, currentRole }: TeamDataTableProps) {
       <div className="w-full flex justify-between items-center py-4">
         <Input
           placeholder="Search by name or email..."
-          value={globalFilter}
-          onChange={(event) => setGlobalFilter(event.target.value)}
+          value={searchFilter}
+          onChange={(event) => setSearchFilter(event.target.value)}
           className="max-w-sm"
         />
         <Button size="sm" onClick={() => setInviteOpen(true)}>
@@ -232,7 +256,7 @@ export function TeamDataTable({ data, currentRole }: TeamDataTableProps) {
                       className={cn(
                         sticky !== "left" && "first:pl-4",
                         sticky === "left" && "sticky left-0 z-10 bg-background px-2 text-center [&:has([role=checkbox])]:pr-2",
-                        sticky === "right" && "sticky right-0 z-10 bg-background px-2 text-center"
+                        sticky === "right" && "sticky right-0 z-10 bg-background px-2 text-center border-l"
                       )}
                       style={size ? { width: size } : undefined}
                     >
@@ -263,7 +287,7 @@ export function TeamDataTable({ data, currentRole }: TeamDataTableProps) {
                           "py-3",
                           sticky !== "left" && "first:pl-4",
                           sticky === "left" && "sticky left-0 z-10 bg-background px-2 text-center [&:has([role=checkbox])]:pr-2",
-                          sticky === "right" && "sticky right-0 z-10 bg-background px-2 text-center"
+                          sticky === "right" && "sticky right-0 z-10 bg-background px-2 text-center border-l"
                         )}
                         style={size ? { width: size } : undefined}
                       >
