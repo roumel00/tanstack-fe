@@ -31,12 +31,19 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { GetTeamMembersResponse } from "@/queries/organisation/get-team-members"
 import { getInitials } from "@/lib/utils/organisation"
-import { InviteMemberModal } from "./components"
+import { InviteMemberModal, UninviteMemberModal, RemoveMemberModal, ChangeRoleModal } from "./components"
 
 type TeamMemberRow = GetTeamMembersResponse[number]
 
+interface ColumnActions {
+  onCancelInvite: (member: TeamMemberRow) => void
+  onChangeRole: (member: TeamMemberRow) => void
+  onRemoveMember: (member: TeamMemberRow) => void
+}
+
 function getColumns(
-  currentRole: "owner" | "admin" | "member" | "invitee" | undefined
+  currentRole: "owner" | "admin" | "member" | "invitee" | undefined,
+  actions: ColumnActions
 ): ColumnDef<TeamMemberRow>[] {
   return [
     {
@@ -129,17 +136,23 @@ function getColumns(
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               {memberRole === "invitee" ? (
-                <DropdownMenuItem className="text-destructive focus:text-destructive" onClick={() => console.log("Cancel invite")}>
+                <DropdownMenuItem className="text-destructive focus:text-destructive" onClick={() => actions.onCancelInvite(row.original)}>
                   <MailX className="h-4 w-4 text-destructive" />
                   Cancel invite
                 </DropdownMenuItem>
               ) : (
                 <>
-                  <DropdownMenuItem onClick={() => console.log("Change role")}>
-                    <RefreshCw className="h-4 w-4" />
-                    Change role
-                  </DropdownMenuItem>
-                  <DropdownMenuItem className="text-destructive focus:text-destructive" onClick={() => console.log("Remove from team")}>
+                  {currentRole === "owner" && (
+                    <DropdownMenuItem onClick={() => actions.onChangeRole(row.original)}>
+                      <RefreshCw className="h-4 w-4" />
+                      Change role
+                    </DropdownMenuItem>
+                  )}
+                  <DropdownMenuItem
+                    className="text-destructive focus:text-destructive"
+                    disabled={memberRole === "admin"}
+                    onClick={() => actions.onRemoveMember(row.original)}
+                  >
                     <UserMinus className="h-4 w-4 text-destructive" />
                     Remove from team
                   </DropdownMenuItem>
@@ -162,8 +175,17 @@ export function TeamDataTable({ data, currentRole }: TeamDataTableProps) {
   const [sorting, setSorting] = useState<SortingState>([])
   const [globalFilter, setGlobalFilter] = useState("")
   const [inviteOpen, setInviteOpen] = useState(false)
+  const [uninviteMember, setUninviteMember] = useState<TeamMemberRow | null>(null)
+  const [removeMember, setRemoveMember] = useState<TeamMemberRow | null>(null)
+  const [changeRoleMember, setChangeRoleMember] = useState<TeamMemberRow | null>(null)
 
-  const columns = useMemo(() => getColumns(currentRole), [currentRole])
+  const actions: ColumnActions = useMemo(() => ({
+    onCancelInvite: setUninviteMember,
+    onChangeRole: setChangeRoleMember,
+    onRemoveMember: setRemoveMember,
+  }), [])
+
+  const columns = useMemo(() => getColumns(currentRole, actions), [currentRole, actions])
 
   const table = useReactTable({
     data,
@@ -286,6 +308,21 @@ export function TeamDataTable({ data, currentRole }: TeamDataTableProps) {
         </Button>
       </div>
       <InviteMemberModal open={inviteOpen} onOpenChange={setInviteOpen} />
+      <UninviteMemberModal
+        member={uninviteMember}
+        open={!!uninviteMember}
+        onOpenChange={(open) => { if (!open) setUninviteMember(null) }}
+      />
+      <RemoveMemberModal
+        member={removeMember}
+        open={!!removeMember}
+        onOpenChange={(open) => { if (!open) setRemoveMember(null) }}
+      />
+      <ChangeRoleModal
+        member={changeRoleMember}
+        open={!!changeRoleMember}
+        onOpenChange={(open) => { if (!open) setChangeRoleMember(null) }}
+      />
     </div>
   )
 }
