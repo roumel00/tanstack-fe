@@ -1,6 +1,8 @@
 export type GetTeamMembersRequest = {
   page?: number
   search?: string
+  sortBy?: string
+  sortOrder?: 'asc' | 'desc'
 }
 
 export type TeamMemberDto = {

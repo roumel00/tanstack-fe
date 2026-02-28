@@ -5,7 +5,6 @@ import {
   SortingState,
   flexRender,
   getCoreRowModel,
-  getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table"
 import { ArrowUpDown, Crown, Mail, MoreHorizontal, Plus, RefreshCw, Shield, User, UserMinus, MailX } from "lucide-react"
@@ -197,9 +196,14 @@ export function TeamDataTable({ currentRole }: TeamDataTableProps) {
 
   const debouncedSearch = useDebounce(searchInput, 300)
 
+  const sortBy = sorting[0]?.id
+  const sortOrder = sorting[0] ? (sorting[0].desc ? 'desc' : 'asc') : undefined
+
   const { data } = useGetTeamMembers({
     page,
     search: debouncedSearch || undefined,
+    sortBy,
+    sortOrder,
   })
 
   const members = data?.members ?? []
@@ -216,11 +220,14 @@ export function TeamDataTable({ currentRole }: TeamDataTableProps) {
   const table = useReactTable({
     data: members,
     columns,
-    onSortingChange: setSorting,
+    onSortingChange: (updater) => {
+      setSorting(updater)
+      setPage(1)
+    },
     getCoreRowModel: getCoreRowModel(),
-    getSortedRowModel: getSortedRowModel(),
     manualPagination: true,
     manualFiltering: true,
+    manualSorting: true,
     state: {
       sorting,
     },
