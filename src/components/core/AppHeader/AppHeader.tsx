@@ -9,7 +9,7 @@ export function AppHeader() {
     return (
       <header className="flex h-16 items-center border-b border-neutral-100 dark:border-neutral-800 bg-white dark:bg-neutral-900 px-6">
         <div className="ml-auto flex items-center gap-3">
-          <Skeleton className="h-8 w-8 rounded-md" />
+          <Skeleton className="h-10 w-10 rounded-full" />
           <Skeleton className="hidden sm:block h-4 w-20" />
         </div>
       </header>

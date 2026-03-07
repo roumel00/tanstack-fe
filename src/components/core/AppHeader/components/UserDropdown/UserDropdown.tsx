@@ -9,6 +9,7 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { useNavigate } from '@tanstack/react-router'
 import { Building2, LogOut } from 'lucide-react'
+import { getInitials } from '@/lib/utils/organisation'
 
 type User = {
   firstName?: string
@@ -36,9 +37,9 @@ export function UserDropdown({ user }: UserDropdownProps) {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <div className="group flex items-center gap-3 px-2 py-1 -mx-2 -my-1 h-auto hover:bg-transparent dark:hover:bg-transparent cursor-pointer focus-visible:ring-0">
-          <Avatar className="h-8 w-8 rounded-md shadow-md group-hover:shadow-lg transition-shadow duration-300">
+          <Avatar size="lg">
             <AvatarImage src={user.image || undefined} alt={user.name || 'User'} />
-            <AvatarFallback className="rounded-md">{user.name?.charAt(0).toUpperCase()}</AvatarFallback>
+            <AvatarFallback>{getInitials(user.name ?? user.email)}</AvatarFallback>
           </Avatar>
           <div className="hidden sm:block text-base text-left">
             <div className="font-medium text-neutral-900 dark:text-neutral-100">
