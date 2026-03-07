@@ -3,7 +3,9 @@ export type UserOrganisation = {
   name: string
   timezone: string
   owner: string
+  logo: string | null
   role: 'owner' | 'admin' | 'member' | 'invitee'
+  memberCount: number
 }
 
 export type GetOrgsRequest = {
