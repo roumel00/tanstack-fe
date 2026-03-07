@@ -268,7 +268,7 @@ export function TeamDataTable({ currentRole }: TeamDataTableProps) {
                       className={cn(
                         sticky !== "left" && "first:pl-4",
                         sticky === "left" && "sticky left-0 z-10 bg-background px-2 text-center [&:has([role=checkbox])]:pr-2",
-                        sticky === "right" && "sticky right-0 z-10 bg-background px-2 text-center border-l"
+                        sticky === "right" && "sticky right-0 z-10 bg-background px-2 text-center"
                       )}
                       style={size ? { width: size } : undefined}
                     >
@@ -322,7 +322,7 @@ export function TeamDataTable({ currentRole }: TeamDataTableProps) {
                           "py-3",
                           sticky !== "left" && "first:pl-4",
                           sticky === "left" && "sticky left-0 z-10 bg-background px-2 text-center [&:has([role=checkbox])]:pr-2",
-                          sticky === "right" && "sticky right-0 z-10 bg-background px-2 text-center border-l"
+                          sticky === "right" && "sticky right-0 z-10 bg-background px-2 text-center"
                         )}
                         style={size ? { width: size } : undefined}
                       >
