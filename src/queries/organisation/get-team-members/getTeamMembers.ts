@@ -1,4 +1,4 @@
-import { useQuery, keepPreviousData } from '@tanstack/react-query'
+import { queryOptions, useQuery, keepPreviousData } from '@tanstack/react-query'
 import { get } from '@/lib/api'
 import { GetTeamMembersRequest, GetTeamMembersResponse } from './types'
 
@@ -17,10 +17,13 @@ export async function getTeamMembers(
   )
 }
 
-export function useGetTeamMembers(params?: GetTeamMembersRequest) {
-  return useQuery({
-    queryKey: ['organisation', 'teamMembers', params],
+export const getTeamMembersQueryOptions = (params?: GetTeamMembersRequest) =>
+  queryOptions({
+    queryKey: ['organisation', 'teamMembers', params] as const,
     queryFn: () => getTeamMembers(params),
     placeholderData: keepPreviousData,
   })
+
+export function useGetTeamMembers(params?: GetTeamMembersRequest) {
+  return useQuery(getTeamMembersQueryOptions(params))
 }

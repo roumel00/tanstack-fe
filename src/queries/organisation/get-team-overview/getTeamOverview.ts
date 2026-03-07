@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query'
+import { queryOptions, useQuery } from '@tanstack/react-query'
 import { get } from '@/lib/api'
 import { GetTeamOverviewResponse } from './types'
 
@@ -6,9 +6,11 @@ export async function getTeamOverview(): Promise<GetTeamOverviewResponse> {
   return get<GetTeamOverviewResponse>('/organisations/team/overview')
 }
 
+export const getTeamOverviewQueryOptions = queryOptions({
+  queryKey: ['organisation', 'teamOverview'],
+  queryFn: getTeamOverview,
+})
+
 export function useGetTeamOverview() {
-  return useQuery({
-    queryKey: ['organisation', 'teamOverview'],
-    queryFn: getTeamOverview,
-  })
+  return useQuery(getTeamOverviewQueryOptions)
 }
