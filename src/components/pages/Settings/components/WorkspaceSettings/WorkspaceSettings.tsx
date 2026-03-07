@@ -1,7 +1,14 @@
 import { Upload } from 'lucide-react'
 import { useEffect, useMemo, useState } from 'react'
 import { useGetCurrentOrg } from '@/queries/organisation/get-current-org'
-import { useGetOrgDetails } from '@/queries/organisation/get-org-details'
+import { useGetOrgDetails, getOrgDetailsQueryOptions } from '@/queries/organisation/get-org-details'
+import { getCurrentOrgQueryOptions } from '@/queries/organisation/get-current-org'
+import { useUpdateOrgDetails } from '@/queries/organisation/update-org-details'
+import type { UpdateOrgDetailsRequest } from '@/queries/organisation/update-org-details'
+import { useGetLogoUploadToken, type GetLogoUploadTokenResponse } from '@/queries/media/get-logo-upload-token'
+import { useUploadFilesToS3 } from '@/queries'
+import { useQueryClient } from '@tanstack/react-query'
+import { toast } from 'sonner'
 import {
   Card,
   CardHeader,
@@ -45,9 +52,15 @@ export function WorkspaceSettings() {
   const role = currentOrgData?.currentOrg?.teamMember.role
   const isOwner = role === 'owner'
 
+  const queryClient = useQueryClient()
+  const { mutate: getLogoToken } = useGetLogoUploadToken()
+  const { mutateAsync: uploadFiles, isPending: isUploading } = useUploadFilesToS3()
+  const { mutate: updateOrgDetails, isPending: isUpdating } = useUpdateOrgDetails()
+
   const [name, setName] = useState('')
   const [timezone, setTimezone] = useState('')
   const [logoFile, setLogoFile] = useState<File | null>(null)
+  const [logoToken, setLogoToken] = useState<GetLogoUploadTokenResponse | null>(null)
 
   useEffect(() => {
     if (orgDetails) {
@@ -58,9 +71,32 @@ export function WorkspaceSettings() {
 
   const timezoneOptions = useMemo(() => getTimezoneOptions(), [])
 
+  const isSaving = isUploading || isUpdating
   const hasNameChanged = name !== (orgDetails?.name ?? '')
   const hasTimezoneChanged = timezone !== (orgDetails?.timezone ?? '')
   const hasChanges = hasNameChanged || hasTimezoneChanged || logoFile !== null
+
+  const handleSave = async () => {
+    const payload: UpdateOrgDetailsRequest = {}
+
+    if (hasNameChanged) payload.name = name
+    if (hasTimezoneChanged) payload.timezone = timezone
+
+    if (logoFile && logoToken) {
+      const { results } = await uploadFiles({ files: [logoFile], tokens: [logoToken] })
+      payload.logo = results[0].urlPath
+    }
+
+    updateOrgDetails(payload, {
+      onSuccess: () => {
+        setLogoFile(null)
+        setLogoToken(null)
+        queryClient.invalidateQueries({ queryKey: getOrgDetailsQueryOptions.queryKey })
+        queryClient.invalidateQueries({ queryKey: getCurrentOrgQueryOptions.queryKey })
+        toast.success('Workspace details updated')
+      },
+    })
+  }
 
   return (
     <div>
@@ -103,7 +139,20 @@ export function WorkspaceSettings() {
               maxFiles={1}
               accept={{ 'image/*': ['.png', '.jpg', '.jpeg', '.webp'] }}
               disabled={!isOwner}
-              onFilesChange={(files) => setLogoFile(files[0] ?? null)}
+              onFilesChange={(files) => {
+                const file = files[0] ?? null
+                setLogoFile(file)
+
+                if (!file) {
+                  setLogoToken(null)
+                  return
+                }
+
+                getLogoToken(
+                  { mimetype: file.type },
+                  { onSuccess: (token) => setLogoToken(token) }
+                )
+              }}
             >
               {orgDetails?.logo ? (
                 <div className="-m-8 aspect-video group">
@@ -137,10 +186,10 @@ export function WorkspaceSettings() {
         </div>
         <CardFooter className="justify-end">
           <Button
-            disabled={!isOwner || !hasChanges}
-            onClick={() => console.log('hello')}
+            disabled={!isOwner || !hasChanges || isSaving}
+            onClick={handleSave}
           >
-            Save Changes
+            {isSaving ? 'Saving...' : 'Save Changes'}
           </Button>
         </CardFooter>
       </Card>
