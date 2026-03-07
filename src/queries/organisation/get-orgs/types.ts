@@ -1,4 +1,8 @@
-export type UserOrganisation = {
+export type GetOrgsRequest = {
+  // No request parameters
+}
+
+export type GetOrgsResponse = {
   orgId: string
   name: string
   timezone: string
@@ -6,10 +10,4 @@ export type UserOrganisation = {
   logo: string | null
   role: 'owner' | 'admin' | 'member' | 'invitee'
   memberCount: number
-}
-
-export type GetOrgsRequest = {
-  // No request parameters
-}
-
-export type GetOrgsResponse = UserOrganisation[]
+}[]

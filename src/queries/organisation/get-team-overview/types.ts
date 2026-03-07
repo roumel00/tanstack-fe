@@ -15,6 +15,10 @@ export type RoleCounts = {
   invitees: number
 }
 
+export type GetTeamOverviewRequest = {
+  // No request parameters
+}
+
 export type GetTeamOverviewResponse = {
   owner: TeamOverviewMember
   counts: RoleCounts

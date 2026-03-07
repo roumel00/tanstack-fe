@@ -1,4 +1,4 @@
-import { TeamMember } from '../../../lib/models'
+import { TeamMember } from '@/lib/models'
 
 export type InviteRequest = {
   email: string
