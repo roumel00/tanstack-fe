@@ -1,15 +1,22 @@
 import { useGetCurrentOrg } from '@/queries'
 import { useSession } from '@/lib/auth-client'
+import { Skeleton } from '@/components/ui/skeleton'
 
 export function Dashboard() {
-  // Get auth data from Better Auth session (identity data)
   const { data: session } = useSession()
-  
-  // Get current organisation from query
   const { data: currentOrg, isLoading } = useGetCurrentOrg()
 
   if (isLoading) {
-    return <div>Loading...</div>
+    return (
+      <div className="p-8">
+        <Skeleton className="h-9 w-48 mb-4" />
+        <div className="space-y-2">
+          <Skeleton className="h-5 w-64" />
+          <Skeleton className="h-5 w-48" />
+          <Skeleton className="h-5 w-56" />
+        </div>
+      </div>
+    )
   }
 
   const user = session?.user as { firstName?: string; lastName?: string; email: string } | undefined

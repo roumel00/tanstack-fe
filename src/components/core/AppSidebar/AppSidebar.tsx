@@ -2,6 +2,7 @@ import { Link, useLocation } from '@tanstack/react-router'
 import { Gauge, Settings } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { useGetCurrentOrg } from '@/queries'
+import { Skeleton } from '@/components/ui/skeleton'
 
 const navigation = [
   {
@@ -18,7 +19,7 @@ const navigation = [
 
 export function AppSidebar() {
   const location = useLocation()
-  const { data: currentOrg } = useGetCurrentOrg()
+  const { data: currentOrg, isLoading } = useGetCurrentOrg()
 
   return (
     <div className="flex h-screen w-64 flex-col border-r border-neutral-100 dark:border-neutral-800 bg-white dark:bg-neutral-900">
@@ -62,7 +63,12 @@ export function AppSidebar() {
         </Link>
       </div>
 
-      {currentOrg?.currentOrg && (
+      {isLoading ? (
+        <div className="border-t border-neutral-100 dark:border-neutral-800 p-4">
+          <Skeleton className="h-3 w-28 mb-2" />
+          <Skeleton className="h-4 w-36" />
+        </div>
+      ) : currentOrg?.currentOrg ? (
         <div className="border-t border-neutral-100 dark:border-neutral-800 p-4">
           <div className="text-xs font-medium text-neutral-500 dark:text-neutral-400 mb-1">
             Current Organisation
@@ -71,7 +77,7 @@ export function AppSidebar() {
             {currentOrg.currentOrg.organisation.name}
           </div>
         </div>
-      )}
+      ) : null}
     </div>
   )
 }

@@ -26,6 +26,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { Skeleton } from "@/components/ui/skeleton"
 import { TeamMemberDto } from "@/queries/organisation/get-team-members"
 import { useGetTeamMembers } from "@/queries/organisation/get-team-members"
 import { getInitials } from "@/lib/utils/organisation"
@@ -199,7 +200,7 @@ export function TeamDataTable({ currentRole }: TeamDataTableProps) {
   const sortBy = sorting[0]?.id
   const sortOrder = sorting[0] ? (sorting[0].desc ? 'desc' : 'asc') : undefined
 
-  const { data } = useGetTeamMembers({
+  const { data, isLoading } = useGetTeamMembers({
     page,
     search: debouncedSearch || undefined,
     sortBy,
@@ -284,7 +285,30 @@ export function TeamDataTable({ currentRole }: TeamDataTableProps) {
             ))}
           </TableHeader>
           <TableBody>
-            {table.getRowModel().rows?.length ? (
+            {isLoading ? (
+              Array.from({ length: 2 }).map((_, i) => (
+                <TableRow key={i}>
+                  <TableCell className="py-3 first:pl-4">
+                    <div className="flex items-center gap-2">
+                      <Skeleton className="h-8 w-8 rounded-full" />
+                      <Skeleton className="h-4 w-28" />
+                    </div>
+                  </TableCell>
+                  <TableCell className="py-3">
+                    <Skeleton className="h-4 w-40" />
+                  </TableCell>
+                  <TableCell className="py-3">
+                    <Skeleton className="h-5 w-20 rounded-full" />
+                  </TableCell>
+                  <TableCell className="py-3">
+                    <Skeleton className="h-4 w-24" />
+                  </TableCell>
+                  <TableCell className="py-3" style={{ width: 48 }}>
+                    <Skeleton className="h-8 w-8" />
+                  </TableCell>
+                </TableRow>
+              ))
+            ) : table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
                 <TableRow key={row.id}>
                   {row.getVisibleCells().map((cell) => {

@@ -1,5 +1,6 @@
 import { Card, CardContent } from '@/components/ui/card'
 import { Avatar, AvatarFallback, AvatarGroup, AvatarGroupCount } from '@/components/ui/avatar'
+import { Skeleton } from '@/components/ui/skeleton'
 import { useGetCurrentOrg } from '@/queries/organisation/get-current-org'
 import { useGetTeamOverview } from '@/queries/organisation/get-team-overview'
 import { TeamDataTable } from './components'
@@ -25,7 +26,7 @@ function MemberAvatars({ members, total }: { members: { name: string | null; ema
 
 export function TeamSettings() {
   const { data: currentOrgData } = useGetCurrentOrg()
-  const { data: overview } = useGetTeamOverview()
+  const { data: overview, isLoading } = useGetTeamOverview()
 
   const currentRole = currentOrgData?.currentOrg?.teamMember.role
   const owner = overview?.owner
@@ -35,41 +36,57 @@ export function TeamSettings() {
 
   return (
     <div className="space-y-6">
-      <div className="grid grid-cols-3 gap-6">
-        <Card>
-          <CardContent className="flex items-center justify-between">
-            <div>
-              <p className="text-sm text-muted-foreground">Owner</p>
-              <p className="text-lg font-semibold">{owner?.name ?? '—'}</p>
-            </div>
-            {owner && (
-              <Avatar size="lg">
-                <AvatarFallback>{getInitials(owner.name ?? '')}</AvatarFallback>
-              </Avatar>
-            )}
-          </CardContent>
-        </Card>
+      {isLoading ? (
+        <div className="grid grid-cols-3 gap-6">
+          {Array.from({ length: 3 }).map((_, i) => (
+            <Card key={i}>
+              <CardContent className="flex items-center justify-between">
+                <div className="space-y-2">
+                  <Skeleton className="h-4 w-16" />
+                  <Skeleton className="h-6 w-24" />
+                </div>
+                <Skeleton className="h-10 w-10 rounded-full" />
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      ) : (
+        <div className="grid grid-cols-3 gap-6">
+          <Card>
+            <CardContent className="flex items-center justify-between">
+              <div>
+                <p className="text-sm text-muted-foreground">Owner</p>
+                <p className="text-lg font-semibold">{owner?.name ?? '—'}</p>
+              </div>
+              {owner && (
+                <Avatar size="lg">
+                  <AvatarFallback>{getInitials(owner.name ?? '')}</AvatarFallback>
+                </Avatar>
+              )}
+            </CardContent>
+          </Card>
 
-        <Card className="justify-center">
-          <CardContent className="flex items-center justify-between">
-            <div className="flex items-baseline gap-2">
-              <p className="text-4xl font-semibold pr-1">{counts.admins}</p>
-              <p className="text-sm text-muted-foreground">Admin{counts.admins !== 1 ? 's' : ''}</p>
-            </div>
-            <MemberAvatars members={recentAdmins} total={counts.admins} />
-          </CardContent>
-        </Card>
+          <Card className="justify-center">
+            <CardContent className="flex items-center justify-between">
+              <div className="flex items-baseline gap-2">
+                <p className="text-4xl font-semibold pr-1">{counts.admins}</p>
+                <p className="text-sm text-muted-foreground">Admin{counts.admins !== 1 ? 's' : ''}</p>
+              </div>
+              <MemberAvatars members={recentAdmins} total={counts.admins} />
+            </CardContent>
+          </Card>
 
-        <Card className="justify-center">
-          <CardContent className="flex items-center justify-between">
-            <div className="flex items-baseline gap-2">
-              <p className="text-4xl font-semibold pr-1">{counts.members}</p>
-              <p className="text-sm text-muted-foreground">Member{counts.members !== 1 ? 's' : ''}</p>
-            </div>
-            <MemberAvatars members={recentMembers} total={counts.members} />
-          </CardContent>
-        </Card>
-      </div>
+          <Card className="justify-center">
+            <CardContent className="flex items-center justify-between">
+              <div className="flex items-baseline gap-2">
+                <p className="text-4xl font-semibold pr-1">{counts.members}</p>
+                <p className="text-sm text-muted-foreground">Member{counts.members !== 1 ? 's' : ''}</p>
+              </div>
+              <MemberAvatars members={recentMembers} total={counts.members} />
+            </CardContent>
+          </Card>
+        </div>
+      )}
 
       <TeamDataTable currentRole={currentRole} />
     </div>

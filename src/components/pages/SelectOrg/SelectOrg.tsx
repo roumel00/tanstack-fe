@@ -3,6 +3,7 @@ import { useNavigate, Link } from '@tanstack/react-router'
 import { Building2, Search } from 'lucide-react'
 import { useGetOrgs, useSwitchOrg } from '@/queries'
 import { Input } from '@/components/ui/input'
+import { Skeleton } from '@/components/ui/skeleton'
 import { AppHeader } from '@/components/core'
 import { OrgCard } from './components'
 
@@ -74,8 +75,8 @@ export function SelectOrg() {
                 >
                   <div className="absolute inset-0 bg-gradient-to-t from-muted-foreground/15 to-transparent" />
                   <div className="absolute bottom-0 left-0 right-0 p-4">
-                    <div className="h-5 w-32 animate-pulse rounded bg-muted-foreground/15" />
-                    <div className="mt-2 h-4 w-24 animate-pulse rounded bg-muted-foreground/10" />
+                    <Skeleton className="h-5 w-32" />
+                    <Skeleton className="mt-2 h-4 w-24" />
                   </div>
                 </div>
               ))
