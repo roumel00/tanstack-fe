@@ -14,6 +14,7 @@ import { Route as AuthRouteImport } from './routes/_auth'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ProtectedVerifyEmailRouteImport } from './routes/_protected/verify-email'
 import { Route as ProtectedSelectOrgRouteImport } from './routes/_protected/select-org'
+import { Route as ProtectedCreateOrgRouteImport } from './routes/_protected/create-org'
 import { Route as ProtectedAppRouteImport } from './routes/_protected/_app'
 import { Route as AuthSignupRouteImport } from './routes/_auth/signup'
 import { Route as AuthLoginRouteImport } from './routes/_auth/login'
@@ -43,6 +44,11 @@ const ProtectedVerifyEmailRoute = ProtectedVerifyEmailRouteImport.update({
 const ProtectedSelectOrgRoute = ProtectedSelectOrgRouteImport.update({
   id: '/select-org',
   path: '/select-org',
+  getParentRoute: () => ProtectedRoute,
+} as any)
+const ProtectedCreateOrgRoute = ProtectedCreateOrgRouteImport.update({
+  id: '/create-org',
+  path: '/create-org',
   getParentRoute: () => ProtectedRoute,
 } as any)
 const ProtectedAppRoute = ProtectedAppRouteImport.update({
@@ -85,6 +91,7 @@ export interface FileRoutesByFullPath {
   '/forgot-password': typeof AuthForgotPasswordRoute
   '/login': typeof AuthLoginRoute
   '/signup': typeof AuthSignupRoute
+  '/create-org': typeof ProtectedCreateOrgRoute
   '/select-org': typeof ProtectedSelectOrgRoute
   '/verify-email': typeof ProtectedVerifyEmailRoute
   '/components': typeof ProtectedAppComponentsRoute
@@ -96,6 +103,7 @@ export interface FileRoutesByTo {
   '/forgot-password': typeof AuthForgotPasswordRoute
   '/login': typeof AuthLoginRoute
   '/signup': typeof AuthSignupRoute
+  '/create-org': typeof ProtectedCreateOrgRoute
   '/select-org': typeof ProtectedSelectOrgRoute
   '/verify-email': typeof ProtectedVerifyEmailRoute
   '/components': typeof ProtectedAppComponentsRoute
@@ -111,6 +119,7 @@ export interface FileRoutesById {
   '/_auth/login': typeof AuthLoginRoute
   '/_auth/signup': typeof AuthSignupRoute
   '/_protected/_app': typeof ProtectedAppRouteWithChildren
+  '/_protected/create-org': typeof ProtectedCreateOrgRoute
   '/_protected/select-org': typeof ProtectedSelectOrgRoute
   '/_protected/verify-email': typeof ProtectedVerifyEmailRoute
   '/_protected/_app/components': typeof ProtectedAppComponentsRoute
@@ -124,6 +133,7 @@ export interface FileRouteTypes {
     | '/forgot-password'
     | '/login'
     | '/signup'
+    | '/create-org'
     | '/select-org'
     | '/verify-email'
     | '/components'
@@ -135,6 +145,7 @@ export interface FileRouteTypes {
     | '/forgot-password'
     | '/login'
     | '/signup'
+    | '/create-org'
     | '/select-org'
     | '/verify-email'
     | '/components'
@@ -149,6 +160,7 @@ export interface FileRouteTypes {
     | '/_auth/login'
     | '/_auth/signup'
     | '/_protected/_app'
+    | '/_protected/create-org'
     | '/_protected/select-org'
     | '/_protected/verify-email'
     | '/_protected/_app/components'
@@ -197,6 +209,13 @@ declare module '@tanstack/react-router' {
       path: '/select-org'
       fullPath: '/select-org'
       preLoaderRoute: typeof ProtectedSelectOrgRouteImport
+      parentRoute: typeof ProtectedRoute
+    }
+    '/_protected/create-org': {
+      id: '/_protected/create-org'
+      path: '/create-org'
+      fullPath: '/create-org'
+      preLoaderRoute: typeof ProtectedCreateOrgRouteImport
       parentRoute: typeof ProtectedRoute
     }
     '/_protected/_app': {
@@ -283,12 +302,14 @@ const ProtectedAppRouteWithChildren = ProtectedAppRoute._addFileChildren(
 
 interface ProtectedRouteChildren {
   ProtectedAppRoute: typeof ProtectedAppRouteWithChildren
+  ProtectedCreateOrgRoute: typeof ProtectedCreateOrgRoute
   ProtectedSelectOrgRoute: typeof ProtectedSelectOrgRoute
   ProtectedVerifyEmailRoute: typeof ProtectedVerifyEmailRoute
 }
 
 const ProtectedRouteChildren: ProtectedRouteChildren = {
   ProtectedAppRoute: ProtectedAppRouteWithChildren,
+  ProtectedCreateOrgRoute: ProtectedCreateOrgRoute,
   ProtectedSelectOrgRoute: ProtectedSelectOrgRoute,
   ProtectedVerifyEmailRoute: ProtectedVerifyEmailRoute,
 }

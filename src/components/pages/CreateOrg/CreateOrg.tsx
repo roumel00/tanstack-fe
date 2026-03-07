@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
+import { useNavigate } from '@tanstack/react-router'
 import { Building2 } from 'lucide-react'
 import { useCreateOrg, useUploadFilesToS3, useGetLogoUploadToken } from '@/queries'
 import type { GetLogoUploadTokenResponse } from '@/queries'
@@ -16,16 +17,14 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { AppHeader } from '@/components/core'
+import { useSwitchOrg } from '@/queries'
 
 type CreateOrgFormData = {
   name: string
 }
 
-type CreateOrgProps = {
-  onOrgCreated: (orgId: string) => void
-}
-
-export function CreateOrg({ onOrgCreated }: CreateOrgProps) {
+export function CreateOrg() {
+  const navigate = useNavigate()
   const [browserTimezone, setBrowserTimezone] = useState<string>('UTC')
   const [logoFile, setLogoFile] = useState<File | null>(null)
   const [logoToken, setLogoToken] = useState<GetLogoUploadTokenResponse | null>(null)
@@ -36,6 +35,7 @@ export function CreateOrg({ onOrgCreated }: CreateOrgProps) {
 
   const { mutate: getLogoToken } = useGetLogoUploadToken()
   const { mutateAsync: uploadFiles, isPending: isUploading } = useUploadFilesToS3()
+  const { mutate: switchOrg } = useSwitchOrg()
 
   const form = useForm<CreateOrgFormData>({
     defaultValues: {
@@ -51,7 +51,6 @@ export function CreateOrg({ onOrgCreated }: CreateOrgProps) {
       timezone: browserTimezone,
     }
 
-    // Upload logo if selected
     if (logoFile && logoToken) {
       const { results } = await uploadFiles({ files: [logoFile], tokens: [logoToken] })
       payload.logo = results[0].urlPath
@@ -59,7 +58,10 @@ export function CreateOrg({ onOrgCreated }: CreateOrgProps) {
 
     createOrg(payload, {
       onSuccess: (createdOrg) => {
-        onOrgCreated(createdOrg._id)
+        switchOrg(
+          { orgId: createdOrg._id },
+          { onSuccess: () => navigate({ to: '/dashboard' }) }
+        )
       },
     })
   }

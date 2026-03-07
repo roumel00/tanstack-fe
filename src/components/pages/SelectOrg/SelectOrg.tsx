@@ -1,20 +1,18 @@
 import { useMemo, useState } from 'react'
-import { useNavigate } from '@tanstack/react-router'
+import { useNavigate, Link } from '@tanstack/react-router'
 import { Building2, Search } from 'lucide-react'
 import { useGetOrgs, useSwitchOrg } from '@/queries'
 import { Input } from '@/components/ui/input'
 import { AppHeader } from '@/components/core'
-import { CreateOrg, OrgCard } from './components'
+import { OrgCard } from './components'
 
 
 export function SelectOrg() {
   const { data: organisations, isLoading, error } = useGetOrgs()
   const { mutate: switchOrg, isPending } = useSwitchOrg()
   const navigate = useNavigate()
-  const [showCreateOrg, setShowCreateOrg] = useState(false)
   const [search, setSearch] = useState('')
 
-  // Check if user has any organizations they created (role === 'owner')
   const hasOwnedOrgs = organisations?.some((org) => org.role === 'owner') ?? false
 
   const filteredOrgs = useMemo(() => {
@@ -41,10 +39,6 @@ export function SelectOrg() {
         <div className="text-destructive">Error loading organisations</div>
       </div>
     )
-  }
-
-  if (!isLoading && (!organisations || organisations.length === 0 || showCreateOrg)) {
-    return <CreateOrg onOrgCreated={handleSwitchOrg} />
   }
 
   return (
@@ -99,13 +93,12 @@ export function SelectOrg() {
         </div>
 
         {!hasOwnedOrgs && !isLoading && (
-          <button
-            type="button"
-            onClick={() => setShowCreateOrg(true)}
+          <Link
+            to="/create-org"
             className="mt-4 flex w-full items-center justify-center gap-2 rounded-xl border border-dashed border-muted-foreground/30 py-3 text-sm text-muted-foreground transition-colors hover:border-muted-foreground/50 hover:text-foreground"
           >
             + Create new organisation
-          </button>
+          </Link>
         )}
       </div>
     </div>
