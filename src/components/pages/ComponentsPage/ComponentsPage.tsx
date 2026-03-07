@@ -8,6 +8,7 @@ import {
   ComboboxShowcase,
   DropzoneShowcase,
   TableShowcase,
+  SideDrawerShowcase,
 } from './components'
 
 export function ComponentsPage() {
@@ -48,6 +49,10 @@ export function ComponentsPage() {
       <div>
         <h2 className="text-lg font-semibold mb-4">Table with Sticky Columns</h2>
         <TableShowcase />
+      </div>
+      <div>
+        <h2 className="text-lg font-semibold mb-4">Side Drawer</h2>
+        <SideDrawerShowcase />
       </div>
     </div>
   )
