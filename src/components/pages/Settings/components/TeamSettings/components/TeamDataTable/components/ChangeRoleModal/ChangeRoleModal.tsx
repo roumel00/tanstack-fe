@@ -75,7 +75,7 @@ export function ChangeRoleModal({ member, open, onOpenChange }: ChangeRoleModalP
                   'flex items-center gap-3 rounded-md border p-3 text-left transition-colors',
                   isSelected && 'border-primary bg-primary/5',
                   isCurrentRole && 'opacity-50 cursor-not-allowed',
-                  !isSelected && !isCurrentRole && 'hover:bg-muted'
+                  !isSelected && !isCurrentRole && 'cursor-pointer hover:bg-muted'
                 )}
               >
                 <Icon className="h-4 w-4 shrink-0" />
