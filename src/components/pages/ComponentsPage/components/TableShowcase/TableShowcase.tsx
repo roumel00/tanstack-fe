@@ -63,6 +63,7 @@ const columns: ColumnDef<Product>[] = [
   {
     id: "select",
     meta: { sticky: "left" },
+    size: 48,
     header: ({ table }) => (
       <Checkbox
         checked={
