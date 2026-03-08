@@ -1,6 +1,7 @@
 import { Card, CardContent } from '@/components/ui/card'
 import { Avatar, AvatarFallback, AvatarImage, AvatarGroup, AvatarGroupCount } from '@/components/ui/avatar'
 import { Skeleton } from '@/components/ui/skeleton'
+import { getStorageUrl } from '@/lib/utils'
 import { useGetCurrentOrg } from '@/queries/organisation/get-current-org'
 import { useGetTeamOverview } from '@/queries/organisation/get-team-overview'
 import { TeamDataTable } from './components'
@@ -15,7 +16,7 @@ function MemberAvatars({ members, total }: { members: { name: string | null; ema
         if (!member.name) return null
         return (
           <Avatar size="lg" key={member.email}>
-            <AvatarImage src={member.image || undefined} alt={member.name} />
+            <AvatarImage src={member.image ? (member.image.startsWith('http') ? member.image : getStorageUrl(member.image)) : undefined} alt={member.name} />
             <AvatarFallback>{getInitials(member.name)}</AvatarFallback>
           </Avatar>
         )
@@ -61,7 +62,7 @@ export function TeamSettings() {
               </div>
               {owner && (
                 <Avatar size="lg">
-                  <AvatarImage src={owner.image || undefined} alt={owner.name ?? 'Owner'} />
+                  <AvatarImage src={owner.image ? (owner.image.startsWith('http') ? owner.image : getStorageUrl(owner.image)) : undefined} alt={owner.name ?? 'Owner'} />
                   <AvatarFallback>{getInitials(owner.name ?? '')}</AvatarFallback>
                 </Avatar>
               )}

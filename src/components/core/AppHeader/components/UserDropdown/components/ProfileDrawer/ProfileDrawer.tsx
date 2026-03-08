@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { getStorageUrl } from '@/lib/utils'
 import { authClient } from '@/lib/auth-client'
 import { useGetImageUploadTokens } from '@/queries/media/get-image-upload-tokens'
 import { useUploadFilesToS3 } from '@/queries/media/upload-file-to-s3'
@@ -129,7 +130,7 @@ export function ProfileDrawer({ user, open, onOpenChange }: ProfileDrawerProps) 
               {user.image ? (
                 <div className="-m-8 aspect-video group">
                   <img
-                    src={user.image}
+                    src={user.image.startsWith('http') ? user.image : getStorageUrl(user.image)}
                     alt={user.name ?? 'Profile'}
                     className="w-full h-full object-cover"
                   />

@@ -1,4 +1,5 @@
 import { Users } from 'lucide-react'
+import { getStorageUrl } from '@/lib/utils'
 
 type OrgCardProps = {
   name: string
@@ -30,7 +31,7 @@ export function OrgCard({
     >
       {logo ? (
         <img
-          src={logo}
+          src={getStorageUrl(logo)}
           alt={name}
           className="absolute inset-0 h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
         />

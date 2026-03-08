@@ -1,5 +1,6 @@
 import { Upload } from 'lucide-react'
 import { useEffect, useMemo, useState } from 'react'
+import { getStorageUrl } from '@/lib/utils'
 import { useGetCurrentOrg } from '@/queries/organisation/get-current-org'
 import { useGetOrgDetails, getOrgDetailsQueryOptions } from '@/queries/organisation/get-org-details'
 import { getCurrentOrgQueryOptions } from '@/queries/organisation/get-current-org'
@@ -157,7 +158,7 @@ export function WorkspaceSettings() {
               {orgDetails?.logo ? (
                 <div className="-m-8 aspect-video group">
                   <img
-                    src={orgDetails.logo}
+                    src={getStorageUrl(orgDetails.logo)}
                     alt={orgDetails.name}
                     className="w-full h-full object-cover"
                   />

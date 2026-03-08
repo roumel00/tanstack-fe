@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { getStorageUrl } from '@/lib/utils'
 import { useAuth } from '@/context/auth-context'
 import { useClearOrg } from '@/queries/organisation'
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar'
@@ -43,7 +44,7 @@ export function UserDropdown({ user }: UserDropdownProps) {
         <DropdownMenuTrigger asChild>
           <div className="group flex items-center gap-3 px-2 py-1 -mx-2 -my-1 h-auto hover:bg-transparent dark:hover:bg-transparent cursor-pointer focus-visible:ring-0">
             <Avatar size="lg">
-              <AvatarImage src={user.image || undefined} alt={user.name || 'User'} />
+              <AvatarImage src={user.image ? (user.image.startsWith('http') ? user.image : getStorageUrl(user.image)) : undefined} alt={user.name || 'User'} />
               <AvatarFallback>{getInitials(user.name ?? user.email)}</AvatarFallback>
             </Avatar>
             <div className="hidden sm:block text-base text-left">

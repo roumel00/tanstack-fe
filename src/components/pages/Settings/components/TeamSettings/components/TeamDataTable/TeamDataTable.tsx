@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react"
-import { cn } from "@/lib/utils"
+import { cn, getStorageUrl } from "@/lib/utils"
 import {
   ColumnDef,
   SortingState,
@@ -62,7 +62,7 @@ function getColumns(
         return (
           <div className="flex items-center gap-2">
             <Avatar>
-              {image && <AvatarImage src={image} alt={name ?? email} />}
+              {image && <AvatarImage src={image.startsWith('http') ? image : getStorageUrl(image)} alt={name ?? email} />}
               <AvatarFallback>{getInitials(name ?? email)}</AvatarFallback>
             </Avatar>
             <span>{name ?? "—"}</span>
