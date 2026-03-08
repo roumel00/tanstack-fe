@@ -140,6 +140,7 @@ export function WorkspaceSettings() {
               maxFiles={1}
               accept={{ 'image/*': ['.png', '.jpg', '.jpeg', '.webp'] }}
               disabled={!isOwner}
+              className={orgDetails?.logo ? 'w-fit' : undefined}
               onFilesChange={(files) => {
                 const file = files[0] ?? null
                 setLogoFile(file)
@@ -156,11 +157,11 @@ export function WorkspaceSettings() {
               }}
             >
               {orgDetails?.logo ? (
-                <div className="-m-8 aspect-video group">
+                <div className="-m-8 h-[200px] group flex items-center justify-center">
                   <img
                     src={getStorageUrl(orgDetails.logo)}
                     alt={orgDetails.name}
-                    className="w-full h-full object-cover"
+                    className="max-w-full max-h-full object-contain"
                   />
                   <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors flex items-center justify-center pointer-events-none">
                     <div className="opacity-0 group-hover:opacity-100 transition-opacity text-white text-sm font-medium">
