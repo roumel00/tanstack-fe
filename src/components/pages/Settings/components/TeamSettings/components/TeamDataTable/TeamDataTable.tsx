@@ -248,7 +248,7 @@ export function TeamDataTable({ currentRole }: TeamDataTableProps) {
           onChange={(event) => handleSearchChange(event.target.value)}
           className="max-w-sm"
         />
-        <Button onClick={() => setInviteOpen(true)}>
+        <Button onClick={() => setInviteOpen(true)} disabled={currentRole === "member"}>
           <Plus className="h-4 w-4" />
           Add member
         </Button>
