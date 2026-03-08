@@ -24,6 +24,7 @@ import { Button } from '@/components/ui/button'
 import { Dropzone } from '@/components/ui/dropzone'
 import { Separator } from '@/components/ui/separator'
 import { Combobox, type ComboboxOption } from '@/components/ui/combobox'
+import { Skeleton } from '@/components/ui/skeleton'
 
 function getTimezoneLabel(tz: string): string {
   try {
@@ -48,10 +49,11 @@ function getTimezoneOptions(): ComboboxOption[] {
 }
 
 export function WorkspaceSettings() {
-  const { data: currentOrgData } = useGetCurrentOrg()
-  const { data: orgDetails } = useGetOrgDetails()
+  const { data: currentOrgData, isLoading: isLoadingCurrentOrg } = useGetCurrentOrg()
+  const { data: orgDetails, isLoading: isLoadingOrgDetails } = useGetOrgDetails()
   const role = currentOrgData?.currentOrg?.teamMember.role
   const isOwner = role === 'owner'
+  const isLoading = isLoadingCurrentOrg || isLoadingOrgDetails
 
   const queryClient = useQueryClient()
   const { mutate: getLogoToken } = useGetLogoUploadToken()
@@ -97,6 +99,47 @@ export function WorkspaceSettings() {
         toast.success('Workspace details updated')
       },
     })
+  }
+
+  if (isLoading) {
+    return (
+      <div>
+        <Card>
+          <CardHeader>
+            <CardTitle>Workspace Details</CardTitle>
+            <CardDescription>
+              Update your workspace name and logo
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+              <Label htmlFor="workspace-name">Workspace Name</Label>
+                <Skeleton className="h-10 w-full" />
+              </div>
+              <div className="space-y-2">
+              <Label htmlFor="workspace-timezone">Timezone</Label>
+                <Skeleton className="h-10 w-full" />
+              </div>
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="workspace-logo">Workspace Logo</Label>
+              <Skeleton className="h-[200px] w-full" />
+            </div>
+          </CardContent>
+          <div className="px-6">
+            <Separator />
+          </div>
+          <CardFooter className="justify-end">
+            <Button
+              disabled={true}
+            >
+              Save Changes
+            </Button>
+          </CardFooter>
+        </Card>
+      </div>
+    )
   }
 
   return (
