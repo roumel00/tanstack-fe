@@ -51,6 +51,7 @@ function getColumns(
       header: ({ column }) => (
         <Button
           variant="ghost"
+          className="-ml-3"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Name
@@ -75,6 +76,7 @@ function getColumns(
       header: ({ column }) => (
         <Button
           variant="ghost"
+          className="-ml-3"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Email
@@ -87,6 +89,7 @@ function getColumns(
       header: ({ column }) => (
         <Button
           variant="ghost"
+          className="-ml-3"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Role
@@ -115,6 +118,7 @@ function getColumns(
       header: ({ column }) => (
         <Button
           variant="ghost"
+          className="-ml-3"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Joined

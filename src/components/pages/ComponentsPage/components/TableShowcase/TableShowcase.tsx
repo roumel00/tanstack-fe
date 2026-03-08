@@ -101,6 +101,7 @@ const columns: ColumnDef<Product>[] = [
     header: ({ column }) => (
       <Button
         variant="ghost"
+        className="-ml-3"
         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
       >
         Price
@@ -117,6 +118,7 @@ const columns: ColumnDef<Product>[] = [
     header: ({ column }) => (
       <Button
         variant="ghost"
+        className="-ml-3"
         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
       >
         Stock
