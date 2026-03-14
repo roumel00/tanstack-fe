@@ -59,7 +59,7 @@ export function AppSidebar() {
   return (
     <>
       <div className={cn(
-        'flex h-screen flex-col border-r border-neutral-100 dark:border-neutral-800 bg-white dark:bg-neutral-900 transition-all duration-200',
+        'flex h-full flex-col rounded-2xl bg-white dark:bg-neutral-900 shadow-md transition-all duration-200',
         collapsed ? 'w-16' : 'w-64'
       )}>
         {/* Header: Logo + Toggle */}
