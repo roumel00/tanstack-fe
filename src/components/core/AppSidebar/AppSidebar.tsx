@@ -204,7 +204,7 @@ export function AppSidebar() {
                   <Bell size={18} />
                 </button>
               </TooltipTrigger>
-              <TooltipContent side="top">View notifications</TooltipContent>
+              <TooltipContent side={collapsed ? 'right' : 'top'}>View notifications</TooltipContent>
             </Tooltip>
           </div>
         </div>
