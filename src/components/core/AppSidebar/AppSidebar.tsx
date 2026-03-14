@@ -130,7 +130,7 @@ export function AppSidebar() {
         <nav className="flex-1 space-y-1 px-3 py-2">
           {navigation.map((item) => {
             const isActive = location.pathname === item.href
-            return (
+            const link = (
               <Link
                 key={item.name}
                 to={item.href}
@@ -145,6 +145,15 @@ export function AppSidebar() {
                 {item.icon && <item.icon size={16} className={cn(!collapsed && 'mr-2')} />}
                 {!collapsed && item.name}
               </Link>
+            )
+
+            if (!collapsed) return link
+
+            return (
+              <Tooltip key={item.name}>
+                <TooltipTrigger asChild>{link}</TooltipTrigger>
+                <TooltipContent side="right">{item.name}</TooltipContent>
+              </Tooltip>
             )
           })}
         </nav>
