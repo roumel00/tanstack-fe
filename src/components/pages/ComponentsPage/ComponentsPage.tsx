@@ -9,6 +9,7 @@ import {
   DropzoneShowcase,
   TableShowcase,
   SideDrawerShowcase,
+  FullScreenOverlayShowcase,
 } from './components'
 
 export function ComponentsPage() {
@@ -53,6 +54,10 @@ export function ComponentsPage() {
       <div>
         <h2 className="text-lg font-semibold mb-4">Side Drawer</h2>
         <SideDrawerShowcase />
+      </div>
+      <div>
+        <h2 className="text-lg font-semibold mb-4">Full Screen Overlay</h2>
+        <FullScreenOverlayShowcase />
       </div>
     </div>
   )
