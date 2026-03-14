@@ -1,12 +1,12 @@
 import axios from 'axios'
 import { useMutation } from '@tanstack/react-query'
 import { ImageUploadToken } from '../get-image-upload-tokens'
-import { UploadFilesToS3Result } from './types'
+import { UploadFilesToS3Response } from './types'
 
 export async function uploadFilesToS3(
   files: File[],
   tokens: ImageUploadToken[]
-): Promise<UploadFilesToS3Result> {
+  ): Promise<UploadFilesToS3Response> {
   if (tokens.length !== files.length) {
     throw new Error(`Token count (${tokens.length}) does not match file count (${files.length})`)
   }

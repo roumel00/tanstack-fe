@@ -9,6 +9,7 @@ export async function getOrgs(): Promise<GetOrgsResponse> {
 export const getOrgsQueryOptions = queryOptions({
   queryKey: ['organisation', 'orgs'],
   queryFn: getOrgs,
+  staleTime: 30 * 1000,
 })
 
 export function useGetOrgs() {

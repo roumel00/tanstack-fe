@@ -1,8 +1,8 @@
-export type UploadFileToS3Result = {
+export type UploadFileToS3Response = {
   urlPath: string
   filename: string
 }
 
-export type UploadFilesToS3Result = {
-  results: UploadFileToS3Result[]
+export type UploadFilesToS3Response = {
+  results: UploadFileToS3Response[]
 }

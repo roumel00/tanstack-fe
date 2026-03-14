@@ -3,7 +3,7 @@ import { AppSidebar } from '@/components/core'
 
 export const Route = createFileRoute('/_protected/_app')({
   beforeLoad: async ({ context }) => {
-    const { user } = context.auth || {};
+    const { user } = context.auth;
 
     if (!user.emailVerified) {
       throw redirect({ to: '/verify-email' })
