@@ -198,8 +198,8 @@ export function TableShowcase() {
                     key={header.id}
                     data-sticky={sticky || undefined}
                     className={cn(
-                      sticky === "left" && "sticky left-0 z-10 bg-background px-2 !pr-2 text-center",
-                      sticky === "right" && "sticky right-0 z-10 bg-background"
+                      sticky === "left" && "sticky left-0 z-10 bg-card px-2 !pr-2 text-center",
+                      sticky === "right" && "sticky right-0 z-10 bg-card"
                     )}
                     style={size ? { width: size } : undefined}
                   >
@@ -227,8 +227,8 @@ export function TableShowcase() {
                     data-sticky={sticky || undefined}
                     className={cn(
                       "py-3",
-                      sticky === "left" && "sticky left-0 z-10 bg-background px-2 !pr-2 text-center",
-                      sticky === "right" && "sticky right-0 z-10 bg-background"
+                      sticky === "left" && "sticky left-0 z-10 bg-card px-2 !pr-2 text-center",
+                      sticky === "right" && "sticky right-0 z-10 bg-card"
                     )}
                     style={size ? { width: size } : undefined}
                   >
