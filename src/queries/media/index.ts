@@ -1,2 +1,6 @@
 export * from './get-upload-tokens'
 export * from './upload-file-to-s3'
+export * from './initiate-multipart-upload'
+export * from './complete-multipart-upload'
+export * from './abort-multipart-upload'
+export * from './multipart-upload'
