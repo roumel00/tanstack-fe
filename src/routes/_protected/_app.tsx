@@ -16,7 +16,7 @@ export const Route = createFileRoute('/_protected/_app')({
 
 function AppLayout() {
   return (
-    <div className="flex min-h-screen bg-primary/5 p-3 gap-3">
+    <div className="flex min-h-screen p-3 gap-3">
       <div className="sticky top-3 h-[calc(100vh-1.5rem)]">
         <AppSidebar />
       </div>

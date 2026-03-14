@@ -19,7 +19,7 @@ function AuthLayout() {
   return (
     <div className="flex min-h-screen">
       {/* Left: auth form */}
-      <div className="flex w-full items-center justify-center bg-primary/5 p-6 lg:w-1/2">
+      <div className="flex w-full items-center justify-center p-6 lg:w-1/2">
         <Outlet />
       </div>
 

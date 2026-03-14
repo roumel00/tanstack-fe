@@ -66,7 +66,7 @@ export function SelectOrg() {
   }
 
   return (
-    <div className="min-h-screen bg-primary/5 flex justify-center p-6">
+    <div className="min-h-screen flex justify-center p-6">
       <div className="w-full max-w-3xl rounded-2xl bg-white dark:bg-neutral-900 shadow-md p-12 h-fit mt-12">
         <div className="mb-8 flex flex-col items-center text-center">
           <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-muted shadow-md">
