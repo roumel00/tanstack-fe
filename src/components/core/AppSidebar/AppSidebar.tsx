@@ -166,49 +166,51 @@ export function AppSidebar() {
         <div className="mx-3 border-t border-neutral-100 dark:border-neutral-800 p-3">
           <div className={cn('-mx-3 flex items-center', collapsed ? 'flex-col gap-2' : 'gap-2')}>
             {/* User Dropdown */}
-            {user ? (
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <button className="flex items-center gap-2 rounded-md p-1.5 transition-all flex-1 min-w-0 cursor-pointer shadow-md hover:shadow-xl hover:text-accent-foreground">
-                    <Avatar size="sm">
-                      <AvatarImage
-                        src={user.image ? (user.image.startsWith('http') ? user.image : getStorageUrl(user.image)) : undefined}
-                        alt={user.name || 'User'}
-                      />
-                      <AvatarFallback>{getInitials(user.name ?? user.email)}</AvatarFallback>
-                    </Avatar>
-                    {!collapsed && (
-                      <>
-                        <span className="text-sm font-medium truncate">
-                          {user.firstName}
-                        </span>
-                        <ChevronsUpDown size={14} className="ml-auto shrink-0 text-neutral-400" />
-                      </>
-                    )}
-                  </button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="start" side="top">
-                  <DropdownMenuItem
-                    onClick={() => setProfileOpen(true)}
-                    className="cursor-pointer"
-                  >
-                    <UserIcon />
-                    View Profile
-                  </DropdownMenuItem>
-                  <DropdownMenuSeparator className="mx-2" />
-                  <DropdownMenuItem
-                    variant="destructive"
-                    onClick={() => logout()}
-                    className="cursor-pointer"
-                  >
-                    <LogOut className="text-destructive" />
-                    Sign out
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            ) : (
-              <Skeleton className="h-8 w-8 rounded-full" />
-            )}
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <button className="flex items-center gap-2 rounded-md p-1.5 transition-all flex-1 min-w-0 cursor-pointer shadow-md hover:shadow-xl hover:text-accent-foreground">
+                  {user ? (
+                    <>
+                      <Avatar size="sm">
+                        <AvatarImage
+                          src={user.image ? (user.image.startsWith('http') ? user.image : getStorageUrl(user.image)) : undefined}
+                          alt={user.name || 'User'}
+                        />
+                        <AvatarFallback>{getInitials(user.name ?? user.email)}</AvatarFallback>
+                      </Avatar>
+                      {!collapsed && (
+                        <>
+                          <span className="text-sm font-medium truncate">
+                            {user.firstName}
+                          </span>
+                          <ChevronsUpDown size={14} className="ml-auto shrink-0 text-neutral-400" />
+                        </>
+                      )}
+                    </>
+                  ) : (
+                    <Skeleton className="h-4 w-24" />
+                  )}
+                </button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="start" side="top">
+                <DropdownMenuItem
+                  onClick={() => setProfileOpen(true)}
+                  className="cursor-pointer"
+                >
+                  <UserIcon />
+                  View Profile
+                </DropdownMenuItem>
+                <DropdownMenuSeparator className="mx-2" />
+                <DropdownMenuItem
+                  variant="destructive"
+                  onClick={() => logout()}
+                  className="cursor-pointer"
+                >
+                  <LogOut className="text-destructive" />
+                  Sign out
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
 
             {/* Notifications */}
             <NotificationBell
