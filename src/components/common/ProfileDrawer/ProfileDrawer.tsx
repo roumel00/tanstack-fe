@@ -1,9 +1,8 @@
 import { useState } from 'react'
 import { getStorageUrl } from '@/lib/utils'
 import { authClient } from '@/lib/auth-client'
-import { useGetImageUploadTokens } from '@/queries/media/get-image-upload-tokens'
+import { useGetUploadTokens, type UploadToken } from '@/queries/media/get-upload-tokens'
 import { useUploadFilesToS3 } from '@/queries/media/upload-file-to-s3'
-import type { ImageUploadToken } from '@/queries/media/get-image-upload-tokens'
 import { toast } from 'sonner'
 import {
   Sheet,
@@ -37,10 +36,10 @@ export function ProfileDrawer({ user, open, onOpenChange }: ProfileDrawerProps) 
   const displayName = user.name || [user.firstName, user.lastName].filter(Boolean).join(' ') || ''
   const [name, setName] = useState(displayName)
   const [avatarFile, setAvatarFile] = useState<File | null>(null)
-  const [avatarToken, setAvatarToken] = useState<ImageUploadToken | null>(null)
+  const [avatarToken, setAvatarToken] = useState<UploadToken | null>(null)
   const [isSaving, setIsSaving] = useState(false)
 
-  const { mutate: getUploadTokens } = useGetImageUploadTokens()
+  const { mutate: getUploadTokens } = useGetUploadTokens()
   const { mutateAsync: uploadFiles } = useUploadFilesToS3()
 
   const hasNameChanged = name !== displayName

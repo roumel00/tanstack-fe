@@ -6,7 +6,7 @@ import { useGetOrgDetails, getOrgDetailsQueryOptions } from '@/queries/organisat
 import { getCurrentOrgQueryOptions } from '@/queries/organisation/get-current-org'
 import { useUpdateOrgDetails } from '@/queries/organisation/update-org-details'
 import type { UpdateOrgDetailsRequest } from '@/queries/organisation/update-org-details'
-import { useGetLogoUploadToken, type GetLogoUploadTokenResponse } from '@/queries/media/get-logo-upload-token'
+import { useGetUploadTokens, type UploadToken } from '@/queries/media/get-upload-tokens'
 import { useUploadFilesToS3 } from '@/queries'
 import { useQueryClient } from '@tanstack/react-query'
 import { toast } from 'sonner'
@@ -56,14 +56,14 @@ export function WorkspaceSettings() {
   const isLoading = isLoadingCurrentOrg || isLoadingOrgDetails
 
   const queryClient = useQueryClient()
-  const { mutate: getLogoToken } = useGetLogoUploadToken()
+  const { mutate: getUploadTokens } = useGetUploadTokens()
   const { mutateAsync: uploadFiles, isPending: isUploading } = useUploadFilesToS3()
   const { mutate: updateOrgDetails, isPending: isUpdating } = useUpdateOrgDetails()
 
   const [name, setName] = useState('')
   const [timezone, setTimezone] = useState('')
   const [logoFile, setLogoFile] = useState<File | null>(null)
-  const [logoToken, setLogoToken] = useState<GetLogoUploadTokenResponse | null>(null)
+  const [logoToken, setLogoToken] = useState<UploadToken | null>(null)
 
   useEffect(() => {
     if (orgDetails) {
@@ -187,9 +187,9 @@ export function WorkspaceSettings() {
                   return
                 }
 
-                getLogoToken(
-                  { mimetype: file.type },
-                  { onSuccess: (token) => setLogoToken(token) }
+                getUploadTokens(
+                  { files: [{ mimetype: file.type }], fileType: 'logo' },
+                  { onSuccess: (data) => setLogoToken(data.tokens[0]) }
                 )
               }}
             >

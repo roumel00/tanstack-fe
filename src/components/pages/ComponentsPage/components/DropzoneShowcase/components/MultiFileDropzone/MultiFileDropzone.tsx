@@ -2,15 +2,15 @@ import * as React from 'react'
 import { Dropzone } from '@/components/ui/dropzone'
 import { Button } from '@/components/ui/button'
 import { useUploadFilesToS3 } from '@/queries/media/upload-file-to-s3'
-import { useGetImageUploadTokens, ImageUploadToken } from '@/queries/media/get-image-upload-tokens'
+import { useGetUploadTokens, type UploadToken } from '@/queries/media/get-upload-tokens'
 
 export function MultiFileDropzone() {
   const [selectedFiles, setSelectedFiles] = React.useState<File[]>([])
-  const [tokensData, setTokensData] = React.useState<ImageUploadToken[] | null>(null)
+  const [tokensData, setTokensData] = React.useState<UploadToken[] | null>(null)
   const [dropzoneKey, setDropzoneKey] = React.useState(0)
   const prevFilesRef = React.useRef<File[]>([])
   const { mutate: uploadFiles, isPending: isUploading } = useUploadFilesToS3()
-  const { mutate: getTokens } = useGetImageUploadTokens()
+  const { mutate: getTokens } = useGetUploadTokens()
 
   const handleFilesChange = (files: File[]) => {
     const prevFiles = prevFilesRef.current
@@ -44,7 +44,7 @@ export function MultiFileDropzone() {
           const prevIndex = prevFiles.findIndex(prevFile => prevFile === file)
           return prevIndex !== -1 ? tokensData[prevIndex] : null
         })
-        .filter((token): token is ImageUploadToken => token !== null)
+        .filter((token): token is UploadToken => token !== null)
 
       if (remainingTokens.length === files.length) {
         setTokensData(remainingTokens)

@@ -2,8 +2,7 @@ import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useNavigate } from '@tanstack/react-router'
 import { Building2 } from 'lucide-react'
-import { useCreateOrg, useUploadFilesToS3, useGetLogoUploadToken } from '@/queries'
-import type { GetLogoUploadTokenResponse } from '@/queries'
+import { useCreateOrg, useUploadFilesToS3, useGetUploadTokens, type UploadToken } from '@/queries'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Dropzone } from '@/components/ui/dropzone'
@@ -26,13 +25,13 @@ export function CreateOrg() {
   const navigate = useNavigate()
   const [browserTimezone, setBrowserTimezone] = useState<string>('UTC')
   const [logoFile, setLogoFile] = useState<File | null>(null)
-  const [logoToken, setLogoToken] = useState<GetLogoUploadTokenResponse | null>(null)
+  const [logoToken, setLogoToken] = useState<UploadToken | null>(null)
 
   useEffect(() => {
     setBrowserTimezone(Intl.DateTimeFormat().resolvedOptions().timeZone)
   }, [])
 
-  const { mutate: getLogoToken } = useGetLogoUploadToken()
+  const { mutate: getUploadTokens } = useGetUploadTokens()
   const { mutateAsync: uploadFiles, isPending: isUploading } = useUploadFilesToS3()
   const { mutate: switchOrg } = useSwitchOrg()
 
@@ -109,9 +108,9 @@ export function CreateOrg() {
                       return
                     }
 
-                    getLogoToken(
-                      { mimetype: file.type },
-                      { onSuccess: (token) => setLogoToken(token) }
+                    getUploadTokens(
+                      { files: [{ mimetype: file.type }], fileType: 'logo' },
+                      { onSuccess: (data) => setLogoToken(data.tokens[0]) }
                     )
                   }}
                 />

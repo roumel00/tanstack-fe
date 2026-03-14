@@ -2,14 +2,14 @@ import * as React from 'react'
 import { Dropzone } from '@/components/ui/dropzone'
 import { Button } from '@/components/ui/button'
 import { useUploadFilesToS3 } from '@/queries/media/upload-file-to-s3'
-import { useGetImageUploadTokens, ImageUploadToken } from '@/queries/media/get-image-upload-tokens'
+import { useGetUploadTokens, type UploadToken } from '@/queries/media/get-upload-tokens'
 
 export function SingleFileDropzone() {
   const [selectedFile, setSelectedFile] = React.useState<File | null>(null)
-  const [tokenData, setTokenData] = React.useState<ImageUploadToken | null>(null)
+  const [tokenData, setTokenData] = React.useState<UploadToken | null>(null)
   const [dropzoneKey, setDropzoneKey] = React.useState(0)
   const { mutate: uploadFiles, isPending: isUploading } = useUploadFilesToS3()
-  const { mutate: getTokens } = useGetImageUploadTokens()
+  const { mutate: getTokens } = useGetUploadTokens()
 
   const handleFilesChange = (files: File[]) => {
     const file = files[0] || null
