@@ -1,6 +1,7 @@
 import { createContext, useContext, useState } from 'react';
 import { authClient } from '@/lib/auth-client';
 import { useRouter } from '@tanstack/react-router';
+import { useQueryClient } from '@tanstack/react-query';
 import type { User, SessionData } from '@/lib/auth-client';
 
 type AuthResponse = {
@@ -18,12 +19,14 @@ const AuthContext = createContext<AuthContextType | null>(null);
 
 export function AuthProvider({ initialAuth, children }: { initialAuth: AuthResponse, children: React.ReactNode }) {
   const router = useRouter();
+  const queryClient = useQueryClient();
   const [authData, setAuthData] = useState<AuthResponse>(initialAuth);
 
   const logout = async () => {
     await authClient.signOut();
-    
+
     setAuthData(null);
+    queryClient.clear();
 
     await router.invalidate();
   };
