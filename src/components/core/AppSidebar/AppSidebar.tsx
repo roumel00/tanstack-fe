@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Link, useLocation, useNavigate } from '@tanstack/react-router'
 // eslint-disable-next-line @typescript-eslint/no-deprecated
-import { Facebook, Gauge, PanelLeftClose, PanelLeft, ChevronsUpDown, Settings, Building2, Bell, User as UserIcon, LogOut } from 'lucide-react'
+import { Facebook, Gauge, Component, PanelLeftClose, PanelLeft, ChevronsUpDown, Settings, Building2, Bell, User as UserIcon, LogOut } from 'lucide-react'
 import { cn, getStorageUrl } from '@/lib/utils'
 import { useGetCurrentOrg } from '@/queries'
 import { useClearOrg } from '@/queries/organisation'
@@ -29,7 +29,7 @@ const navigation = [
   {
     name: 'Components',
     href: '/components',
-    icon: null,
+    icon: Component,
   },
 ]
 
