@@ -4,7 +4,6 @@ import { Building2, Search } from 'lucide-react'
 import { useGetOrgs, useSwitchOrg } from '@/queries'
 import { Input } from '@/components/ui/input'
 import { Skeleton } from '@/components/ui/skeleton'
-import { AppHeader } from '@/components/core'
 import { OrgCard } from './components'
 
 
@@ -44,7 +43,6 @@ export function SelectOrg() {
 
   return (
     <div className="min-h-screen">
-      <AppHeader />
       <div className="mx-auto max-w-2xl px-4 py-12">
         <div className="mb-8 flex flex-col items-center text-center">
           <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-muted shadow-md">

@@ -1,5 +1,5 @@
 import { createFileRoute, Outlet, redirect } from '@tanstack/react-router'
-import { AppSidebar, AppHeader } from '@/components/core'
+import { AppSidebar } from '@/components/core'
 
 export const Route = createFileRoute('/_protected/_app')({
   beforeLoad: async ({ context }) => {
@@ -21,7 +21,6 @@ function AppLayout() {
         <AppSidebar />
       </div>
       <div className="min-w-0 flex-1">
-        <AppHeader />
         <Outlet />
       </div>
     </div>

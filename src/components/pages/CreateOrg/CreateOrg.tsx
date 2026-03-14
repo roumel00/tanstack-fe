@@ -16,7 +16,6 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form'
-import { AppHeader } from '@/components/core'
 import { useSwitchOrg } from '@/queries'
 
 type CreateOrgFormData = {
@@ -68,7 +67,6 @@ export function CreateOrg() {
 
   return (
     <div className="min-h-screen">
-      <AppHeader />
       <div className="mx-auto max-w-2xl px-4 py-12">
         <div className="mb-8 flex flex-col items-center text-center">
           <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-muted shadow-md">
