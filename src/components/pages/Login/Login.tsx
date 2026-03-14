@@ -52,8 +52,7 @@ export function Login() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4">
-      <Card className="w-full max-w-md">
+    <Card className="w-full max-w-md">
         <CardHeader>
           <CardTitle>Sign in</CardTitle>
           <CardDescription>
@@ -121,7 +120,6 @@ export function Login() {
             </div>
           </div>
         </CardContent>
-      </Card>
-    </div>
+    </Card>
   )
 }

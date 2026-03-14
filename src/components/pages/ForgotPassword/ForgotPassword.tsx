@@ -10,8 +10,7 @@ export function ForgotPassword() {
   const [otp, setOtp] = useState('')
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4">
-      <Card className="w-full max-w-md">
+    <Card className="w-full max-w-md">
         {step === 'request' && (
           <RequestReset
             defaultEmail={email}
@@ -35,7 +34,6 @@ export function ForgotPassword() {
         {step === 'reset' && (
           <ResetPassword email={email} otp={otp} />
         )}
-      </Card>
-    </div>
+    </Card>
   )
 }

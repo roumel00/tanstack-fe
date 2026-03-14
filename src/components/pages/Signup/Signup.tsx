@@ -61,8 +61,7 @@ export function Signup() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4">
-      <Card className="w-full max-w-md">
+    <Card className="w-full max-w-md">
         <CardHeader>
           <CardTitle>Create an account</CardTitle>
           <CardDescription>
@@ -159,7 +158,6 @@ export function Signup() {
             </Link>
           </div>
         </CardContent>
-      </Card>
-    </div>
+    </Card>
   )
 }
