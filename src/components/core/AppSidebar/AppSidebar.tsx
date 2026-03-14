@@ -17,7 +17,7 @@ import {
   DropdownMenuTrigger,
   DropdownMenuSeparator,
 } from '@/components/ui/dropdown-menu'
-import { ProfileDrawer } from '@/components/core/AppHeader/components/UserDropdown/components'
+import { ProfileDrawer } from '@/components/common'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
 
 const navigation = [

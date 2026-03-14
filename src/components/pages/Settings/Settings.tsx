@@ -1,5 +1,6 @@
 import { useNavigate } from '@tanstack/react-router'
-import { PageHeader, type PageHeaderTab } from '@/components/common/PageHeader'
+import { PageHeader } from '@/components/common'
+import { type PageHeaderTab } from '@/components/common'
 import { WorkspaceSettings, TeamSettings } from './components'
 import { Route } from '@/routes/_protected/_app/settings'
 
