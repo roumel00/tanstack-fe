@@ -1,9 +1,22 @@
 import { useMemo, useState } from 'react'
 import { useNavigate, Link } from '@tanstack/react-router'
-import { Building2, Search } from 'lucide-react'
+import { Building2, Search, User as UserIcon, LogOut } from 'lucide-react'
 import { useGetOrgs, useSwitchOrg } from '@/queries'
+import { useAuth } from '@/context/auth-context'
+import { authClient } from '@/lib/auth-client'
 import { Input } from '@/components/ui/input'
 import { Skeleton } from '@/components/ui/skeleton'
+import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+  DropdownMenuSeparator,
+} from '@/components/ui/dropdown-menu'
+import { ProfileDrawer } from '@/components/core/AppHeader/components/UserDropdown/components'
+import { getStorageUrl } from '@/lib/utils'
+import { getInitials } from '@/lib/utils/organisation'
 import { OrgCard } from './components'
 
 
@@ -11,7 +24,18 @@ export function SelectOrg() {
   const { data: organisations, isLoading, error } = useGetOrgs()
   const { mutate: switchOrg, isPending } = useSwitchOrg()
   const navigate = useNavigate()
+  const { logout } = useAuth()
+  const { data: session } = authClient.useSession()
   const [search, setSearch] = useState('')
+  const [profileOpen, setProfileOpen] = useState(false)
+
+  const user = session?.user as {
+    firstName?: string
+    lastName?: string
+    email: string
+    name?: string
+    image?: string
+  } | undefined
 
   const hasOwnedOrgs = organisations?.some((org) => org.role === 'owner') ?? false
 
@@ -100,6 +124,48 @@ export function SelectOrg() {
           </Link>
         )}
       </div>
+
+      {/* User Card */}
+      {user && (
+        <div className="fixed bottom-6 left-6">
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <button className="flex items-center gap-3 rounded-2xl bg-white dark:bg-neutral-900 shadow-md px-4 py-3 cursor-pointer hover:shadow-lg transition-shadow">
+                <Avatar size="sm">
+                  <AvatarImage
+                    src={user.image ? (user.image.startsWith('http') ? user.image : getStorageUrl(user.image)) : undefined}
+                    alt={user.name || 'User'}
+                  />
+                  <AvatarFallback>{getInitials(user.name ?? user.email)}</AvatarFallback>
+                </Avatar>
+                <span className="text-sm font-medium text-neutral-900 dark:text-neutral-100">
+                  {user.firstName ?? user.email}
+                </span>
+              </button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="start" side="top">
+              <DropdownMenuItem
+                onClick={() => setProfileOpen(true)}
+                className="cursor-pointer"
+              >
+                <UserIcon />
+                View Profile
+              </DropdownMenuItem>
+              <DropdownMenuSeparator className="mx-2" />
+              <DropdownMenuItem
+                variant="destructive"
+                onClick={() => logout()}
+                className="cursor-pointer"
+              >
+                <LogOut className="text-destructive" />
+                Sign out
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
+      )}
+
+      {user && <ProfileDrawer user={user} open={profileOpen} onOpenChange={setProfileOpen} />}
     </div>
   )
 }
