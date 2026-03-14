@@ -11,6 +11,7 @@ import type { QueryClient } from '@tanstack/react-query'
 import { getUserSession } from '@/lib/auth'
 import { AuthProvider } from '@/context/auth-context'
 import { Toaster } from '@/components/ui/sonner'
+import { TooltipProvider } from '@/components/ui/tooltip'
 
 interface MyRouterContext {
   queryClient: QueryClient
@@ -39,19 +40,21 @@ function RootComponent() {
 
   return (
     <AuthProvider initialAuth={auth}>
-      <div className="flex min-h-screen flex-col">
-        <main className="flex-1">
-          <Outlet />
-        </main>
-      </div>
+      <TooltipProvider>
+        <div className="flex min-h-screen flex-col">
+          <main className="flex-1">
+            <Outlet />
+          </main>
+        </div>
 
-      <Toaster />
+        <Toaster />
       {import.meta.env.NODE_ENV === 'development' && (
         <TanStackDevtools
           config={{ position: 'bottom-right' }}
           plugins={[TanStackQueryDevtools]}
         />
       )}
+      </TooltipProvider>
     </AuthProvider>
   )
 }

@@ -18,6 +18,7 @@ import {
   DropdownMenuSeparator,
 } from '@/components/ui/dropdown-menu'
 import { ProfileDrawer } from '@/components/core/AppHeader/components/UserDropdown/components'
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
 
 const navigation = [
   {
@@ -194,12 +195,17 @@ export function AppSidebar() {
             )}
 
             {/* Notifications Bell */}
-            <button
-              onClick={() => console.log('notifications')}
-              className="p-1.5 rounded-md text-neutral-500 hover:bg-neutral-100 dark:hover:bg-neutral-800 hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors shrink-0 cursor-pointer"
-            >
-              <Bell size={18} />
-            </button>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <button
+                  onClick={() => console.log('notifications')}
+                  className="p-1.5 rounded-md text-neutral-500 hover:bg-neutral-100 dark:hover:bg-neutral-800 hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors shrink-0 cursor-pointer"
+                >
+                  <Bell size={18} />
+                </button>
+              </TooltipTrigger>
+              <TooltipContent side="top">View notifications</TooltipContent>
+            </Tooltip>
           </div>
         </div>
       </div>
