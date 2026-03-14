@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Link, useLocation, useNavigate } from '@tanstack/react-router'
 // eslint-disable-next-line @typescript-eslint/no-deprecated
-import { Facebook, Gauge, Component, PanelLeftClose, PanelLeft, ChevronsUpDown, Settings, Building2, Bell, User as UserIcon, LogOut } from 'lucide-react'
+import { Facebook, Gauge, Component, PanelLeftClose, PanelLeft, ChevronsUpDown, Settings, Building2, User as UserIcon, LogOut } from 'lucide-react'
 import { cn, getStorageUrl } from '@/lib/utils'
 import { useGetCurrentOrg } from '@/queries'
 import { useClearOrg } from '@/queries/organisation'
@@ -19,6 +19,8 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { ProfileDrawer } from '@/components/common'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
+import { NotificationDrawer, NotificationBell } from './components'
+import { useGetUnreadCount } from '@/queries/notification'
 
 const navigation = [
   {
@@ -42,6 +44,8 @@ export function AppSidebar() {
   const clearOrg = useClearOrg()
   const [collapsed, setCollapsed] = useState(false)
   const [profileOpen, setProfileOpen] = useState(false)
+  const [notificationsOpen, setNotificationsOpen] = useState(false)
+  const { data: unreadData } = useGetUnreadCount()
 
   const user = session?.user as {
     firstName?: string
@@ -206,23 +210,18 @@ export function AppSidebar() {
               <Skeleton className="h-8 w-8 rounded-full" />
             )}
 
-            {/* Notifications Bell */}
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <button
-                  onClick={() => console.log('notifications')}
-                  className="p-1.5 rounded-md text-neutral-500 hover:bg-neutral-100 dark:hover:bg-neutral-800 hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors shrink-0 cursor-pointer"
-                >
-                  <Bell size={18} />
-                </button>
-              </TooltipTrigger>
-              <TooltipContent side={collapsed ? 'right' : 'top'}>View notifications</TooltipContent>
-            </Tooltip>
+            {/* Notifications */}
+            <NotificationBell
+              collapsed={collapsed}
+              onClick={() => setNotificationsOpen(true)}
+              unreadCount={unreadData?.count ?? 0}
+            />
           </div>
         </div>
       </div>
 
       {user && <ProfileDrawer user={user} open={profileOpen} onOpenChange={setProfileOpen} />}
+      <NotificationDrawer open={notificationsOpen} onOpenChange={setNotificationsOpen} />
     </>
   )
 }
