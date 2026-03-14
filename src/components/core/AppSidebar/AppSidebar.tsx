@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Link, useLocation, useNavigate } from '@tanstack/react-router'
 // eslint-disable-next-line @typescript-eslint/no-deprecated
-import { Facebook, Gauge, PanelLeftClose, PanelLeft, ChevronDown, Settings, Building2, Bell, User as UserIcon, LogOut } from 'lucide-react'
+import { Facebook, Gauge, PanelLeftClose, PanelLeft, ChevronsUpDown, Settings, Building2, Bell, User as UserIcon, LogOut } from 'lucide-react'
 import { cn, getStorageUrl } from '@/lib/utils'
 import { useGetCurrentOrg } from '@/queries'
 import { useClearOrg } from '@/queries/organisation'
@@ -67,18 +67,18 @@ export function AppSidebar() {
           {!collapsed && <Facebook size={24} className="text-blue-600 shrink-0" />}
           <button
             onClick={() => setCollapsed(!collapsed)}
-            className="p-1.5 rounded-md text-neutral-500 hover:bg-neutral-100 dark:hover:bg-neutral-800 hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors"
+            className="p-1.5 rounded-md text-neutral-500 hover:bg-neutral-100 dark:hover:bg-neutral-800 hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors cursor-pointer"
           >
             {collapsed ? <PanelLeft size={18} /> : <PanelLeftClose size={18} />}
           </button>
         </div>
 
         {/* Workspace Dropdown */}
-        <div className="px-3 pb-2">
+        <div className="mx-3 border-b border-neutral-100 dark:border-neutral-800 pb-4">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <button className={cn(
-                'flex items-center w-full rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-neutral-100 dark:hover:bg-neutral-800 text-neutral-900 dark:text-neutral-100 cursor-pointer',
+                'flex items-center w-full rounded-md px-3 py-2 text-sm font-medium transition-all cursor-pointer shadow-md hover:shadow-xl hover:text-accent-foreground',
                 collapsed && 'justify-center px-0'
               )}>
                 {isLoading ? (
@@ -99,7 +99,7 @@ export function AppSidebar() {
                         <span className="truncate flex-1 text-left">
                           {currentOrg?.currentOrg?.organisation.name ?? 'Workspace'}
                         </span>
-                        <ChevronDown size={14} className="ml-1 shrink-0 text-neutral-400" />
+                        <ChevronsUpDown size={14} className="ml-1 shrink-0 text-neutral-400" />
                       </>
                     )}
                   </>
@@ -151,12 +151,12 @@ export function AppSidebar() {
 
         {/* Bottom: User + Notifications */}
         <div className="mx-3 border-t border-neutral-100 dark:border-neutral-800 p-3">
-          <div className={cn('flex items-center', collapsed ? 'flex-col gap-2' : 'gap-2')}>
+          <div className={cn('-mx-3 flex items-center', collapsed ? 'flex-col gap-2' : 'gap-2')}>
             {/* User Dropdown */}
             {user ? (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <button className="flex items-center gap-2 rounded-md p-1.5 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors flex-1 min-w-0 cursor-pointer">
+                  <button className="flex items-center gap-2 rounded-md p-1.5 transition-all flex-1 min-w-0 cursor-pointer shadow-md hover:shadow-xl hover:text-accent-foreground">
                     <Avatar size="sm">
                       <AvatarImage
                         src={user.image ? (user.image.startsWith('http') ? user.image : getStorageUrl(user.image)) : undefined}
@@ -165,9 +165,12 @@ export function AppSidebar() {
                       <AvatarFallback>{getInitials(user.name ?? user.email)}</AvatarFallback>
                     </Avatar>
                     {!collapsed && (
-                      <span className="text-sm font-medium text-neutral-900 dark:text-neutral-100 truncate">
-                        {user.firstName}
-                      </span>
+                      <>
+                        <span className="text-sm font-medium truncate">
+                          {user.firstName}
+                        </span>
+                        <ChevronsUpDown size={14} className="ml-auto shrink-0 text-neutral-400" />
+                      </>
                     )}
                   </button>
                 </DropdownMenuTrigger>
