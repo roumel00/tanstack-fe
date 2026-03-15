@@ -67,7 +67,7 @@ export function SelectOrg() {
 
   return (
     <div className="min-h-screen flex justify-center p-6">
-      <div className="w-full max-w-3xl rounded-2xl bg-white dark:bg-neutral-900 shadow-md p-12 h-fit mt-12">
+      <div className="w-full max-w-3xl rounded-2xl bg-card border p-12 h-fit mt-12">
         <div className="mb-8 flex flex-col items-center text-center">
           <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-muted shadow-md">
             <Building2 className="h-6 w-6 text-muted-foreground" />
@@ -130,7 +130,7 @@ export function SelectOrg() {
         <div className="fixed bottom-6 left-6">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <button className="flex items-center gap-3 rounded-2xl bg-white dark:bg-neutral-900 shadow-md px-4 py-3 cursor-pointer hover:shadow-lg transition-shadow">
+              <button className="flex items-center gap-3 rounded-2xl bg-card border px-4 py-3 cursor-pointer hover:bg-muted-dark/50 transition-colors">
                 <Avatar size="sm">
                   <AvatarImage
                     src={user.image ? (user.image.startsWith('http') ? user.image : getStorageUrl(user.image)) : undefined}
@@ -138,7 +138,7 @@ export function SelectOrg() {
                   />
                   <AvatarFallback>{getInitials(user.name ?? user.email)}</AvatarFallback>
                 </Avatar>
-                <span className="text-sm font-medium text-neutral-900 dark:text-neutral-100">
+                <span className="text-sm font-medium text-foreground">
                   {user.firstName ?? user.email}
                 </span>
               </button>

@@ -36,7 +36,7 @@ export function OrgCard({
           className="absolute inset-0 h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
         />
       ) : (
-        <div className="absolute inset-0 bg-gradient-to-br from-violet-600 via-indigo-500 to-cyan-400">
+        <div className="absolute inset-0 bg-gradient-to-br from-base via-dark to-primary">
           <div
             className="absolute inset-0 opacity-50"
             style={{
