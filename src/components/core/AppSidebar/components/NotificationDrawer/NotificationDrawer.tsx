@@ -67,7 +67,7 @@ export function NotificationDrawer({ open, onOpenChange }: NotificationDrawerPro
 
   return (
     <Sheet open={open} onOpenChange={handleOpenChange}>
-      <SheetContent side="right">
+      <SheetContent side="right" className="bg-dark">
         <SheetHeader>
           <div className="flex items-center">
             <SheetTitle>Notifications</SheetTitle>

@@ -32,7 +32,7 @@ export function NotificationItem({
   return (
     <Card
       className={cn(
-        'gap-0 py-3 my-3',
+        'gap-0 py-3 my-3 bg-card-raised',
         notification.read && 'opacity-60'
       )}
     >
