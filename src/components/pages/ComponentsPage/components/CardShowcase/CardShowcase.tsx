@@ -21,7 +21,7 @@ import {
 export function CardShowcase() {
   return (
     <div className="flex flex-wrap gap-4">
-      <Card className="w-[350px]">
+      <Card className="w-[350px] bg-card-raised">
         <CardHeader>
           <CardTitle>Card Title</CardTitle>
           <CardDescription>Card description goes here</CardDescription>
