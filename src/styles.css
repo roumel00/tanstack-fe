@@ -34,7 +34,7 @@ code {
   --light: oklch(0.98 0.01 85);
   --base: oklch(0.27 0.00 107);
   --dark: oklch(0.38 0.01 92);
-  --dark-raised: oklch(0.42 0.01 92);
+  --dark-raised: oklch(0.40 0.015 92);
   --muted-dark: oklch(0.45 0.01 92);
 
   /* Shadcn mappings */

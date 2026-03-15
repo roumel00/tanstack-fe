@@ -156,8 +156,8 @@ function getColumns(
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               {memberRole === "invitee" ? (
-                <DropdownMenuItem className="text-destructive focus:text-destructive" onClick={() => actions.onCancelInvite(row.original)}>
-                  <MailX className="h-4 w-4 text-destructive" />
+                <DropdownMenuItem variant="destructive" onClick={() => actions.onCancelInvite(row.original)}>
+                  <MailX className="h-4 w-4" />
                   Cancel invite
                 </DropdownMenuItem>
               ) : (
@@ -169,11 +169,11 @@ function getColumns(
                     </DropdownMenuItem>
                   )}
                   <DropdownMenuItem
-                    className="text-destructive focus:text-destructive"
+                    variant="destructive"
                     disabled={memberRole === "admin"}
                     onClick={() => actions.onRemoveMember(row.original)}
                   >
-                    <UserMinus className="h-4 w-4 text-destructive" />
+                    <UserMinus className="h-4 w-4" />
                     Remove from team
                   </DropdownMenuItem>
                 </>
