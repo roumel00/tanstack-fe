@@ -1,4 +1,3 @@
-import { useNavigate } from '@tanstack/react-router'
 import { useForm } from 'react-hook-form'
 import { useVerifyEmail, useResendVerification } from '@/queries'
 import { useSession } from '@/lib/auth-client'
@@ -30,7 +29,6 @@ type VerifyEmailFormData = {
 }
 
 export function VerifyEmail() {
-  const navigate = useNavigate()
   const { data: session } = useSession()
   const form = useForm<VerifyEmailFormData>({
     defaultValues: { otp: '' },
@@ -44,8 +42,7 @@ export function VerifyEmail() {
       { otp: data.otp },
       {
         onSuccess: () => {
-          // Redirect to root - it will check emailVerified and org status
-          navigate({ to: '/dashboard' })
+          window.location.href = '/dashboard'
         },
       }
     )

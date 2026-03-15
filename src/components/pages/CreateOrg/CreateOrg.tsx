@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { useNavigate } from '@tanstack/react-router'
 import { Building2 } from 'lucide-react'
 import { useCreateOrg, useUploadFilesToS3, useGetUploadTokens, type UploadToken } from '@/queries'
 import { Button } from '@/components/ui/button'
@@ -22,7 +21,6 @@ type CreateOrgFormData = {
 }
 
 export function CreateOrg() {
-  const navigate = useNavigate()
   const [browserTimezone, setBrowserTimezone] = useState<string>('UTC')
   const [logoFile, setLogoFile] = useState<File | null>(null)
   const [logoToken, setLogoToken] = useState<UploadToken | null>(null)
@@ -58,7 +56,7 @@ export function CreateOrg() {
       onSuccess: (createdOrg) => {
         switchOrg(
           { orgId: createdOrg._id },
-          { onSuccess: () => navigate({ to: '/dashboard' }) }
+          { onSuccess: () => { window.location.href = '/dashboard' } }
         )
       },
     })

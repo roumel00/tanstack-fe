@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react'
-import { useNavigate, Link } from '@tanstack/react-router'
+import { Link } from '@tanstack/react-router'
 import { Building2, Search, User as UserIcon, LogOut } from 'lucide-react'
 import { useGetOrgs, useSwitchOrg } from '@/queries'
 import { useAuth } from '@/context/auth-context'
@@ -23,7 +23,6 @@ import { OrgCard } from './components'
 export function SelectOrg() {
   const { data: organisations, isLoading, error } = useGetOrgs()
   const { mutate: switchOrg, isPending } = useSwitchOrg()
-  const navigate = useNavigate()
   const { logout } = useAuth()
   const { data: session } = authClient.useSession()
   const [search, setSearch] = useState('')
@@ -51,7 +50,7 @@ export function SelectOrg() {
       { orgId },
       {
         onSuccess: () => {
-          navigate({ to: '/dashboard' })
+          window.location.href = '/dashboard'
         },
       }
     )
