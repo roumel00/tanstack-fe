@@ -13,7 +13,7 @@ export function NotificationBell({ collapsed, onClick, unreadCount }: Notificati
       <TooltipTrigger asChild>
         <button
           onClick={onClick}
-          className="relative p-1.5 rounded-md text-neutral-500 hover:bg-neutral-100 dark:hover:bg-neutral-800 hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors shrink-0 cursor-pointer"
+          className="relative p-1.5 rounded-md text-foreground hover:bg-background transition-colors shrink-0 cursor-pointer"
         >
           <Bell size={18} />
           {unreadCount > 0 && (

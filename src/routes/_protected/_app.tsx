@@ -20,7 +20,7 @@ function AppLayout() {
       <div className="sticky top-3 h-[calc(100vh-1.5rem)]">
         <AppSidebar />
       </div>
-      <div className="min-w-0 flex-1 rounded-2xl bg-white dark:bg-neutral-900 shadow-md">
+      <div className="min-w-0 flex-1 rounded-2xl bg-card shadow-md">
         <Outlet />
       </div>
     </div>

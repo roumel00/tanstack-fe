@@ -63,26 +63,26 @@ export function AppSidebar() {
   return (
     <>
       <div className={cn(
-        'flex h-full flex-col rounded-2xl bg-white dark:bg-neutral-900 shadow-md transition-all duration-200',
+        'flex h-full flex-col rounded-2xl bg-sidebar shadow-md transition-all duration-200',
         collapsed ? 'w-16' : 'w-64'
       )}>
         {/* Header: Logo + Toggle */}
         <div className="flex h-16 items-center justify-between px-4">
-          {!collapsed && <Facebook size={24} className="text-blue-600 shrink-0" />}
+          {!collapsed && <Facebook size={24} className="text-foreground shrink-0" />}
           <button
             onClick={() => setCollapsed(!collapsed)}
-            className="p-1.5 rounded-md text-neutral-500 hover:bg-neutral-100 dark:hover:bg-neutral-800 hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors cursor-pointer"
+            className="p-1.5 rounded-md text-foreground hover:bg-background transition-colors cursor-pointer"
           >
             {collapsed ? <PanelLeft size={18} /> : <PanelLeftClose size={18} />}
           </button>
         </div>
 
         {/* Workspace Dropdown */}
-        <div className="mx-3 border-b border-neutral-100 dark:border-neutral-800 pb-4">
+        <div className="mx-3 border-b border-muted pb-4">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <button className={cn(
-                'flex items-center w-full rounded-md px-3 py-2 text-sm font-medium transition-all cursor-pointer shadow-md hover:shadow-xl hover:text-accent-foreground',
+                'flex items-center w-full rounded-md border px-3 py-2 text-sm font-medium transition-all cursor-pointer hover:bg-muted-dark/50 hover:text-accent-foreground',
                 collapsed && 'justify-center px-0'
               )}>
                 {isLoading ? (
@@ -103,7 +103,7 @@ export function AppSidebar() {
                         <span className="truncate flex-1 text-left">
                           {currentOrg?.currentOrg?.organisation.name ?? 'Workspace'}
                         </span>
-                        <ChevronsUpDown size={14} className="ml-1 shrink-0 text-neutral-400" />
+                        <ChevronsUpDown size={14} className="ml-1 shrink-0 text-muted-foreground" />
                       </>
                     )}
                   </>
@@ -142,8 +142,8 @@ export function AppSidebar() {
                   'flex items-center rounded-md px-3 py-2 text-sm font-medium transition-colors',
                   collapsed && 'justify-center px-0',
                   isActive
-                    ? 'bg-neutral-100 dark:bg-neutral-800 text-primary'
-                    : 'text-neutral-600 dark:text-neutral-400 hover:bg-neutral-50 dark:hover:bg-neutral-800/50 hover:text-neutral-900 dark:hover:text-neutral-100'
+                    ? 'bg-background text-secondary'
+                    : 'text-muted-foreground hover:bg-background hover:text-foreground'
                 )}
               >
                 {item.icon && <item.icon size={16} className={cn(!collapsed && 'mr-2')} />}
@@ -163,12 +163,12 @@ export function AppSidebar() {
         </nav>
 
         {/* Bottom: User + Notifications */}
-        <div className="mx-3 border-t border-neutral-100 dark:border-neutral-800 p-3">
+        <div className="mx-3 border-t border-muted p-3">
           <div className={cn('-mx-3 flex items-center', collapsed ? 'flex-col gap-2' : 'gap-2')}>
             {/* User Dropdown */}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <button className="flex items-center gap-2 rounded-md p-1.5 transition-all flex-1 min-w-0 cursor-pointer shadow-md hover:shadow-xl hover:text-accent-foreground">
+                <button className="flex items-center gap-2 rounded-md border p-1.5 transition-all flex-1 min-w-0 cursor-pointer hover:bg-muted-dark/50 hover:text-accent-foreground">
                   {user ? (
                     <>
                       <Avatar size="sm">
@@ -183,7 +183,7 @@ export function AppSidebar() {
                           <span className="text-sm font-medium truncate">
                             {user.firstName}
                           </span>
-                          <ChevronsUpDown size={14} className="ml-auto shrink-0 text-neutral-400" />
+                          <ChevronsUpDown size={14} className="ml-auto shrink-0 text-muted-foreground" />
                         </>
                       )}
                     </>
@@ -206,7 +206,7 @@ export function AppSidebar() {
                   onClick={() => logout()}
                   className="cursor-pointer"
                 >
-                  <LogOut className="text-destructive" />
+                  <LogOut className="text-destructive-foreground" />
                   Sign out
                 </DropdownMenuItem>
               </DropdownMenuContent>
