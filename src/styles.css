@@ -34,12 +34,14 @@ code {
   --light: oklch(0.98 0.01 85);
   --base: oklch(0.27 0.00 107);
   --dark: oklch(0.38 0.01 92);
+  --dark-raised: oklch(0.42 0.01 92);
   --muted-dark: oklch(0.45 0.01 92);
 
   /* Shadcn mappings */
   --background: var(--base);
   --foreground: var(--light);
   --card: var(--dark);
+  --card-raised: var(--dark-raised);
   --card-foreground: var(--light);
   --popover: var(--dark);
   --popover-foreground: var(--light);
@@ -86,6 +88,7 @@ code {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
+  --color-card-raised: var(--card-raised);
   --color-card-foreground: var(--card-foreground);
   --color-popover: var(--popover);
   --color-popover-foreground: var(--popover-foreground);

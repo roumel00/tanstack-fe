@@ -138,7 +138,7 @@ export function WorkspaceSettings() {
 
   return (
     <div>
-      <Card>
+      <Card className="bg-card-raised">
         <CardHeader>
           <CardTitle>Workspace Details</CardTitle>
           <CardDescription>

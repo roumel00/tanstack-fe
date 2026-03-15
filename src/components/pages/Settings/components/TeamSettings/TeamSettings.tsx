@@ -53,7 +53,7 @@ export function TeamSettings() {
         </div>
       ) : (
         <div className="grid grid-cols-3 gap-6">
-          <Card>
+          <Card className="bg-card-raised">
             <CardContent className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-muted-foreground">Owner</p>
@@ -68,7 +68,7 @@ export function TeamSettings() {
             </CardContent>
           </Card>
 
-          <Card className="justify-center">
+          <Card className="justify-center bg-card-raised">
             <CardContent className="flex items-center justify-between">
               <div className="flex items-baseline gap-2">
                 <p className="text-4xl font-semibold pr-1">{counts.admins}</p>
@@ -78,7 +78,7 @@ export function TeamSettings() {
             </CardContent>
           </Card>
 
-          <Card className="justify-center">
+          <Card className="justify-center bg-card-raised">
             <CardContent className="flex items-center justify-between">
               <div className="flex items-baseline gap-2">
                 <p className="text-4xl font-semibold pr-1">{counts.members}</p>
