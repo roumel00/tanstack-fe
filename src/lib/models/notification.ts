@@ -32,7 +32,7 @@ export type NotificationContext =
 
 export type Notification = {
   _id: string
-  orgId: string
+  workspaceId: string
   recipientId: string
   context: NotificationContext
   read: boolean

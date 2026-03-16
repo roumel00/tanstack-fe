@@ -42,8 +42,8 @@ export function Login() {
     },
     onSuccess: (data) => {
       const user = data.user as User
-      const hasOrg = !!user?.lastAccessedOrg
-      navigate({ to: hasOrg ? '/dashboard' : '/select-org' })
+      const hasWorkspace= !!user?.lastAccessedWorkspace
+      navigate({ to: hasWorkspace? '/dashboard' : '/select-workspace' })
     },
   })
 

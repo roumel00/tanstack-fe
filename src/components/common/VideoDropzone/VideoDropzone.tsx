@@ -6,7 +6,7 @@ import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import { Progress } from '@/components/ui/progress'
 import { useMultipartUpload } from '@/queries/media'
-import { useGetCurrentOrg } from '@/queries/organisation/get-current-org'
+import { useGetCurrentWorkspace} from '@/queries/workspace/get-current-workspace'
 
 const MAX_VIDEO_SIZE = 500 * 1024 * 1024 // 500 MB
 const ACCEPTED_VIDEO_TYPES = {
@@ -29,8 +29,8 @@ export function VideoDropzone() {
   const [posterUrl, setPosterUrl] = React.useState<string | null>(null)
   const { upload, abort, reset, progress, status, isUploading, isSuccess, isError, error } =
     useMultipartUpload()
-  const { data: currentOrgData } = useGetCurrentOrg()
-  const orgId = currentOrgData?.currentOrg?.organisation._id
+  const { data: currentWorkspaceData } = useGetCurrentWorkspace()
+  const workspaceId = currentWorkspaceData?.currentWorkspace?.workspace._id
 
   const onDrop = React.useCallback(
     (acceptedFiles: File[]) => {
@@ -75,13 +75,13 @@ export function VideoDropzone() {
   })
 
   const handleUpload = async () => {
-    if (!selectedFile || !orgId) return
+    if (!selectedFile || !workspaceId) return
 
     try {
       await upload({
         file: selectedFile,
         fileType: 'video',
-        orgId,
+        workspaceId,
       })
       toast.success('Video uploaded successfully')
     } catch {
@@ -254,7 +254,7 @@ export function VideoDropzone() {
               Upload another
             </Button>
           ) : (
-            <Button onClick={handleUpload} disabled={!selectedFile || !orgId}>
+            <Button onClick={handleUpload} disabled={!selectedFile || !workspaceId}>
               Upload video
             </Button>
           )}

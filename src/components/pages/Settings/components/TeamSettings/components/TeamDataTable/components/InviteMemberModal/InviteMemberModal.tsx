@@ -1,5 +1,5 @@
 import { useForm } from 'react-hook-form'
-import { useInvite } from '@/queries/organisation/invite'
+import { useInvite } from '@/queries/workspace/invite'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import {
@@ -53,7 +53,7 @@ export function InviteMemberModal({ open, onOpenChange }: InviteMemberModalProps
         <DialogHeader>
           <DialogTitle>Invite team member</DialogTitle>
           <DialogDescription>
-            Send an invitation to join your organisation.
+            Send an invitation to join your workspace.
           </DialogDescription>
         </DialogHeader>
         <Form {...form}>

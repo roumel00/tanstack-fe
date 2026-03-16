@@ -10,10 +10,10 @@ export const Route = createFileRoute('/')({
         throw redirect({ to: '/verify-email' })
       }
 
-      // Authenticated and verified - check if user has an org using lastAccessedOrg
-      const hasOrg = !!user.lastAccessedOrg
+      // Authenticated and verified - check if user has a workspace using lastAccessedWorkspace
+      const hasWorkspace= !!user.lastAccessedWorkspace
 
-      throw redirect({ to: hasOrg ? '/dashboard' : '/select-org' })
+      throw redirect({ to: hasWorkspace? '/dashboard' : '/select-workspace' })
     } else {
       // Not authenticated - redirect to login
       throw redirect({ to: '/login' })

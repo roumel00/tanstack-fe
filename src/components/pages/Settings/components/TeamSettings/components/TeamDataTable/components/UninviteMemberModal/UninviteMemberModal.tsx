@@ -1,4 +1,4 @@
-import { useCancelInvite } from '@/queries/organisation/cancel-invite'
+import { useCancelInvite } from '@/queries/workspace/cancel-invite'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -8,7 +8,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog'
-import { TeamMemberDto } from '@/queries/organisation/get-team-members'
+import { TeamMemberDto } from '@/queries/workspace/get-team-members'
 
 type TeamMemberRow = TeamMemberDto
 

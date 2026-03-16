@@ -1,10 +1,10 @@
-import { useGetCurrentOrg } from '@/queries'
+import { useGetCurrentWorkspace} from '@/queries'
 import { useSession } from '@/lib/auth-client'
 import { Skeleton } from '@/components/ui/skeleton'
 
 export function Dashboard() {
   const { data: session } = useSession()
-  const { data: currentOrg, isLoading } = useGetCurrentOrg()
+  const { data: currentWorkspace, isLoading } = useGetCurrentWorkspace()
 
   if (isLoading) {
     return (
@@ -20,7 +20,7 @@ export function Dashboard() {
   }
 
   const user = session?.user as { firstName?: string; lastName?: string; email: string } | undefined
-  const org = currentOrg?.currentOrg
+  const workspace = currentWorkspace?.currentWorkspace
 
   return (
     <div className="p-8">
@@ -32,10 +32,10 @@ export function Dashboard() {
             <p>Email: {user.email}</p>
           </>
         )}
-        {org ? (
-          <p>Current Organisation: {org.organisation.name}</p>
+        {workspace ? (
+          <p>Current Workspace: {workspace.workspace.name}</p>
         ) : (
-          <p>No organisation selected</p>
+          <p>No workspace selected</p>
         )}
       </div>
     </div>

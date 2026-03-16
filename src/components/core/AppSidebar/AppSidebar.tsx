@@ -3,13 +3,13 @@ import { Link, useLocation, useNavigate } from '@tanstack/react-router'
 // eslint-disable-next-line @typescript-eslint/no-deprecated
 import { Facebook, Gauge, Component, PanelLeftClose, PanelLeft, ChevronsUpDown, Settings, Building2, User as UserIcon, LogOut } from 'lucide-react'
 import { cn, getStorageUrl } from '@/lib/utils'
-import { useGetCurrentOrg } from '@/queries'
-import { useClearOrg } from '@/queries/organisation'
+import { useGetCurrentWorkspace} from '@/queries'
+import { useClearWorkspace} from '@/queries/workspace'
 import { useAuth } from '@/context/auth-context'
 import { authClient } from '@/lib/auth-client'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar'
-import { getInitials } from '@/lib/utils/organisation'
+import { getInitials } from '@/lib/utils/workspace'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -38,10 +38,10 @@ const navigation = [
 export function AppSidebar() {
   const location = useLocation()
   const navigate = useNavigate()
-  const { data: currentOrg, isLoading } = useGetCurrentOrg()
+  const { data: currentWorkspace, isLoading } = useGetCurrentWorkspace()
   const { data: session } = authClient.useSession()
   const { logout } = useAuth()
-  const clearOrg = useClearOrg()
+  const clearWorkspace= useClearWorkspace()
   const [collapsed, setCollapsed] = useState(false)
   const [profileOpen, setProfileOpen] = useState(false)
   const [notificationsOpen, setNotificationsOpen] = useState(false)
@@ -55,9 +55,9 @@ export function AppSidebar() {
     image?: string
   } | undefined
 
-  const handleChangeOrg = async () => {
-    await clearOrg.mutateAsync()
-    navigate({ to: '/select-org' })
+  const handleChangeWorkspace= async () => {
+    await clearWorkspace.mutateAsync()
+    navigate({ to: '/select-workspace' })
   }
 
   return (
@@ -89,10 +89,10 @@ export function AppSidebar() {
                   <Skeleton className="h-4 w-24" />
                 ) : (
                   <>
-                    {currentOrg?.currentOrg?.organisation.logo ? (
+                    {currentWorkspace?.currentWorkspace?.workspace.logo ? (
                       <img
-                        src={getStorageUrl(currentOrg.currentOrg.organisation.logo)}
-                        alt={currentOrg.currentOrg.organisation.name}
+                        src={getStorageUrl(currentWorkspace.currentWorkspace.workspace.logo)}
+                        alt={currentWorkspace.currentWorkspace.workspace.name}
                         className={cn('size-5 rounded object-cover shrink-0', !collapsed && 'mr-2')}
                       />
                     ) : (
@@ -101,7 +101,7 @@ export function AppSidebar() {
                     {!collapsed && (
                       <>
                         <span className="truncate flex-1 text-left">
-                          {currentOrg?.currentOrg?.organisation.name ?? 'Workspace'}
+                          {currentWorkspace?.currentWorkspace?.workspace.name ?? 'Workspace'}
                         </span>
                         <ChevronsUpDown size={14} className="ml-1 shrink-0 text-muted-foreground" />
                       </>
@@ -120,11 +120,11 @@ export function AppSidebar() {
               </DropdownMenuItem>
               <DropdownMenuSeparator className="mx-2" />
               <DropdownMenuItem
-                onClick={handleChangeOrg}
+                onClick={handleChangeWorkspace}
                 className="cursor-pointer"
               >
                 <Building2 />
-                Change Organisation
+                Change Workspace
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>

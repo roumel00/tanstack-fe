@@ -1,5 +1,5 @@
 export type TeamMember = {
-  orgId: string
+  workspaceId: string
   email: string
   userId: string | null
   name: string | null

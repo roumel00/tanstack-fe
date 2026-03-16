@@ -1,11 +1,11 @@
 import { Upload } from 'lucide-react'
 import { useEffect, useMemo, useState } from 'react'
 import { getStorageUrl } from '@/lib/utils'
-import { useGetCurrentOrg } from '@/queries/organisation/get-current-org'
-import { useGetOrgDetails, getOrgDetailsQueryOptions } from '@/queries/organisation/get-org-details'
-import { getCurrentOrgQueryOptions } from '@/queries/organisation/get-current-org'
-import { useUpdateOrgDetails } from '@/queries/organisation/update-org-details'
-import type { UpdateOrgDetailsRequest } from '@/queries/organisation/update-org-details'
+import { useGetCurrentWorkspace} from '@/queries/workspace/get-current-workspace'
+import { useGetWorkspaceDetails, getWorkspaceDetailsQueryOptions } from '@/queries/workspace/get-workspace-details'
+import { getCurrentWorkspaceQueryOptions } from '@/queries/workspace/get-current-workspace'
+import { useUpdateWorkspaceDetails } from '@/queries/workspace/update-workspace-details'
+import type { UpdateWorkspaceDetailsRequest } from '@/queries/workspace/update-workspace-details'
 import { useGetUploadTokens, type UploadToken } from '@/queries/media/get-upload-tokens'
 import { useUploadFilesToS3 } from '@/queries'
 import { useQueryClient } from '@tanstack/react-query'
@@ -49,16 +49,16 @@ function getTimezoneOptions(): ComboboxOption[] {
 }
 
 export function WorkspaceSettings() {
-  const { data: currentOrgData, isLoading: isLoadingCurrentOrg } = useGetCurrentOrg()
-  const { data: orgDetails, isLoading: isLoadingOrgDetails } = useGetOrgDetails()
-  const role = currentOrgData?.currentOrg?.teamMember.role
+  const { data: currentWorkspaceData, isLoading: isLoadingCurrentWorkspace} = useGetCurrentWorkspace()
+  const { data: workspaceDetails, isLoading: isLoadingWorkspaceDetails } = useGetWorkspaceDetails()
+  const role = currentWorkspaceData?.currentWorkspace?.teamMember.role
   const isOwner = role === 'owner'
-  const isLoading = isLoadingCurrentOrg || isLoadingOrgDetails
+  const isLoading = isLoadingCurrentWorkspace|| isLoadingWorkspaceDetails
 
   const queryClient = useQueryClient()
   const { mutate: getUploadTokens } = useGetUploadTokens()
   const { mutateAsync: uploadFiles, isPending: isUploading } = useUploadFilesToS3()
-  const { mutate: updateOrgDetails, isPending: isUpdating } = useUpdateOrgDetails()
+  const { mutate: updateWorkspaceDetails, isPending: isUpdating } = useUpdateWorkspaceDetails()
 
   const [name, setName] = useState('')
   const [timezone, setTimezone] = useState('')
@@ -66,21 +66,21 @@ export function WorkspaceSettings() {
   const [logoToken, setLogoToken] = useState<UploadToken | null>(null)
 
   useEffect(() => {
-    if (orgDetails) {
-      setName(orgDetails.name)
-      setTimezone(orgDetails.timezone)
+    if (workspaceDetails) {
+      setName(workspaceDetails.name)
+      setTimezone(workspaceDetails.timezone)
     }
-  }, [orgDetails])
+  }, [workspaceDetails])
 
   const timezoneOptions = useMemo(() => getTimezoneOptions(), [])
 
   const isSaving = isUploading || isUpdating
-  const hasNameChanged = name !== (orgDetails?.name ?? '')
-  const hasTimezoneChanged = timezone !== (orgDetails?.timezone ?? '')
+  const hasNameChanged = name !== (workspaceDetails?.name ?? '')
+  const hasTimezoneChanged = timezone !== (workspaceDetails?.timezone ?? '')
   const hasChanges = hasNameChanged || hasTimezoneChanged || logoFile !== null
 
   const handleSave = async () => {
-    const payload: UpdateOrgDetailsRequest = {}
+    const payload: UpdateWorkspaceDetailsRequest = {}
 
     if (hasNameChanged) payload.name = name
     if (hasTimezoneChanged) payload.timezone = timezone
@@ -90,12 +90,12 @@ export function WorkspaceSettings() {
       payload.logo = results[0].urlPath
     }
 
-    updateOrgDetails(payload, {
+    updateWorkspaceDetails(payload, {
       onSuccess: () => {
         setLogoFile(null)
         setLogoToken(null)
-        queryClient.invalidateQueries({ queryKey: getOrgDetailsQueryOptions.queryKey })
-        queryClient.invalidateQueries({ queryKey: getCurrentOrgQueryOptions.queryKey })
+        queryClient.invalidateQueries({ queryKey: getWorkspaceDetailsQueryOptions.queryKey })
+        queryClient.invalidateQueries({ queryKey: getCurrentWorkspaceQueryOptions.queryKey })
         toast.success('Workspace details updated')
       },
     })
@@ -177,7 +177,7 @@ export function WorkspaceSettings() {
               maxFiles={1}
               accept={{ 'image/*': ['.png', '.jpg', '.jpeg', '.webp'] }}
               disabled={!isOwner}
-              className={orgDetails?.logo ? 'w-fit' : undefined}
+              className={workspaceDetails?.logo ? 'w-fit' : undefined}
               onFilesChange={(files) => {
                 const file = files[0] ?? null
                 setLogoFile(file)
@@ -193,11 +193,11 @@ export function WorkspaceSettings() {
                 )
               }}
             >
-              {orgDetails?.logo ? (
+              {workspaceDetails?.logo ? (
                 <div className="-m-8 h-[200px] group flex items-center justify-center">
                   <img
-                    src={getStorageUrl(orgDetails.logo)}
-                    alt={orgDetails.name}
+                    src={getStorageUrl(workspaceDetails.logo)}
+                    alt={workspaceDetails.name}
                     className="max-w-full max-h-full object-contain"
                   />
                   <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors flex items-center justify-center pointer-events-none">

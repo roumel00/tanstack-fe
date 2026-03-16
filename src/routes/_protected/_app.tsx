@@ -7,8 +7,8 @@ export const Route = createFileRoute('/_protected/_app')({
 
     if (!user.emailVerified) {
       throw redirect({ to: '/verify-email' })
-    } else if (!user.lastAccessedOrg) {
-      throw redirect({ to: '/select-org' })
+    } else if (!user.lastAccessedWorkspace) {
+      throw redirect({ to: '/select-workspace' })
     }
   },
   component: AppLayout,

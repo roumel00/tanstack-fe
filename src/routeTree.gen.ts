@@ -13,8 +13,8 @@ import { Route as ProtectedRouteImport } from './routes/_protected'
 import { Route as AuthRouteImport } from './routes/_auth'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ProtectedVerifyEmailRouteImport } from './routes/_protected/verify-email'
-import { Route as ProtectedSelectOrgRouteImport } from './routes/_protected/select-org'
-import { Route as ProtectedCreateOrgRouteImport } from './routes/_protected/create-org'
+import { Route as ProtectedSelectWorkspaceRouteImport } from './routes/_protected/select-workspace'
+import { Route as ProtectedCreateWorkspaceRouteImport } from './routes/_protected/create-workspace'
 import { Route as ProtectedAppRouteImport } from './routes/_protected/_app'
 import { Route as AuthSignupRouteImport } from './routes/_auth/signup'
 import { Route as AuthLoginRouteImport } from './routes/_auth/login'
@@ -41,16 +41,18 @@ const ProtectedVerifyEmailRoute = ProtectedVerifyEmailRouteImport.update({
   path: '/verify-email',
   getParentRoute: () => ProtectedRoute,
 } as any)
-const ProtectedSelectOrgRoute = ProtectedSelectOrgRouteImport.update({
-  id: '/select-org',
-  path: '/select-org',
-  getParentRoute: () => ProtectedRoute,
-} as any)
-const ProtectedCreateOrgRoute = ProtectedCreateOrgRouteImport.update({
-  id: '/create-org',
-  path: '/create-org',
-  getParentRoute: () => ProtectedRoute,
-} as any)
+const ProtectedSelectWorkspaceRoute =
+  ProtectedSelectWorkspaceRouteImport.update({
+    id: '/select-workspace',
+    path: '/select-workspace',
+    getParentRoute: () => ProtectedRoute,
+  } as any)
+const ProtectedCreateWorkspaceRoute =
+  ProtectedCreateWorkspaceRouteImport.update({
+    id: '/create-workspace',
+    path: '/create-workspace',
+    getParentRoute: () => ProtectedRoute,
+  } as any)
 const ProtectedAppRoute = ProtectedAppRouteImport.update({
   id: '/_app',
   getParentRoute: () => ProtectedRoute,
@@ -91,8 +93,8 @@ export interface FileRoutesByFullPath {
   '/forgot-password': typeof AuthForgotPasswordRoute
   '/login': typeof AuthLoginRoute
   '/signup': typeof AuthSignupRoute
-  '/create-org': typeof ProtectedCreateOrgRoute
-  '/select-org': typeof ProtectedSelectOrgRoute
+  '/create-workspace': typeof ProtectedCreateWorkspaceRoute
+  '/select-workspace': typeof ProtectedSelectWorkspaceRoute
   '/verify-email': typeof ProtectedVerifyEmailRoute
   '/components': typeof ProtectedAppComponentsRoute
   '/dashboard': typeof ProtectedAppDashboardRoute
@@ -103,8 +105,8 @@ export interface FileRoutesByTo {
   '/forgot-password': typeof AuthForgotPasswordRoute
   '/login': typeof AuthLoginRoute
   '/signup': typeof AuthSignupRoute
-  '/create-org': typeof ProtectedCreateOrgRoute
-  '/select-org': typeof ProtectedSelectOrgRoute
+  '/create-workspace': typeof ProtectedCreateWorkspaceRoute
+  '/select-workspace': typeof ProtectedSelectWorkspaceRoute
   '/verify-email': typeof ProtectedVerifyEmailRoute
   '/components': typeof ProtectedAppComponentsRoute
   '/dashboard': typeof ProtectedAppDashboardRoute
@@ -119,8 +121,8 @@ export interface FileRoutesById {
   '/_auth/login': typeof AuthLoginRoute
   '/_auth/signup': typeof AuthSignupRoute
   '/_protected/_app': typeof ProtectedAppRouteWithChildren
-  '/_protected/create-org': typeof ProtectedCreateOrgRoute
-  '/_protected/select-org': typeof ProtectedSelectOrgRoute
+  '/_protected/create-workspace': typeof ProtectedCreateWorkspaceRoute
+  '/_protected/select-workspace': typeof ProtectedSelectWorkspaceRoute
   '/_protected/verify-email': typeof ProtectedVerifyEmailRoute
   '/_protected/_app/components': typeof ProtectedAppComponentsRoute
   '/_protected/_app/dashboard': typeof ProtectedAppDashboardRoute
@@ -133,8 +135,8 @@ export interface FileRouteTypes {
     | '/forgot-password'
     | '/login'
     | '/signup'
-    | '/create-org'
-    | '/select-org'
+    | '/create-workspace'
+    | '/select-workspace'
     | '/verify-email'
     | '/components'
     | '/dashboard'
@@ -145,8 +147,8 @@ export interface FileRouteTypes {
     | '/forgot-password'
     | '/login'
     | '/signup'
-    | '/create-org'
-    | '/select-org'
+    | '/create-workspace'
+    | '/select-workspace'
     | '/verify-email'
     | '/components'
     | '/dashboard'
@@ -160,8 +162,8 @@ export interface FileRouteTypes {
     | '/_auth/login'
     | '/_auth/signup'
     | '/_protected/_app'
-    | '/_protected/create-org'
-    | '/_protected/select-org'
+    | '/_protected/create-workspace'
+    | '/_protected/select-workspace'
     | '/_protected/verify-email'
     | '/_protected/_app/components'
     | '/_protected/_app/dashboard'
@@ -204,18 +206,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProtectedVerifyEmailRouteImport
       parentRoute: typeof ProtectedRoute
     }
-    '/_protected/select-org': {
-      id: '/_protected/select-org'
-      path: '/select-org'
-      fullPath: '/select-org'
-      preLoaderRoute: typeof ProtectedSelectOrgRouteImport
+    '/_protected/select-workspace': {
+      id: '/_protected/select-workspace'
+      path: '/select-workspace'
+      fullPath: '/select-workspace'
+      preLoaderRoute: typeof ProtectedSelectWorkspaceRouteImport
       parentRoute: typeof ProtectedRoute
     }
-    '/_protected/create-org': {
-      id: '/_protected/create-org'
-      path: '/create-org'
-      fullPath: '/create-org'
-      preLoaderRoute: typeof ProtectedCreateOrgRouteImport
+    '/_protected/create-workspace': {
+      id: '/_protected/create-workspace'
+      path: '/create-workspace'
+      fullPath: '/create-workspace'
+      preLoaderRoute: typeof ProtectedCreateWorkspaceRouteImport
       parentRoute: typeof ProtectedRoute
     }
     '/_protected/_app': {
@@ -302,15 +304,15 @@ const ProtectedAppRouteWithChildren = ProtectedAppRoute._addFileChildren(
 
 interface ProtectedRouteChildren {
   ProtectedAppRoute: typeof ProtectedAppRouteWithChildren
-  ProtectedCreateOrgRoute: typeof ProtectedCreateOrgRoute
-  ProtectedSelectOrgRoute: typeof ProtectedSelectOrgRoute
+  ProtectedCreateWorkspaceRoute: typeof ProtectedCreateWorkspaceRoute
+  ProtectedSelectWorkspaceRoute: typeof ProtectedSelectWorkspaceRoute
   ProtectedVerifyEmailRoute: typeof ProtectedVerifyEmailRoute
 }
 
 const ProtectedRouteChildren: ProtectedRouteChildren = {
   ProtectedAppRoute: ProtectedAppRouteWithChildren,
-  ProtectedCreateOrgRoute: ProtectedCreateOrgRoute,
-  ProtectedSelectOrgRoute: ProtectedSelectOrgRoute,
+  ProtectedCreateWorkspaceRoute: ProtectedCreateWorkspaceRoute,
+  ProtectedSelectWorkspaceRoute: ProtectedSelectWorkspaceRoute,
   ProtectedVerifyEmailRoute: ProtectedVerifyEmailRoute,
 }
 

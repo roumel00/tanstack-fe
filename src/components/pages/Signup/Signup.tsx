@@ -52,7 +52,7 @@ export function Signup() {
       return result.data
     },
     onSuccess: () => {
-      navigate({ to: '/select-org' })
+      navigate({ to: '/select-workspace' })
     },
   })
 

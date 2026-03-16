@@ -1,0 +1,27 @@
+export type TeamOverviewMember = {
+  id: string
+  workspaceId: string
+  email: string
+  userId: string | null
+  name: string | null
+  image: string | null
+  role: 'owner' | 'admin' | 'member' | 'invitee'
+  createdAt: Date
+}
+
+export type RoleCounts = {
+  admins: number
+  members: number
+  invitees: number
+}
+
+export type GetTeamOverviewRequest = {
+  // No request parameters
+}
+
+export type GetTeamOverviewResponse = {
+  owner: TeamOverviewMember
+  counts: RoleCounts
+  recentAdmins: TeamOverviewMember[]
+  recentMembers: TeamOverviewMember[]
+}

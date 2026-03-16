@@ -1,4 +1,4 @@
 export * from './auth'
-export * from './organisation'
+export * from './workspace'
 export * from './media'
 export * from './notification'

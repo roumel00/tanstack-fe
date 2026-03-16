@@ -2,9 +2,9 @@ import { Card, CardContent } from '@/components/ui/card'
 import { Avatar, AvatarFallback, AvatarImage, AvatarGroup, AvatarGroupCount } from '@/components/ui/avatar'
 import { Skeleton } from '@/components/ui/skeleton'
 import { getStorageUrl } from '@/lib/utils'
-import { useGetTeamOverview, useGetCurrentOrg } from '@/queries/organisation'
+import { useGetTeamOverview, useGetCurrentWorkspace} from '@/queries/workspace'
 import { TeamDataTable } from './components'
-import { getInitials } from '@/lib/utils/organisation'
+import { getInitials } from '@/lib/utils/workspace'
 
 function MemberAvatars({ members, total }: { members: { name: string | null; email: string; image?: string | null }[]; total: number }) {
   const remaining = total - members.length
@@ -26,10 +26,10 @@ function MemberAvatars({ members, total }: { members: { name: string | null; ema
 }
 
 export function TeamSettings() {
-  const { data: currentOrgData } = useGetCurrentOrg()
+  const { data: currentWorkspaceData } = useGetCurrentWorkspace()
   const { data: overview, isLoading } = useGetTeamOverview()
 
-  const currentRole = currentOrgData?.currentOrg?.teamMember.role
+  const currentRole = currentWorkspaceData?.currentWorkspace?.teamMember.role
   const owner = overview?.owner
   const counts = overview?.counts ?? { admins: 0, members: 0, invitees: 0 }
   const recentAdmins = overview?.recentAdmins ?? []

@@ -88,7 +88,7 @@ export function useMultipartUpload() {
 
   const upload = useCallback(
     async (request: MultipartUploadRequest): Promise<MultipartUploadResponse> => {
-      const { file, fileType, orgId } = request
+      const { file, fileType, workspaceId } = request
 
       setStatus('uploading')
       setError(null)
@@ -103,7 +103,7 @@ export function useMultipartUpload() {
           mimetype: file.type,
           fileSize: file.size,
           fileType,
-          orgId,
+          workspaceId,
         })
 
         uploadInfoRef.current = { uploadId, key }

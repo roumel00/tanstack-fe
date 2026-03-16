@@ -6,10 +6,10 @@ export const Route = createFileRoute('/_auth')({
     const { user } = context.auth || {};
 
     if (user) {
-      // User is authenticated - check if user has an org using lastAccessedOrg
-      const hasOrg = !!user.lastAccessedOrg
+      // User is authenticated - check if user has a workspace using lastAccessedWorkspace
+      const hasWorkspace= !!user.lastAccessedWorkspace
       
-      throw redirect({ to: hasOrg ? '/dashboard' : '/select-org' })
+      throw redirect({ to: hasWorkspace? '/dashboard' : '/select-workspace' })
     }
   },
   component: AuthLayout,

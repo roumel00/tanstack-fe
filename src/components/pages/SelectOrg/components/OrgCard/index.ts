@@ -1,1 +1,0 @@
-export { OrgCard } from './OrgCard'

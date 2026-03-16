@@ -13,11 +13,11 @@ export const { signIn, signUp, signOut, useSession } = authClient;
 
 // Export inferred types from better-auth
 // These types match the structure returned by better-auth
-// Note: firstName/lastName/lastAccessedOrg are additional fields stored in Better Auth session
+// Note: firstName/lastName/lastAccessedWorkspaceare additional fields stored in Better Auth session
 export type User = typeof authClient.$Infer.Session.user & {
   firstName?: string;
   lastName?: string;
-  lastAccessedOrg?: string;
+  lastAccessedWorkspace?: string;
 };
 
 export type SessionData = typeof authClient.$Infer.Session;

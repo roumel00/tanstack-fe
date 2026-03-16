@@ -1,7 +1,7 @@
 export type MultipartUploadRequest = {
   file: File
   fileType: 'avatar' | 'logo' | 'general' | 'video'
-  orgId?: string
+  workspaceId?: string
 }
 
 export type MultipartUploadResponse = {

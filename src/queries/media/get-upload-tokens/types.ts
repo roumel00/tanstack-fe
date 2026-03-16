@@ -5,7 +5,7 @@ export type FileUploadRequest = {
 export type GetUploadTokensRequest = {
   files: FileUploadRequest[]
   fileType: 'avatar' | 'logo' | 'general'
-  orgId?: string
+  workspaceId?: string
 }
 
 export type UploadToken = {

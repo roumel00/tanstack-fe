@@ -1,4 +1,4 @@
-import { useRemoveUser } from '@/queries/organisation/remove-user'
+import { useRemoveUser } from '@/queries/workspace/remove-user'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -8,7 +8,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog'
-import { TeamMemberDto } from '@/queries/organisation/get-team-members'
+import { TeamMemberDto } from '@/queries/workspace/get-team-members'
 
 type TeamMemberRow = TeamMemberDto
 

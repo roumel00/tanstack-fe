@@ -27,9 +27,9 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { Skeleton } from "@/components/ui/skeleton"
-import { TeamMemberDto } from "@/queries/organisation/get-team-members"
-import { useGetTeamMembers } from "@/queries/organisation/get-team-members"
-import { getInitials } from "@/lib/utils/organisation"
+import { TeamMemberDto } from "@/queries/workspace/get-team-members"
+import { useGetTeamMembers } from "@/queries/workspace/get-team-members"
+import { getInitials } from "@/lib/utils/workspace"
 import { InviteMemberModal, UninviteMemberModal, RemoveMemberModal, ChangeRoleModal } from "./components"
 import { useDebounce } from "@/hooks/useDebounce"
 

@@ -2,7 +2,7 @@ export type InitiateMultipartUploadRequest = {
   mimetype: string
   fileSize: number
   fileType: 'avatar' | 'logo' | 'general' | 'video'
-  orgId?: string
+  workspaceId?: string
 }
 
 export type PresignedPart = {
