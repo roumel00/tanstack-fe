@@ -43,7 +43,7 @@ function FullScreenOverlayContent({
       <DialogPrimitive.Content
         data-slot="full-screen-overlay-content"
         className={cn(
-          "fixed inset-0 z-50 flex flex-col bg-dark",
+          "fixed inset-0 z-50 flex flex-col bg-surface",
           "data-[state=open]:animate-in data-[state=closed]:animate-out",
           "data-[state=open]:fade-in-0 data-[state=closed]:fade-out-0",
           "data-[state=open]:zoom-in-95 data-[state=closed]:zoom-out-95",

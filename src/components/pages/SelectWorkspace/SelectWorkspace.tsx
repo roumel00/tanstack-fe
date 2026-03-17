@@ -129,7 +129,7 @@ export function SelectWorkspace() {
         <div className="fixed bottom-6 left-6">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <button className="flex items-center gap-3 rounded-2xl bg-card border px-4 py-3 cursor-pointer hover:bg-muted-dark/50 transition-colors">
+              <button className="flex items-center gap-3 rounded-2xl bg-card border px-4 py-3 cursor-pointer hover:bg-surface-muted/50 transition-colors">
                 <Avatar size="sm">
                   <AvatarImage
                     src={user.image ? (user.image.startsWith('http') ? user.image : getStorageUrl(user.image)) : undefined}

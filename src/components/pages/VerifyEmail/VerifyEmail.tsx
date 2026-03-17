@@ -133,7 +133,7 @@ export function VerifyEmail() {
 
       {/* Right: decorative panel */}
       <div className="relative hidden overflow-hidden lg:block lg:w-1/2">
-        <div className="absolute inset-0 bg-gradient-to-br from-base via-dark to-primary" />
+        <div className="absolute inset-0 bg-gradient-to-br from-base via-surface to-primary" />
         <div
           className="absolute inset-0 opacity-50"
           style={{
@@ -144,7 +144,7 @@ export function VerifyEmail() {
         />
         <div className="absolute bottom-12 left-12 right-12">
           <div className="rounded-2xl bg-card/10 p-8 backdrop-blur-sm">
-            <p className="text-lg font-medium text-light/90">
+            <p className="text-lg font-medium text-ink/90">
               Streamline your workflow and collaborate with your team effortlessly.
             </p>
           </div>

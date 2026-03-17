@@ -19,115 +19,183 @@ code {
 }
 
 :root {
-  /* ──── Burnt Peach (active) ──── */
+  /* ═══════════════════════════════════════════════════════ */
+  /*  LIGHT THEME (default)                                 */
+  /* ═══════════════════════════════════════════════════════ */
+
+  /* ──── Sunbleached — warm sandy whites (active) ──── */
+  --primary: oklch(0.62 0.17 70);
+  --secondary: oklch(0.82 0.10 75);
+  --ink: oklch(0.25 0.008 250);
+  --base: oklch(0.96 0.006 80);
+  --surface: oklch(0.99 0.003 80);
+  --surface-raised: oklch(1.00 0.00 0);
+  --surface-muted: oklch(0.87 0.008 80);
+
+  /* ──── Clean Slate — cool neutral whites ──── */
+  /* --primary: oklch(0.62 0.17 70);
+  --secondary: oklch(0.82 0.10 75);
+  --ink: oklch(0.22 0.005 250);
+  --base: oklch(0.97 0.003 250);
+  --surface: oklch(1.00 0.00 0);
+  --surface-raised: oklch(1.00 0.00 0);
+  --surface-muted: oklch(0.90 0.003 250); */
+
+  /* ──── Gumtree — pale eucalyptus undertone ──── */
+  /* --primary: oklch(0.62 0.17 70);
+  --secondary: oklch(0.82 0.10 75);
+  --ink: oklch(0.25 0.01 160);
+  --base: oklch(0.96 0.008 140);
+  --surface: oklch(0.99 0.005 140);
+  --surface-raised: oklch(1.00 0.003 140);
+  --surface-muted: oklch(0.88 0.008 140); */
+
+  /* Shadcn mappings (light) */
+  --background: var(--base);
+  --foreground: var(--ink);
+  --card: var(--surface);
+  --card-raised: var(--surface-raised);
+  --card-foreground: var(--ink);
+  --popover: var(--surface);
+  --popover-foreground: var(--ink);
+  --primary-foreground: oklch(0.98 0.005 80);
+  --secondary-foreground: var(--ink);
+  --muted: var(--surface-muted);
+  --muted-foreground: oklch(0.55 0.008 250);
+  --accent: var(--surface-muted);
+  --accent-foreground: var(--ink);
+  --destructive: oklch(0.577 0.245 27.325);
+  --destructive-foreground: oklch(0.45 0.2 27.325);
+  --border: var(--surface-muted);
+  --input: var(--surface-muted);
+  --ring: var(--primary);
+  --chart-1: var(--primary);
+  --chart-2: oklch(0.5 0.118 184.704);
+  --chart-3: oklch(0.398 0.07 227.392);
+  --chart-4: oklch(0.7 0.15 84.429);
+  --chart-5: oklch(0.65 0.15 70.08);
+  --radius: 0.625rem;
+  --sidebar: oklch(0.94 0.006 80);
+  --sidebar-foreground: var(--ink);
+  --sidebar-primary: var(--primary);
+  --sidebar-primary-foreground: oklch(0.98 0.005 80);
+  --sidebar-accent: var(--surface-muted);
+  --sidebar-accent-foreground: var(--ink);
+  --sidebar-border: var(--surface-muted);
+  --sidebar-ring: var(--primary);
+}
+
+.dark {
+  /* ═══════════════════════════════════════════════════════ */
+  /*  DARK THEME                                            */
+  /* ═══════════════════════════════════════════════════════ */
+
+  /* ──── Ironbark (active) ──── */
+  --primary: oklch(0.75 0.17 70);
+  --secondary: oklch(0.88 0.12 75);
+  --ink: oklch(0.95 0.005 90);
+  --base: oklch(0.22 0.005 250);
+  --surface: oklch(0.30 0.008 240);
+  --surface-raised: oklch(0.33 0.008 240);
+  --surface-muted: oklch(0.40 0.006 240);
+
+  /* ──── Burnt Peach ──── */
   /* --primary: oklch(0.67 0.13 39);
   --secondary: oklch(0.87 0.13 39);
-  --light: oklch(0.98 0.01 85);
+  --ink: oklch(0.98 0.01 85);
   --base: oklch(0.27 0.00 39);
-  --dark: oklch(0.31 0.009 39);
-  --dark-raised: oklch(0.35 0.013 39);
-  --muted-dark: oklch(0.37 0.005 39); */
+  --surface: oklch(0.31 0.009 39);
+  --surface-raised: oklch(0.35 0.013 39);
+  --surface-muted: oklch(0.37 0.005 39); */
 
   /* ──── Midnight Aurora ──── */
   /* --primary: oklch(0.65 0.20 280);
   --secondary: oklch(0.82 0.12 280);
-  --light: oklch(0.97 0.005 260);
+  --ink: oklch(0.97 0.005 260);
   --base: oklch(0.20 0.03 270);
-  --dark: oklch(0.30 0.025 265);
-  --dark-raised: oklch(0.33 0.025 265);
-  --muted-dark: oklch(0.40 0.02 265); */
+  --surface: oklch(0.30 0.025 265);
+  --surface-raised: oklch(0.33 0.025 265);
+  --surface-muted: oklch(0.40 0.02 265); */
 
   /* ──── Emerald Noir ──── */
   /* --primary: oklch(0.64 0.17 155);
   --secondary: oklch(0.80 0.12 155);
-  --light: oklch(0.97 0.008 150);
+  --ink: oklch(0.97 0.008 150);
   --base: oklch(0.18 0.02 160);
-  --dark: oklch(0.28 0.015 155);
-  --dark-raised: oklch(0.31 0.015 155);
-  --muted-dark: oklch(0.38 0.012 155); */
+  --surface: oklch(0.28 0.015 155);
+  --surface-raised: oklch(0.31 0.015 155);
+  --surface-muted: oklch(0.38 0.012 155); */
 
   /* ──── Ocean Depth ──── */
   /* --primary: oklch(0.72 0.14 195);
   --secondary: oklch(0.85 0.10 200);
-  --light: oklch(0.97 0.006 210);
+  --ink: oklch(0.97 0.006 210);
   --base: oklch(0.19 0.025 230);
-  --dark: oklch(0.28 0.02 220);
-  --dark-raised: oklch(0.31 0.02 220);
-  --muted-dark: oklch(0.38 0.015 220); */
+  --surface: oklch(0.28 0.02 220);
+  --surface-raised: oklch(0.31 0.02 220);
+  --surface-muted: oklch(0.38 0.015 220); */
 
   /* ──── Neon Rose ──── */
   /* --primary: oklch(0.65 0.22 350);
   --secondary: oklch(0.82 0.14 350);
-  --light: oklch(0.97 0.008 340);
+  --ink: oklch(0.97 0.008 340);
   --base: oklch(0.17 0.015 300);
-  --dark: oklch(0.26 0.02 310);
-  --dark-raised: oklch(0.29 0.02 310);
-  --muted-dark: oklch(0.36 0.015 310); */
+  --surface: oklch(0.26 0.02 310);
+  --surface-raised: oklch(0.29 0.02 310);
+  --surface-muted: oklch(0.36 0.015 310); */
 
   /* ──── Copper Dusk ──── */
   /* --primary: oklch(0.68 0.15 55);
   --secondary: oklch(0.85 0.12 65);
-  --light: oklch(0.97 0.01 75);
+  --ink: oklch(0.97 0.01 75);
   --base: oklch(0.20 0.01 250);
-  --dark: oklch(0.30 0.01 245);
-  --dark-raised: oklch(0.33 0.01 245);
-  --muted-dark: oklch(0.40 0.008 245); */
+  --surface: oklch(0.30 0.01 245);
+  --surface-raised: oklch(0.33 0.01 245);
+  --surface-muted: oklch(0.40 0.008 245); */
 
-  /* ──── Ironbark ──── */
-  --primary: oklch(0.75 0.17 70);
-  --secondary: oklch(0.88 0.12 75);
-  --light: oklch(0.95 0.005 90);
-  --base: oklch(0.22 0.005 250);
-  --dark: oklch(0.30 0.008 240);
-  --dark-raised: oklch(0.33 0.008 240);
-  --muted-dark: oklch(0.40 0.006 240);
-
-  /* Shadcn mappings */
+  /* Shadcn mappings (dark) */
   --background: var(--base);
-  --foreground: var(--light);
-  --card: var(--dark);
-  --card-raised: var(--dark-raised);
-  --card-foreground: var(--light);
-  --popover: var(--dark);
-  --popover-foreground: var(--light);
-  --primary-foreground: var(--light);
-  --secondary-foreground: var(--light);
-  --muted: var(--muted-dark);
+  --foreground: var(--ink);
+  --card: var(--surface);
+  --card-raised: var(--surface-raised);
+  --card-foreground: var(--ink);
+  --popover: var(--surface);
+  --popover-foreground: var(--ink);
+  --primary-foreground: var(--ink);
+  --secondary-foreground: var(--ink);
+  --muted: var(--surface-muted);
   --muted-foreground: oklch(0.89 0.01 85);
-  --accent: var(--dark);
-  --accent-foreground: var(--light);
+  --accent: var(--surface);
+  --accent-foreground: var(--ink);
   --destructive: oklch(0.577 0.245 27.325);
   --destructive-foreground: oklch(0.877 0.245 27.325);
-  --border: var(--muted-dark);
-  --input: var(--muted-dark);
+  --border: var(--surface-muted);
+  --input: var(--surface-muted);
   --ring: var(--primary);
   --chart-1: var(--primary);
   --chart-2: oklch(0.6 0.118 184.704);
   --chart-3: oklch(0.398 0.07 227.392);
   --chart-4: oklch(0.828 0.189 84.429);
   --chart-5: oklch(0.769 0.188 70.08);
-  --radius: 0.625rem;
-  --sidebar: var(--dark);
-  --sidebar-foreground: var(--light);
+  --sidebar: var(--surface);
+  --sidebar-foreground: var(--ink);
   --sidebar-primary: var(--primary);
-  --sidebar-primary-foreground: var(--light);
-  --sidebar-accent: var(--dark);
-  --sidebar-accent-foreground: var(--light);
-  --sidebar-border: var(--muted-dark);
+  --sidebar-primary-foreground: var(--ink);
+  --sidebar-accent: var(--surface);
+  --sidebar-accent-foreground: var(--ink);
+  --sidebar-border: var(--surface-muted);
   --sidebar-ring: var(--primary);
-}
-
-.dark {
 }
 
 @theme inline {
   /* Custom palette */
   --color-primary: var(--primary);
   --color-secondary: var(--secondary);
-  --color-light: var(--light);
+  --color-ink: var(--ink);
   --color-base: var(--base);
-  --color-dark: var(--dark);
-  --color-muted-dark: var(--muted-dark);
+  --color-surface: var(--surface);
+  --color-surface-raised: var(--surface-raised);
+  --color-surface-muted: var(--surface-muted);
 
   /* Shadcn mappings */
   --color-background: var(--background);

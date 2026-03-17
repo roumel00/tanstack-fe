@@ -82,7 +82,7 @@ export function AppSidebar() {
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <button className={cn(
-                'flex items-center w-full rounded-md border px-3 py-2 text-sm font-medium transition-all cursor-pointer hover:bg-muted-dark/50 hover:text-accent-foreground',
+                'flex items-center w-full rounded-md border px-3 py-2 text-sm font-medium transition-all cursor-pointer hover:bg-surface-muted/50 hover:text-accent-foreground',
                 collapsed && 'justify-center px-0'
               )}>
                 {isLoading ? (
@@ -142,8 +142,8 @@ export function AppSidebar() {
                   'flex items-center rounded-md px-3 py-2 text-sm font-medium transition-colors',
                   collapsed && 'justify-center px-0',
                   isActive
-                    ? 'bg-background text-secondary'
-                    : 'text-muted-foreground hover:bg-background hover:text-foreground'
+                    ? 'bg-background text-primary font-semibold'
+                    : 'text-foreground/70 hover:bg-background hover:text-foreground'
                 )}
               >
                 {item.icon && <item.icon size={16} className={cn(!collapsed && 'mr-2')} />}
@@ -168,7 +168,7 @@ export function AppSidebar() {
             {/* User Dropdown */}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <button className="flex items-center gap-2 rounded-md border p-1.5 transition-all flex-1 min-w-0 cursor-pointer hover:bg-muted-dark/50 hover:text-accent-foreground">
+                <button className="flex items-center gap-2 rounded-md border p-1.5 transition-all flex-1 min-w-0 cursor-pointer hover:bg-surface-muted/50 hover:text-accent-foreground">
                   {user ? (
                     <>
                       <Avatar size="sm">
