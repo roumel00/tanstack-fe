@@ -194,7 +194,7 @@ export function AppSidebar() {
               </DropdownMenuTrigger>
               <DropdownMenuContent align="start" side="top">
                 <DropdownMenuItem
-                  onClick={() => setProfileOpen(true)}
+                  onSelect={() => setTimeout(() => setProfileOpen(true), 0)}
                   className="cursor-pointer"
                 >
                   <UserIcon />
