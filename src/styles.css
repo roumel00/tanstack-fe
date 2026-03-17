@@ -20,13 +20,13 @@ code {
 
 :root {
   /* ──── Burnt Peach (active) ──── */
-  --primary: oklch(0.67 0.13 39);
+  /* --primary: oklch(0.67 0.13 39);
   --secondary: oklch(0.87 0.13 39);
   --light: oklch(0.98 0.01 85);
-  --base: oklch(0.27 0.00 107);
-  --dark: oklch(0.38 0.01 92);
-  --dark-raised: oklch(0.40 0.015 92);
-  --muted-dark: oklch(0.45 0.01 92);
+  --base: oklch(0.27 0.00 39);
+  --dark: oklch(0.31 0.009 39);
+  --dark-raised: oklch(0.35 0.013 39);
+  --muted-dark: oklch(0.37 0.005 39); */
 
   /* ──── Midnight Aurora ──── */
   /* --primary: oklch(0.65 0.20 280);
@@ -72,6 +72,15 @@ code {
   --dark: oklch(0.30 0.01 245);
   --dark-raised: oklch(0.33 0.01 245);
   --muted-dark: oklch(0.40 0.008 245); */
+
+  /* ──── Ironbark ──── */
+  --primary: oklch(0.75 0.17 70);
+  --secondary: oklch(0.88 0.12 75);
+  --light: oklch(0.95 0.005 90);
+  --base: oklch(0.22 0.005 250);
+  --dark: oklch(0.30 0.008 240);
+  --dark-raised: oklch(0.33 0.008 240);
+  --muted-dark: oklch(0.40 0.006 240);
 
   /* Shadcn mappings */
   --background: var(--base);
