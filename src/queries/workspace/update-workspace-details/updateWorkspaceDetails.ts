@@ -5,7 +5,7 @@ import { UpdateWorkspaceDetailsRequest, UpdateWorkspaceDetailsResponse } from '.
 export async function updateWorkspaceDetails(
   data: UpdateWorkspaceDetailsRequest
 ): Promise<UpdateWorkspaceDetailsResponse> {
-  return patch<UpdateWorkspaceDetailsResponse>('/workspaces/details', data)
+  return patch<UpdateWorkspaceDetailsResponse>('/workspace/details/update', data)
 }
 
 export function useUpdateWorkspaceDetails() {

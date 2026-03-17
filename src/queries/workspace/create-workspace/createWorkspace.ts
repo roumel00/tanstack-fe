@@ -4,17 +4,17 @@ import { CreateWorkspaceRequest, CreateWorkspaceResponse } from './types'
 
 /**
  * Mutation function to create a workspace
- * POST /workspaces
+ * POST /workspace/create
  */
 export async function createWorkspace(
   data: CreateWorkspaceRequest
 ): Promise<CreateWorkspaceResponse> {
-  return post<CreateWorkspaceResponse>('/workspaces', data)
+  return post<CreateWorkspaceResponse>('/workspace/create', data)
 }
 
 /**
  * Mutation hook to create a workspace
- * POST /workspaces
+ * POST /workspace/create
  */
 export function useCreateWorkspace() {
   const queryClient = useQueryClient()

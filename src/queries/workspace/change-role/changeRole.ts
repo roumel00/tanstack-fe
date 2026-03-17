@@ -3,7 +3,7 @@ import { post } from '@/lib/api'
 import { ChangeRoleRequest, ChangeRoleResponse } from './types'
 
 export async function changeRole(data: ChangeRoleRequest): Promise<ChangeRoleResponse> {
-  return post<ChangeRoleResponse>('/workspaces/team/changeRole', data)
+  return post<ChangeRoleResponse>('/workspace/team/change-role', data)
 }
 
 export function useChangeRole() {

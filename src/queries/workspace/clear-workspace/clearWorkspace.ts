@@ -4,7 +4,7 @@ import { post } from '@/lib/api'
 import { ClearWorkspaceResponse } from './types'
 
 export async function clearWorkspace(): Promise<ClearWorkspaceResponse> {
-  return post<ClearWorkspaceResponse>('/workspaces/team/clear')
+  return post<ClearWorkspaceResponse>('/workspace/team/clear')
 }
 
 export function useClearWorkspace() {

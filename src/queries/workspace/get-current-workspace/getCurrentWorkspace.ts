@@ -3,7 +3,7 @@ import { get } from '@/lib/api'
 import { GetCurrentWorkspaceResponse } from './types'
 
 export async function getCurrentWorkspace(): Promise<GetCurrentWorkspaceResponse> {
-  return get<GetCurrentWorkspaceResponse>('/workspaces/team/currentWorkspace')
+  return get<GetCurrentWorkspaceResponse>('/workspace/team/current/fetch')
 }
 
 export const getCurrentWorkspaceQueryOptions = queryOptions({

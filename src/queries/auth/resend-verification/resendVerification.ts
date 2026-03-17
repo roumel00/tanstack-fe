@@ -4,15 +4,15 @@ import { ResendVerificationResponse } from './types'
 
 /**
  * Mutation function to resend email verification OTP
- * POST /verify/resend
+ * POST /auth/email/resend
  */
 export async function resendVerification(): Promise<ResendVerificationResponse> {
-  return post<ResendVerificationResponse>('/verify/resend')
+  return post<ResendVerificationResponse>('/auth/email/resend')
 }
 
 /**
  * Mutation hook to resend email verification OTP
- * POST /verify/resend
+ * POST /auth/email/resend
  */
 export function useResendVerification() {
   return useMutation({

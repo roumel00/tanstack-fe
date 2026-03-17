@@ -3,7 +3,7 @@ import { get } from '@/lib/api'
 import { GetTeamOverviewResponse } from './types'
 
 export async function getTeamOverview(): Promise<GetTeamOverviewResponse> {
-  return get<GetTeamOverviewResponse>('/workspaces/team/overview')
+  return get<GetTeamOverviewResponse>('/workspace/team/overview/fetch')
 }
 
 export const getTeamOverviewQueryOptions = queryOptions({

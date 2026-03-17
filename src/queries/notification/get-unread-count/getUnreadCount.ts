@@ -3,7 +3,7 @@ import { get } from '@/lib/api'
 import type { GetUnreadCountResponse } from './types'
 
 export async function getUnreadCount(): Promise<GetUnreadCountResponse> {
-  return get<GetUnreadCountResponse>('/notifications/unread-count')
+  return get<GetUnreadCountResponse>('/notifications/unread-count/fetch')
 }
 
 export const getUnreadCountQueryOptions = queryOptions({

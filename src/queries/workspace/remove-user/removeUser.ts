@@ -3,7 +3,7 @@ import { post } from '@/lib/api'
 import { RemoveUserRequest, RemoveUserResponse } from './types'
 
 export async function removeUser(data: RemoveUserRequest): Promise<RemoveUserResponse> {
-  return post<RemoveUserResponse>('/workspaces/team/removeUser', data)
+  return post<RemoveUserResponse>('/workspace/team/remove-user', data)
 }
 
 export function useRemoveUser() {

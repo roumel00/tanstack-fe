@@ -11,7 +11,7 @@ export async function getNotifications(
 
   const query = searchParams.toString()
   return get<GetNotificationsResponse>(
-    `/notifications${query ? `?${query}` : ''}`,
+    `/notifications/fetch${query ? `?${query}` : ''}`,
   )
 }
 

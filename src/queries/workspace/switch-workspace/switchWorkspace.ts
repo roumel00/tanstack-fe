@@ -4,17 +4,17 @@ import { SwitchWorkspaceRequest, SwitchWorkspaceResponse } from './types'
 
 /**
  * Mutation function to switch workspace
- * POST /workspaces/team/switch
+ * POST /workspace/team/switch
  */
 export async function switchWorkspace(
   data: SwitchWorkspaceRequest
 ): Promise<SwitchWorkspaceResponse> {
-  return post<SwitchWorkspaceResponse>('/workspaces/team/switch', data)
+  return post<SwitchWorkspaceResponse>('/workspace/team/switch', data)
 }
 
 /**
  * Mutation hook to switch workspace
- * POST /workspaces/team/switch
+ * POST /workspace/team/switch
  */
 export function useSwitchWorkspace() {
   const queryClient = useQueryClient()

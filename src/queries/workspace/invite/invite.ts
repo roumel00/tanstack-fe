@@ -3,7 +3,7 @@ import { post } from '@/lib/api'
 import { InviteRequest, InviteResponse } from './types'
 
 export async function invite(data: InviteRequest): Promise<InviteResponse> {
-  return post<InviteResponse>('/workspaces/team/invite', data)
+  return post<InviteResponse>('/workspace/team/invite', data)
 }
 
 export function useInvite() {

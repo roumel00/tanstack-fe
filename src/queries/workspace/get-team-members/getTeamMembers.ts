@@ -13,7 +13,7 @@ export async function getTeamMembers(
 
   const query = searchParams.toString()
   return get<GetTeamMembersResponse>(
-    `/workspaces/team${query ? `?${query}` : ''}`,
+    `/workspace/team/fetch${query ? `?${query}` : ''}`,
   )
 }
 

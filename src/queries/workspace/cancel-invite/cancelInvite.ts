@@ -3,7 +3,7 @@ import { post } from '@/lib/api'
 import { CancelInviteRequest, CancelInviteResponse } from './types'
 
 export async function cancelInvite(data: CancelInviteRequest): Promise<CancelInviteResponse> {
-  return post<CancelInviteResponse>('/workspaces/team/cancelInvite', data)
+  return post<CancelInviteResponse>('/workspace/team/cancel-invite', data)
 }
 
 export function useCancelInvite() {
