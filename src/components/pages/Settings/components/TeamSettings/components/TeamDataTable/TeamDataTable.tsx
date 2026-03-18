@@ -257,7 +257,7 @@ export function TeamDataTable({ currentRole }: TeamDataTableProps) {
           Add member
         </Button>
       </div>
-      <div className="overflow-hidden rounded-md border">
+      <div className="overflow-x-auto rounded-md border">
         <Table className="min-w-[800px]">
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (

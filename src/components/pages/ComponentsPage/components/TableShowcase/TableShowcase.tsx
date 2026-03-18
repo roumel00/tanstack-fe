@@ -185,7 +185,7 @@ export function TableShowcase() {
 
   return (
     <div>
-      <div className="overflow-hidden rounded-md border">
+      <div className="overflow-x-auto rounded-md border">
         <Table className="min-w-[900px]">
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (

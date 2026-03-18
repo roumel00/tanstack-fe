@@ -90,23 +90,23 @@ code {
   /*  DARK THEME                                            */
   /* ═══════════════════════════════════════════════════════ */
 
-  /* ──── Ironbark (active) ──── */
-  --primary: oklch(0.75 0.17 70);
+  /* ──── Ironbark ──── */
+  /* --primary: oklch(0.75 0.17 70);
   --secondary: oklch(0.88 0.12 75);
   --ink: oklch(0.95 0.005 90);
   --base: oklch(0.22 0.005 250);
   --surface: oklch(0.30 0.008 240);
   --surface-raised: oklch(0.33 0.008 240);
-  --surface-muted: oklch(0.40 0.006 240);
+  --surface-muted: oklch(0.40 0.006 240); */
 
   /* ──── Burnt Peach ──── */
-  /* --primary: oklch(0.67 0.13 39);
+  --primary: oklch(0.67 0.13 39);
   --secondary: oklch(0.87 0.13 39);
   --ink: oklch(0.98 0.01 85);
   --base: oklch(0.27 0.00 39);
   --surface: oklch(0.31 0.009 39);
   --surface-raised: oklch(0.35 0.013 39);
-  --surface-muted: oklch(0.37 0.005 39); */
+  --surface-muted: oklch(0.37 0.005 39);
 
   /* ──── Midnight Aurora ──── */
   /* --primary: oklch(0.65 0.20 280);
@@ -238,6 +238,8 @@ code {
 @layer base {
   * {
     @apply border-border outline-ring/50;
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-border) transparent;
   }
   body {
     @apply bg-background text-foreground;
