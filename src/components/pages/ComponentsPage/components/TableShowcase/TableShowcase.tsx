@@ -226,7 +226,6 @@ export function TableShowcase() {
                     key={cell.id}
                     data-sticky={sticky || undefined}
                     className={cn(
-                      "py-3",
                       sticky === "left" && "sticky left-0 z-10 bg-card px-2 !pr-2 text-center",
                       sticky === "right" && "sticky right-0 z-10 bg-card"
                     )}
