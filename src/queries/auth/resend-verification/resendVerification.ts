@@ -1,19 +1,16 @@
 import { useMutation } from '@tanstack/react-query'
-import { post } from '@/lib/api'
-import { ResendVerificationResponse } from './types'
+import { authClient } from '@/lib/auth-client'
+import { ResendVerificationRequest } from './types'
 
-/**
- * Mutation function to resend email verification OTP
- * POST /auth/email/resend
- */
-export async function resendVerification(): Promise<ResendVerificationResponse> {
-  return post<ResendVerificationResponse>('/auth/email/resend')
+export async function resendVerification(data: ResendVerificationRequest) {
+  const result = await authClient.emailOtp.sendVerificationOtp({
+    email: data.email,
+    type: 'email-verification',
+  })
+  if (result.error) throw new Error(result.error.message ?? 'Failed to resend verification')
+  return result.data
 }
 
-/**
- * Mutation hook to resend email verification OTP
- * POST /auth/email/resend
- */
 export function useResendVerification() {
   return useMutation({
     mutationFn: resendVerification,

@@ -1,9 +1,10 @@
 export type VerifyEmailRequest = {
+  email: string
   otp: string
 }
 
 export type VerifyEmailResponse = {
-  message?: string
-  success?: boolean
-  verified?: boolean
+  status: boolean
+  token: string | null
+  user: Record<string, unknown>
 }

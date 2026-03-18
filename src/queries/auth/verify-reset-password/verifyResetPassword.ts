@@ -1,21 +1,17 @@
 import { useMutation } from '@tanstack/react-query'
-import { post } from '@/lib/api'
-import { VerifyResetPasswordRequest, VerifyResetPasswordResponse } from './types'
+import { authClient } from '@/lib/auth-client'
+import { VerifyResetPasswordRequest } from './types'
 
-/**
- * Mutation function to verify password reset OTP
- * POST /auth/password/verify-reset
- */
-export async function verifyResetPassword(
-  data: VerifyResetPasswordRequest
-): Promise<VerifyResetPasswordResponse> {
-  return post<VerifyResetPasswordResponse>('/auth/password/verify-reset', data)
+export async function verifyResetPassword(data: VerifyResetPasswordRequest) {
+  const result = await authClient.emailOtp.checkVerificationOtp({
+    email: data.email,
+    otp: data.otp,
+    type: 'forget-password',
+  })
+  if (result.error) throw new Error(result.error.message ?? 'Invalid or expired code')
+  return result.data
 }
 
-/**
- * Mutation hook to verify password reset OTP
- * POST /auth/password/verify-reset
- */
 export function useVerifyResetPassword() {
   return useMutation({
     mutationFn: verifyResetPassword,

@@ -48,7 +48,7 @@ export function Signup() {
         firstName: data.firstName,
         lastName: data.lastName,
       } as Parameters<typeof betterAuthSignUp.email>[0])
-      if (!result.data) throw new Error('Sign up failed')
+      if (result.error) throw new Error(result.error.message ?? 'Sign up failed')
       return result.data
     },
     onSuccess: () => {

@@ -1,21 +1,23 @@
 import { useMutation } from '@tanstack/react-query'
-import { post } from '@/lib/api'
-import { ResetPasswordRequest, ResetPasswordResponse } from './types'
+import { authClient } from '@/lib/auth-client'
+import { ResetPasswordRequest } from './types'
 
-/**
- * Mutation function to reset password with OTP
- * POST /auth/password/reset
- */
-export async function resetPassword(
-  data: ResetPasswordRequest
-): Promise<ResetPasswordResponse> {
-  return post<ResetPasswordResponse>('/auth/password/reset', data)
+export async function resetPassword(data: ResetPasswordRequest) {
+  if (data.newPassword !== data.confirmPassword) {
+    throw new Error('Passwords do not match')
+  }
+  const result = await authClient.$fetch('/email-otp/reset-password', {
+    method: 'POST',
+    body: {
+      email: data.email,
+      otp: data.otp,
+      password: data.newPassword,
+    },
+  })
+  if (result.error) throw new Error(result.error.message ?? 'Failed to reset password')
+  return result.data
 }
 
-/**
- * Mutation hook to reset password with OTP
- * POST /auth/password/reset
- */
 export function useResetPassword() {
   return useMutation({
     mutationFn: resetPassword,

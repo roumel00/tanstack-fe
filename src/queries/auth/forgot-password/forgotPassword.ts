@@ -1,21 +1,16 @@
 import { useMutation } from '@tanstack/react-query'
-import { post } from '@/lib/api'
-import { ForgotPasswordRequest, ForgotPasswordResponse } from './types'
+import { authClient } from '@/lib/auth-client'
+import { ForgotPasswordRequest } from './types'
 
-/**
- * Mutation function to request password reset OTP
- * POST /auth/password/forgot
- */
-export async function forgotPassword(
-  data: ForgotPasswordRequest
-): Promise<ForgotPasswordResponse> {
-  return post<ForgotPasswordResponse>('/auth/password/forgot', data)
+export async function forgotPassword(data: ForgotPasswordRequest) {
+  const result = await authClient.$fetch('/email-otp/request-password-reset', {
+    method: 'POST',
+    body: { email: data.email },
+  })
+  if (result.error) throw new Error(result.error.message ?? 'Failed to send reset code')
+  return result.data
 }
 
-/**
- * Mutation hook to request password reset OTP
- * POST /auth/password/forgot
- */
 export function useForgotPassword() {
   return useMutation({
     mutationFn: forgotPassword,

@@ -1,8 +1,7 @@
 export type ResendVerificationRequest = {
-  // No request parameters
+  email: string
 }
 
 export type ResendVerificationResponse = {
-  message?: string
-  success?: boolean
+  success: boolean
 }

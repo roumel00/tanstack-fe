@@ -39,7 +39,7 @@ export function VerifyEmail() {
 
   const onSubmit = (data: VerifyEmailFormData) => {
     verifyEmail(
-      { otp: data.otp },
+      { email: session?.user?.email ?? '', otp: data.otp },
       {
         onSuccess: () => {
           window.location.href = '/dashboard'
@@ -49,7 +49,7 @@ export function VerifyEmail() {
   }
 
   const handleResend = () => {
-    resendCode(undefined, {
+    resendCode({ email: session?.user?.email ?? '' }, {
       onSuccess: () => {
         // Show success message or toast
         form.setValue('otp', '')

@@ -1,21 +1,16 @@
 import { useMutation } from '@tanstack/react-query'
-import { post } from '@/lib/api'
-import { VerifyEmailRequest, VerifyEmailResponse } from './types'
+import { authClient } from '@/lib/auth-client'
+import { VerifyEmailRequest } from './types'
 
-/**
- * Mutation function to verify user email with OTP
- * POST /auth/email/verify
- */
-export async function verifyEmail(
-  data: VerifyEmailRequest
-): Promise<VerifyEmailResponse> {
-  return post<VerifyEmailResponse>('/auth/email/verify', data)
+export async function verifyEmail(data: VerifyEmailRequest) {
+  const result = await authClient.emailOtp.verifyEmail({
+    email: data.email,
+    otp: data.otp,
+  })
+  if (result.error) throw new Error(result.error.message ?? 'Email verification failed')
+  return result.data
 }
 
-/**
- * Mutation hook to verify user email with OTP
- * POST /auth/email/verify
- */
 export function useVerifyEmail() {
   return useMutation({
     mutationFn: verifyEmail,
