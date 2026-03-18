@@ -12,6 +12,8 @@ import { getUserSession } from '@/lib/auth'
 import { AuthProvider } from '@/context/auth-context'
 import { Toaster } from '@/components/ui/sonner'
 import { TooltipProvider } from '@/components/ui/tooltip'
+import { ThemeProvider, useTheme } from '@/components/core'
+import { cn } from '@/lib/utils'
 
 interface MyRouterContext {
   queryClient: QueryClient
@@ -37,25 +39,36 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
 
 function RootComponent() {
   const { auth } = Route.useRouteContext()
+  const initialTheme = (auth?.user as { themeWeb?: string } | undefined)?.themeWeb === 'dark' ? 'dark' : 'light'
 
   return (
     <AuthProvider initialAuth={auth}>
-      <TooltipProvider>
-        <div className="flex min-h-screen flex-col">
-          <main className="flex-1">
-            <Outlet />
-          </main>
-        </div>
+      <ThemeProvider initialTheme={initialTheme}>
+        <TooltipProvider>
+          <RootInner />
+        </TooltipProvider>
+      </ThemeProvider>
+    </AuthProvider>
+  )
+}
 
-        <Toaster />
+function RootInner() {
+  const { theme } = useTheme()
+
+  return (
+    <div className={cn(theme === 'dark' && 'dark', 'flex min-h-screen flex-col bg-background text-foreground')}>
+      <main className="flex-1">
+        <Outlet />
+      </main>
+
+      <Toaster />
       {import.meta.env.NODE_ENV === 'development' && (
         <TanStackDevtools
           config={{ position: 'bottom-right' }}
           plugins={[TanStackQueryDevtools]}
         />
       )}
-      </TooltipProvider>
-    </AuthProvider>
+    </div>
   )
 }
 

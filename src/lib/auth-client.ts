@@ -18,6 +18,8 @@ export type User = typeof authClient.$Infer.Session.user & {
   firstName?: string;
   lastName?: string;
   lastAccessedWorkspace?: string;
+  themeWeb?: 'light' | 'dark';
+  themeMobile?: 'light' | 'dark';
 };
 
 export type SessionData = typeof authClient.$Infer.Session;

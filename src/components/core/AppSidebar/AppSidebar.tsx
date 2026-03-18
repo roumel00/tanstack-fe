@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Link, useLocation, useNavigate } from '@tanstack/react-router'
 // eslint-disable-next-line @typescript-eslint/no-deprecated
-import { Facebook, Gauge, Component, PanelLeftClose, PanelLeft, ChevronsUpDown, Settings, Building2, User as UserIcon, LogOut } from 'lucide-react'
+import { Facebook, Gauge, Component, PanelLeftClose, PanelLeft, ChevronsUpDown, Settings, Building2, User as UserIcon, LogOut, Sun, Moon } from 'lucide-react'
 import { cn, getStorageUrl } from '@/lib/utils'
 import { useGetCurrentWorkspace} from '@/queries'
 import { useClearWorkspace} from '@/queries/workspace'
@@ -21,6 +21,7 @@ import { ProfileDrawer } from '@/components/common'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
 import { NotificationDrawer, NotificationBell } from './components'
 import { useGetUnreadCount } from '@/queries/notification'
+import { useTheme } from '@/components/core/ThemeProvider'
 
 const navigation = [
   {
@@ -46,6 +47,7 @@ export function AppSidebar() {
   const [profileOpen, setProfileOpen] = useState(false)
   const [notificationsOpen, setNotificationsOpen] = useState(false)
   const { data: unreadData } = useGetUnreadCount()
+  const { toggleTheme } = useTheme()
 
   const user = session?.user as {
     firstName?: string
@@ -69,12 +71,23 @@ export function AppSidebar() {
         {/* Header: Logo + Toggle */}
         <div className="flex h-16 items-center justify-between px-4">
           {!collapsed && <Facebook size={24} className="text-foreground shrink-0" />}
-          <button
-            onClick={() => setCollapsed(!collapsed)}
-            className="p-1.5 rounded-md text-foreground hover:bg-background transition-colors cursor-pointer"
-          >
-            {collapsed ? <PanelLeft size={18} /> : <PanelLeftClose size={18} />}
-          </button>
+          <div className="flex items-center gap-1">
+            {!collapsed && (
+              <button
+                onClick={toggleTheme}
+                className="relative p-1.5 rounded-md text-foreground hover:bg-background cursor-pointer size-[30px]"
+              >
+                <Sun size={18} className="scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90" />
+                <Moon size={18} className="absolute inset-0 m-auto scale-0 rotate-90 transition-all dark:scale-100 dark:rotate-0" />
+              </button>
+            )}
+            <button
+              onClick={() => setCollapsed(!collapsed)}
+              className="p-1.5 rounded-md text-foreground hover:bg-background transition-colors cursor-pointer"
+            >
+              {collapsed ? <PanelLeft size={18} /> : <PanelLeftClose size={18} />}
+            </button>
+          </div>
         </div>
 
         {/* Workspace Dropdown */}
