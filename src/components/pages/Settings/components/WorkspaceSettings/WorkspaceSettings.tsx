@@ -106,22 +106,24 @@ export function WorkspaceSettings() {
       <div>
         <Card>
           <CardHeader>
-            <Skeleton className="h-6 w-40" />
-            <Skeleton className="h-4 w-64 mt-2" />
+            <CardTitle>Workspace Details</CardTitle>
+            <CardDescription>
+              Update your workspace name and logo
+            </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Skeleton className="h-4 w-32" />
+                <Label>Workspace Name</Label>
                 <Skeleton className="h-10 w-full" />
               </div>
               <div className="space-y-2">
-                <Skeleton className="h-4 w-24" />
+                <Label>Timezone</Label>
                 <Skeleton className="h-10 w-full" />
               </div>
             </div>
             <div className="space-y-2">
-              <Skeleton className="h-4 w-32" />
+              <Label>Workspace Logo</Label>
               <Skeleton className="h-[200px] w-full" />
             </div>
           </CardContent>
@@ -129,7 +131,7 @@ export function WorkspaceSettings() {
             <Separator />
           </div>
           <CardFooter className="justify-end">
-            <Skeleton className="h-10 w-32" />
+            <Button disabled>Save Changes</Button>
           </CardFooter>
         </Card>
       </div>

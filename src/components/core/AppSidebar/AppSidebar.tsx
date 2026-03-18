@@ -17,7 +17,7 @@ import {
   DropdownMenuTrigger,
   DropdownMenuSeparator,
 } from '@/components/ui/dropdown-menu'
-import { ProfileDrawer } from '@/components/common'
+import { IconButton, ProfileDrawer } from '@/components/common'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
 import { NotificationDrawer, NotificationBell } from './components'
 import { useGetUnreadCount } from '@/queries/notification'
@@ -73,20 +73,14 @@ export function AppSidebar() {
           {!collapsed && <Facebook size={24} className="text-foreground shrink-0" />}
           <div className="flex items-center gap-1">
             {!collapsed && (
-              <button
-                onClick={toggleTheme}
-                className="relative p-1.5 rounded-md text-foreground hover:bg-background cursor-pointer size-[30px]"
-              >
+              <IconButton onClick={toggleTheme}>
                 <Sun size={18} className="scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90" />
                 <Moon size={18} className="absolute inset-0 m-auto scale-0 rotate-90 transition-all dark:scale-100 dark:rotate-0" />
-              </button>
+              </IconButton>
             )}
-            <button
-              onClick={() => setCollapsed(!collapsed)}
-              className="p-1.5 rounded-md text-foreground hover:bg-background transition-colors cursor-pointer"
-            >
+            <IconButton onClick={() => setCollapsed(!collapsed)}>
               {collapsed ? <PanelLeft size={18} /> : <PanelLeftClose size={18} />}
-            </button>
+            </IconButton>
           </div>
         </div>
 
@@ -99,7 +93,7 @@ export function AppSidebar() {
                 collapsed && 'justify-center px-0'
               )}>
                 {isLoading ? (
-                  <Skeleton className="h-4 w-24" />
+                  <Skeleton className="h-5 w-24" />
                 ) : (
                   <>
                     {currentWorkspace?.currentWorkspace?.workspace.logo ? (
@@ -201,7 +195,7 @@ export function AppSidebar() {
                       )}
                     </>
                   ) : (
-                    <Skeleton className="h-4 w-24" />
+                    <Skeleton className="h-6 w-24" />
                   )}
                 </button>
               </DropdownMenuTrigger>
