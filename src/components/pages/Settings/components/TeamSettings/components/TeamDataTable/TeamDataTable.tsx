@@ -7,7 +7,7 @@ import {
   getCoreRowModel,
   useReactTable,
 } from "@tanstack/react-table"
-import { ArrowUpDown, Crown, Mail, MoreHorizontal, Plus, RefreshCw, Shield, User, UserMinus, MailX } from "lucide-react"
+import { ArrowUpDown, Crown, Mail, Plus, RefreshCw, Shield, User, UserMinus, MailX } from "lucide-react"
 import {
   Table,
   TableBody,
@@ -20,18 +20,14 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Badge } from "@/components/ui/badge"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+import { DropdownMenuItem } from "@/components/ui/dropdown-menu"
 import { Skeleton } from "@/components/ui/skeleton"
 import { TeamMemberDto } from "@/queries/workspace/get-team-members"
 import { useGetTeamMembers } from "@/queries/workspace/get-team-members"
 import { getInitials } from "@/lib/utils/workspace"
 import { InviteMemberModal, UninviteMemberModal, RemoveMemberModal, ChangeRoleModal } from "./components"
 import { useDebounce } from "@/hooks/useDebounce"
+import { ActionButton } from "@/components/common"
 
 type TeamMemberRow = TeamMemberDto
 
@@ -147,39 +143,31 @@ function getColumns(
           (memberRole === "invitee" && currentRole !== "owner" && currentRole !== "admin")
 
         return (
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="outline" className="h-8 w-8 p-0" disabled={disabled}>
-                <span className="sr-only">Open menu</span>
-                <MoreHorizontal className="h-4 w-4" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              {memberRole === "invitee" ? (
-                <DropdownMenuItem variant="destructive" onClick={() => actions.onCancelInvite(row.original)}>
-                  <MailX className="h-4 w-4" />
-                  Cancel invite
-                </DropdownMenuItem>
-              ) : (
-                <>
-                  {currentRole === "owner" && (
-                    <DropdownMenuItem onClick={() => actions.onChangeRole(row.original)}>
-                      <RefreshCw className="h-4 w-4" />
-                      Change role
-                    </DropdownMenuItem>
-                  )}
-                  <DropdownMenuItem
-                    variant="destructive"
-                    disabled={memberRole === "admin"}
-                    onClick={() => actions.onRemoveMember(row.original)}
-                  >
-                    <UserMinus className="h-4 w-4" />
-                    Remove from team
+          <ActionButton disabled={disabled}>
+            {memberRole === "invitee" ? (
+              <DropdownMenuItem variant="destructive" onClick={() => actions.onCancelInvite(row.original)}>
+                <MailX className="h-4 w-4" />
+                Cancel invite
+              </DropdownMenuItem>
+            ) : (
+              <>
+                {currentRole === "owner" && (
+                  <DropdownMenuItem onClick={() => actions.onChangeRole(row.original)}>
+                    <RefreshCw className="h-4 w-4" />
+                    Change role
                   </DropdownMenuItem>
-                </>
-              )}
-            </DropdownMenuContent>
-          </DropdownMenu>
+                )}
+                <DropdownMenuItem
+                  variant="destructive"
+                  disabled={memberRole === "admin"}
+                  onClick={() => actions.onRemoveMember(row.original)}
+                >
+                  <UserMinus className="h-4 w-4" />
+                  Remove from team
+                </DropdownMenuItem>
+              </>
+            )}
+          </ActionButton>
         )
       },
     },
