@@ -123,7 +123,7 @@ export function VideoDropzone() {
         <div
           {...getRootProps()}
           className={cn(
-            'border-2 border-dashed rounded-lg cursor-pointer transition-colors p-8 text-center',
+            'border-2 border-dashed rounded-xl cursor-pointer transition-colors p-8 text-center',
             isDragActive
               ? 'border-primary bg-primary/5'
               : 'border-muted-foreground/25 hover:border-muted-foreground/50',
@@ -146,7 +146,7 @@ export function VideoDropzone() {
           </div>
         </div>
       ) : (
-        <div className="rounded-lg border border-border overflow-hidden">
+        <div className="rounded-xl border border-border overflow-hidden">
           {/* Video preview */}
           <div className="relative aspect-video bg-muted">
             {previewUrl && isSuccess ? (

@@ -145,7 +145,7 @@ export function Dropzone({
       <div
         {...getRootProps()}
         className={cn(
-          "border-2 border-dashed rounded-lg cursor-pointer transition-colors relative overflow-hidden",
+          "border-2 border-dashed rounded-xl cursor-pointer transition-colors relative overflow-hidden",
           hasSingleImagePreview ? "p-0 aspect-video" : "p-8 text-center",
           isDragActive
             ? "border-primary bg-primary/5"
@@ -228,7 +228,7 @@ export function Dropzone({
             return (
               <div
                 key={`${file.name}-${file.size}-${file.lastModified}`}
-                className="relative aspect-square rounded-lg overflow-hidden border border-border bg-muted/50"
+                className="relative aspect-square rounded-xl overflow-hidden border border-border bg-muted/50"
               >
                 {isImage && previewUrl ? (
                   <>

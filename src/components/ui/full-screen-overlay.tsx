@@ -94,7 +94,7 @@ function FullScreenOverlayBody({
   return (
     <div
       data-slot="full-screen-overlay-body"
-      className={cn("flex-1 overflow-y-auto rounded-lg bg-card-raised p-6 mx-4", className)}
+      className={cn("flex-1 overflow-y-auto rounded-xl bg-card-raised p-6 mx-4", className)}
       {...props}
     />
   )
