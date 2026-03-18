@@ -1,13 +1,16 @@
 import { forwardRef } from 'react'
 import { cn } from '@/lib/utils'
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
 
 interface IconButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode
+  tooltip?: string
+  tooltipSide?: 'top' | 'right' | 'bottom' | 'left'
 }
 
 export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
-  ({ className, children, ...props }, ref) => {
-    return (
+  ({ className, children, tooltip, tooltipSide = 'bottom', ...props }, ref) => {
+    const button = (
       <button
         ref={ref}
         className={cn(
@@ -19,6 +22,15 @@ export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
       >
         {children}
       </button>
+    )
+
+    if (!tooltip) return button
+
+    return (
+      <Tooltip>
+        <TooltipTrigger asChild>{button}</TooltipTrigger>
+        <TooltipContent side={tooltipSide}>{tooltip}</TooltipContent>
+      </Tooltip>
     )
   },
 )

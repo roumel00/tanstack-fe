@@ -47,7 +47,7 @@ export function AppSidebar() {
   const [profileOpen, setProfileOpen] = useState(false)
   const [notificationsOpen, setNotificationsOpen] = useState(false)
   const { data: unreadData } = useGetUnreadCount()
-  const { toggleTheme } = useTheme()
+  const { theme, toggleTheme } = useTheme()
 
   const user = session?.user as {
     firstName?: string
@@ -73,12 +73,19 @@ export function AppSidebar() {
           {!collapsed && <Facebook size={24} className="text-foreground shrink-0" />}
           <div className="flex items-center gap-1">
             {!collapsed && (
-              <IconButton onClick={toggleTheme}>
+              <IconButton
+                onClick={toggleTheme}
+                tooltip={theme === 'light' ? 'Switch to dark mode' : 'Switch to light mode'}
+              >
                 <Sun size={18} className="scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90" />
                 <Moon size={18} className="absolute inset-0 m-auto scale-0 rotate-90 transition-all dark:scale-100 dark:rotate-0" />
               </IconButton>
             )}
-            <IconButton onClick={() => setCollapsed(!collapsed)}>
+            <IconButton
+              onClick={() => setCollapsed(!collapsed)}
+              tooltip={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+              tooltipSide={collapsed ? 'right' : 'bottom'}
+            >
               {collapsed ? <PanelLeft size={18} /> : <PanelLeftClose size={18} />}
             </IconButton>
           </div>
