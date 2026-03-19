@@ -3,9 +3,8 @@ import { authClient } from '@/lib/auth-client'
 import { ForgotPasswordRequest } from './types'
 
 export async function forgotPassword(data: ForgotPasswordRequest) {
-  const result = await authClient.$fetch('/email-otp/request-password-reset', {
-    method: 'POST',
-    body: { email: data.email },
+  const result = await authClient.emailOtp.requestPasswordReset({
+    email: data.email,
   })
   if (result.error) throw new Error(result.error.message ?? 'Failed to send reset code')
   return result.data
