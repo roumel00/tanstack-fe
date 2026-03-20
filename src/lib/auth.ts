@@ -6,6 +6,10 @@ const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3113/api';
 
 export const getUserSession = createServerFn({ method: 'GET' })
   .handler(async () => {
+    // Register cookie-forwarding interceptor on the shared api instance.
+    // Node.js module caching ensures this only runs once per process.
+    await import('./api.server')
+
     const request = getRequest();
     const cookieHeader = request.headers.get('cookie') || '';
 

@@ -181,14 +181,14 @@ declare module '@tanstack/react-router' {
     '/_protected': {
       id: '/_protected'
       path: ''
-      fullPath: ''
+      fullPath: '/'
       preLoaderRoute: typeof ProtectedRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_auth': {
       id: '/_auth'
       path: ''
-      fullPath: ''
+      fullPath: '/'
       preLoaderRoute: typeof AuthRouteImport
       parentRoute: typeof rootRouteImport
     }
@@ -223,7 +223,7 @@ declare module '@tanstack/react-router' {
     '/_protected/_app': {
       id: '/_protected/_app'
       path: ''
-      fullPath: ''
+      fullPath: '/'
       preLoaderRoute: typeof ProtectedAppRouteImport
       parentRoute: typeof ProtectedRoute
     }

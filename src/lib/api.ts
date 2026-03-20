@@ -27,20 +27,7 @@ export const api = axios.create({
 });
 
 api.interceptors.request.use(
-  async (config) => {
-    if (typeof window === 'undefined') {
-      const { getRequest } = await import('@tanstack/react-start/server');
-      try {
-        const request = getRequest();
-        const cookieHeader = request.headers.get('cookie');
-        if (cookieHeader) {
-          config.headers.set('Cookie', cookieHeader);
-        }
-      } catch {
-        // Not in a request context
-      }
-    }
-
+  (config) => {
     if (import.meta.env.NODE_ENV === 'development') {
       console.log(`[API Request] ${config.method?.toUpperCase()} ${config.url}`);
     }
