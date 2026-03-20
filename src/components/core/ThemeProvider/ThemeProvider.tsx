@@ -9,13 +9,13 @@ type ThemeProviderState = {
 }
 
 const ThemeProviderContext = createContext<ThemeProviderState>({
-  theme: 'light',
+  theme: 'dark',
   toggleTheme: () => null,
 })
 
 export function ThemeProvider({
   children,
-  initialTheme = 'light',
+  initialTheme = 'dark',
 }: {
   children: React.ReactNode
   initialTheme?: Theme

@@ -6,16 +6,16 @@ import { Route } from '@/routes/_protected/_app/settings'
 
 const tabs: PageHeaderTab[] = [
   {
-    label: 'Workspace Settings',
-    value: 'workspace-settings',
-    title: 'Workspace Settings',
-    description: 'Manage your workspace preferences and members',
-  },
-  {
     label: 'Team Settings',
     value: 'team-settings',
     title: 'Team Settings',
     description: 'Manage your team members and permissions',
+  },
+  {
+    label: 'Workspace Settings',
+    value: 'workspace-settings',
+    title: 'Workspace Settings',
+    description: 'Manage your workspace preferences and members',
   },
 ]
 

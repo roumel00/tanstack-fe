@@ -39,7 +39,7 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
 
 function RootComponent() {
   const { auth } = Route.useRouteContext()
-  const initialTheme = (auth?.user as { themeWeb?: string } | undefined)?.themeWeb === 'dark' ? 'dark' : 'light'
+  const initialTheme = (auth?.user as { themeWeb?: string } | undefined)?.themeWeb === 'light' ? 'light' : 'dark'
 
   return (
     <AuthProvider initialAuth={auth}>
